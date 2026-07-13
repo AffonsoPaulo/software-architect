@@ -15,9 +15,9 @@
 //   output-path defaults to <project-root>/docs/project-overview.html
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { renderMarkdown } from './lib/markdown-lite.mjs';
+import { renderMarkdown, escapeHtml } from './lib/markdown-lite.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MERMAID_JS = readFileSync(join(__dirname, 'lib', 'vendor', 'mermaid.min.js'), 'utf8');
@@ -82,7 +82,7 @@ function renderPhase(projectRoot, phase) {
     const { html, headings } = renderMarkdown(content, { namespace, rewriteLink: rewriteMdLink });
     sections.push(html);
     for (const h of headings) {
-      if (h.isArtifact) navItems.push({ id: h.id, text: h.text });
+      if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
     }
   }
 
@@ -129,17 +129,20 @@ function renderChangeRequests(projectRoot) {
     const content = readFileSync(join(dir, f), 'utf8');
     const { html, headings } = renderMarkdown(content, { namespace: 'change-requests', rewriteLink: rewriteMdLink });
     sections.push(html);
-    for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text });
+    for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
   }
   return { html: sections.join('\n'), navItems };
 }
 
 function buildNav(phaseId, title, navItems) {
-  let nav = `<li class="nav-phase"><a href="#${phaseId}">${title}</a>`;
+  let nav = `<li class="nav-phase"><a href="#${phaseId}">${escapeHtml(title)}</a>`;
   if (navItems.length > 0) {
     nav += '<ul class="nav-items">';
     for (const item of navItems) {
-      nav += `<li><a href="#${item.id}">${item.text}</a></li>`;
+      const label = item.idLabel
+        ? `<span class="nav-chip">${escapeHtml(item.idLabel)}</span>${item.title ? ` ${escapeHtml(item.title)}` : ''}`
+        : escapeHtml(item.text);
+      nav += `<li><a href="#${item.id}">${label}</a></li>`;
     }
     nav += '</ul>';
   }
@@ -182,6 +185,10 @@ body {
   font-family: Georgia, 'Times New Roman', serif;
   line-height: 1.65;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 nav.sidebar {
   width: 300px;
   box-sizing: border-box;
@@ -204,6 +211,22 @@ nav.sidebar h2 {
   margin: 0 0 12px 4px;
 }
 nav.sidebar ul { list-style: none; margin: 0; padding: 0; }
+nav.sidebar .nav-chip {
+  display: inline-block;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 0 4px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+nav.sidebar .nav-phase {
+  border-left: 3px solid transparent;
+}
+nav.sidebar .nav-phase.active { border-left-color: var(--accent); background: var(--border); }
 nav.sidebar .nav-phase > a {
   display: block;
   padding: 6px 8px;
@@ -221,27 +244,47 @@ nav.sidebar .nav-items a {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 12px;
+  border-left: 2px solid transparent;
 }
 nav.sidebar .nav-items a:hover { background: var(--border); color: var(--text); }
+nav.sidebar .nav-items a.active { color: var(--text); border-left-color: var(--accent); font-weight: 600; }
 main {
   margin-left: 300px;
   max-width: 900px;
   padding: 48px 56px 120px;
 }
+main section { margin-top: 72px; }
+main > section:first-child { margin-top: 0; }
 main h1, main h2, main h3, main h4 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 700;
   line-height: 1.3;
   scroll-margin-top: 24px;
 }
-main h1 { font-size: 26px; margin-top: 56px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+main h1 { font-size: 26px; margin-top: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
 main h1:first-child { margin-top: 0; }
-main h2 { font-size: 20px; margin-top: 36px; color: var(--accent); }
-main h3 { font-size: 17px; margin-top: 28px; }
+main h2 { font-size: 20px; margin-top: 32px; color: var(--accent); }
+main h3 { font-size: 17px; margin-top: 26px; }
 main h4 { font-size: 15px; margin-top: 20px; }
-main p.metadata-line { color: var(--text-muted); font-style: italic; font-size: 14px; margin-top: -6px; }
-main p.body-text { margin: 12px 0; }
-main table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+main .artifact-id {
+  display: inline-block;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+main p.metadata-line { color: var(--text-muted); font-style: italic; font-size: 14px; margin: -6px 0 16px; }
+main p.body-text { margin: 16px 0; }
+main p.label-line { margin: 20px 0 4px; }
+main p.label-line + p.body-text { margin-top: 4px; }
+main table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 main th, main td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
 main th { background: var(--bg-sidebar); }
 main code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
@@ -251,8 +294,36 @@ main pre.mermaid { background: var(--bg); text-align: center; }
 main blockquote { border-left: 3px solid var(--accent); margin: 16px 0; padding: 4px 16px; color: var(--text-muted); }
 main hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
 main a { color: var(--accent); }
-main ul, main ol { padding-left: 26px; }
+main ul, main ol { margin: 4px 0 16px; padding-left: 26px; }
+main li { margin: 4px 0; }
 main li.checklist-item { list-style: none; margin-left: -20px; }
+main li.checklist-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  margin: 0 8px 0 0;
+  border: 1.5px solid var(--accent);
+  border-radius: 3px;
+  background: var(--bg);
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  cursor: default;
+  opacity: 1;
+}
+main li.checklist-item input[type="checkbox"]:checked { background: var(--accent); }
+main li.checklist-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
 .page-header {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text-muted);
@@ -262,6 +333,7 @@ main li.checklist-item { list-style: none; margin-left: -20px; }
 @media print {
   nav.sidebar { display: none; }
   main { max-width: 100%; margin-left: 0; padding: 0; }
+  main .artifact-id { color: #000; border-color: #000; }
 }
 @media (max-width: 900px) {
   nav.sidebar { width: 100%; height: auto; position: relative; bottom: auto; }
@@ -290,6 +362,29 @@ ${mermaidJs}
     mermaid.initialize({ startOnLoad: false, theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default' });
     mermaid.run({ querySelector: '.mermaid' });
   }
+  (function () {
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav.sidebar .nav-phase, nav.sidebar .nav-items li'));
+    var targets = navLinks.map(function (li) {
+      var a = li.querySelector('a');
+      var id = a ? a.getAttribute('href').slice(1) : null;
+      var el = id ? document.getElementById(id) : null;
+      return el ? { li: li, a: a, el: el } : null;
+    }).filter(Boolean);
+    if (!targets.length || !('IntersectionObserver' in window)) return;
+    var current = null;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var match = targets.find(function (t) { return t.el === entry.target; });
+        if (!match) return;
+        if (current) { current.li.classList.remove('active'); current.a.classList.remove('active'); }
+        match.li.classList.add('active');
+        match.a.classList.add('active');
+        current = match;
+      });
+    }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+    targets.forEach(function (t) { observer.observe(t.el); });
+  })();
 </script>
 </body>
 </html>
@@ -313,7 +408,8 @@ export function buildDocSite(projectRoot, outputPath) {
     contentParts.push(`<section id="change-requests"><h1>Change Requests</h1>${crRendered.html}</section>`);
   }
 
-  const title = 'Project Documentation';
+  const projectName = basename(resolve(projectRoot));
+  const title = `${projectName} — Project Documentation`;
   const html = PAGE_TEMPLATE(title, navParts.join('\n'), contentParts.join('\n'), MERMAID_JS);
   writeFileSync(outputPath, html, 'utf8');
   return { outputPath, phasesRendered: contentParts.length };
