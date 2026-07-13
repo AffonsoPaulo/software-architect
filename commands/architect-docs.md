@@ -1,6 +1,6 @@
 ---
 description: Generate a browsable HTML view of this project's docs/ (software-architect skill) and open it
-argument-hint: [project-root] [output-path]
+argument-hint: "[project-root] [output-path]"
 ---
 
 Generate and open a single, self-contained, browsable HTML page for this project's `docs/`, using the `software-architect` Skill's doc-site generator.
