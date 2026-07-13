@@ -61,7 +61,7 @@ A few cross-cutting rules apply in every phase, not just some:
 npx skills add AffonsoPaulo/software-architect
 ```
 
-Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, it doesn't require a special command.
+Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, in any agent that supports the Agent Skills convention. It doesn't require a special command. Claude Code users who want an explicit one anyway can add the optional slash commands below.
 
 ## How to use
 
@@ -75,12 +75,26 @@ If you come back to a project later, it resumes exactly where it left off — se
 
 Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confirmation loop, the traceability graph, and the final gate. `docs/faq.md` and `docs/troubleshooting.md` cover common questions and failure scenarios.
 
+## Optional: Claude Code slash commands
+
+The Skill itself is agent-agnostic — automatic activation by intent (above) is what works the same way across Claude Code, Codex CLI, Cursor, Windsurf, and similar. `npx skills add` doesn't install slash commands (it only installs the Skill directory), and there's no shared slash-command format across agents to build one against. What's here is a Claude Code–specific convenience, not a cross-agent feature:
+
+```
+cp -r commands ~/.claude/commands/
+```
+
+(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). This adds:
+
+- `/architect` — start or resume a planning cycle for the current project, equivalent to just asking for it in words.
+- `/architect-docs` — run `scripts/build-doc-site.mjs` against the current project and open the result, without having to remember the script's path.
+
 ## Directory structure
 
 ```
 software-architect/            (repo root)
   README.md                    # this file
   LICENSE
+  commands/                    # optional Claude Code slash commands — see above, not installed by npx skills add
   examples/                    # this branch only — see "Worked examples" below
   skills/
     software-architect/        # everything npx skills add actually installs
