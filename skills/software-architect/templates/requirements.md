@@ -49,36 +49,19 @@ Add these lines to the item file's metadata line, and these subsections undernea
 
 <description, as in Casual>
 
-**Rationale**
-<Why this requirement exists — the reasoning behind it, not a restatement
-of the description. If it traces to a BR-XXX, this is more than that rule
-restated: it's why THIS requirement is how that rule gets satisfied.>
-
-**Source**
-<Who/what originated this requirement — a named stakeholder, a
-regulation, a prior incident, an existing system's behavior being
-preserved. "The user, during Discovery" is a valid source for a
-greenfield project's core requirements.>
+| Field | Value |
+|---|---|
+| Rationale | <Why this requirement exists — the reasoning behind it, not a restatement of the description. If it traces to a BR-XXX, this is more than that rule restated: it's why THIS requirement is how that rule gets satisfied.> |
+| Source | <Who/what originated this requirement — a named stakeholder, a regulation, a prior incident, an existing system's behavior being preserved. "The user, during Discovery" is a valid source for a greenfield project's core requirements.> |
+| Risk if not met | <What concretely goes wrong if this requirement isn't satisfied — severity, who's affected. Distinguishes a Must-have's actual stakes from a Should-have's.> |
+| Verification method | <How this gets confirmed as actually met — automated test (traces_to a TEST-XXX once phase 12 runs), manual review, an external audit. Not the test itself, just how it will be checked.> |
+| Dependencies | <Other REQ-XXX this one depends on or conflicts with, if any — "(none)" if standalone.> |
 
 **Acceptance criteria**
 - [ ] ...
 
 **Edge cases**
 - ...
-
-**Risk if not met**
-<What concretely goes wrong if this requirement isn't satisfied —
-severity, who's affected. Distinguishes a Must-have's actual stakes from
-a Should-have's.>
-
-**Verification method**
-<How this gets confirmed as actually met — automated test (traces_to a
-TEST-XXX once phase 12 runs), manual review, an external audit. Not the
-test itself, just how it will be checked.>
-
-**Dependencies**
-<Other REQ-XXX this one depends on or conflicts with, if any — "(none)"
-if standalone.>
 ```
 
 `Status` values: `Draft` (not yet confirmed) / `Approved` (confirmed, current) / `Superseded` (replaced by a later CR — never deleted, per `rules/id-conventions.md`).

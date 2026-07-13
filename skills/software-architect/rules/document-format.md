@@ -74,6 +74,13 @@ Data that's inherently tabular and never participates in the traceability graph 
 | title | text | not null |
 ```
 
+Two shapes of table are used across templates, and the choice between them (and between a table and a `**Bold label**` block) follows the content, not a fixed rule per category:
+
+- **A `| Field | Value |` shell table**, when an artifact has several single-value facts worth consolidating into one spec-sheet block (`templates/requirements.md`'s Rationale/Source/Risk if not met/Verification method/Dependencies; `templates/use-cases.md`'s Goal in context/Scope/actors/Trigger/etc.; `templates/api.md`'s Trigger/Input/Effect-output/etc.) — the standard Volere-shell/IEEE-830 convention for a requirement or use-case record. A field with genuinely list-shaped content (`Acceptance criteria`, `Main flow`) never goes in this table, even if it would technically fit in a cell — it stays its own `**Label**` + list.
+- **A named-column table**, when a list's entries already share a consistent multi-part structure across every instance — `templates/api.md`'s `Failure modes` (`| Condition | Response |`), `templates/use-cases.md`'s `Alternative/exception flows` (`| Step | Condition | Result |`), `templates/domain-model.md`'s `Attributes` (`| Attribute | Meaning |`). If the entries don't actually share a clean split (checked against real content, not assumed), it stays a bullet list — `templates/requirements.md`'s `Edge cases` is a bullet list for exactly this reason.
+
+Either way, a table row for an inapplicable field is written as `(none)` / `n/a`, the same convention as an empty metadata-line key (above) — never omitted. An omitted row reads as a malformed table; an explicit `(none)` reads as confirmed-and-empty.
+
 ## What changed from v1.0.0
 
 Earlier versions of this Skill put a YAML front-matter block at the top of every template, with the markdown body underneath restating the same data in prose. That block has been removed from every template except `project-state.md`. If you are updating a project that already has documents in the old format, they still parse under the old front-matter extraction for `project-state.md` only — phase documents need to be rewritten into this convention to work with current validation scripts. There is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
