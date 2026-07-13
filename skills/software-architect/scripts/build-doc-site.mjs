@@ -177,18 +177,17 @@ body {
   color: var(--text);
   font-family: Georgia, 'Times New Roman', serif;
   line-height: 1.65;
-  display: flex;
-  min-height: 100vh;
 }
 nav.sidebar {
   width: 300px;
-  flex-shrink: 0;
+  box-sizing: border-box;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
   padding: 24px 16px;
-  position: sticky;
+  position: fixed;
   top: 0;
-  height: 100vh;
+  left: 0;
+  bottom: 0;
   overflow-y: auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 13px;
@@ -221,10 +220,8 @@ nav.sidebar .nav-items a {
 }
 nav.sidebar .nav-items a:hover { background: var(--border); color: var(--text); }
 main {
-  flex: 1;
-  min-width: 0;
+  margin-left: 300px;
   max-width: 900px;
-  margin: 0 auto;
   padding: 48px 56px 120px;
 }
 main h1, main h2, main h3, main h4 {
@@ -260,13 +257,11 @@ main li.checklist-item { list-style: none; margin-left: -20px; }
 }
 @media print {
   nav.sidebar { display: none; }
-  body { display: block; }
-  main { max-width: 100%; padding: 0; }
+  main { max-width: 100%; margin-left: 0; padding: 0; }
 }
 @media (max-width: 900px) {
-  body { flex-direction: column; }
-  nav.sidebar { width: 100%; height: auto; position: relative; }
-  main { padding: 24px; }
+  nav.sidebar { width: 100%; height: auto; position: relative; bottom: auto; }
+  main { margin-left: 0; padding: 24px; }
 }
 </style>
 </head>
