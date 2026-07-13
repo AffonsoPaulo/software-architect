@@ -52,12 +52,19 @@ export function loadProjectState(projectRoot) {
   return extractFrontMatter(content);
 }
 
-// Deliberately permissive — this only decides what COUNTS as an artifact
-// candidate, not whether it's well-formed. A too-strict pattern here
-// would silently hide malformed IDs (e.g. "REQ-01", too few digits)
-// from validate-ids.mjs instead of letting it flag them. Format
-// correctness is validate-ids.mjs's job alone.
-const ID_RE = /^[A-Za-z]+-[A-Za-z0-9]+$/;
+// Deliberately permissive on the SUFFIX — this only decides what COUNTS
+// as an artifact candidate, not whether it's well-formed. A too-strict
+// suffix pattern here would silently hide malformed IDs (e.g. "REQ-01",
+// too few digits) from validate-ids.mjs instead of letting it flag them.
+// Format correctness is validate-ids.mjs's job alone.
+//
+// The PREFIX must be uppercase, though — that's not about format
+// strictness, it's what distinguishes a real artifact ID (REQ-001,
+// US-002) from an intentional non-ID slug (e.g. frontend.md's
+// "screen-order-refund" or roadmap.md's "milestone-mvp", both
+// documented in their templates as deliberately not using the ID
+// system). Lowercase slugs are never artifacts, by construction.
+const ID_RE = /^[A-Z]+-[A-Za-z0-9]+$/;
 
 // Recursively walks a parsed front-matter object looking for:
 //  - artifacts: any object with an `id` field matching PREFIX-NNN

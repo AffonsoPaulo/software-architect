@@ -20,8 +20,13 @@ const EXAMPLES = ['small-cli-tool', 'saas-multi-tenant'];
 
 function testExample(name) {
   const projectRoot = join(SKILL_ROOT, 'examples', name);
-  if (!existsSync(join(projectRoot, 'docs'))) {
-    return { name, skipped: true, reason: `${projectRoot}/docs not found — example not populated yet (see plan-24)` };
+  // Check for project-state.md specifically, not just the docs/
+  // directory — the directory tree is scaffolded ahead of content
+  // during construction, and an empty docs/ tree would otherwise
+  // "pass" trivially (zero artifacts, zero violations), which is false
+  // confidence, not a real clean bill of health.
+  if (!existsSync(join(projectRoot, 'docs', 'project-state.md'))) {
+    return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — example not populated yet (see plan-24)` };
   }
   const idViolations = validateIds(projectRoot);
   const { violations: traceViolations } = validateTraceability(projectRoot);
