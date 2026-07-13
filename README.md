@@ -69,6 +69,8 @@ Just start describing what you want to build. Calibration asks how you want to b
 
 Every document it writes (except its own internal `project-state.md`) is plain markdown, meant to be opened and read as a real document — no YAML block holding "the real data" above a thin prose restatement. Open any generated file, select all, and paste it into Word; that's the bar it's held to. For categories that are really a list of artifacts (Requirements, Use Cases, Architecture components, and similar), that means a short index file plus one file per item, so a single requirement or endpoint is its own reviewable, linkable document — see `rules/document-locations.md`.
 
+To review the whole thing at once instead of file by file, `node skills/software-architect/scripts/build-doc-site.mjs` builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required.
+
 If you come back to a project later, it resumes exactly where it left off — see `docs/project-state.md` in your project (created by the Skill, not part of this package). If a project is already fully planned and implemented and you want to add something new, just ask — the Skill recognizes this and opens a new incremental cycle rather than starting over.
 
 Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confirmation loop, the traceability graph, and the final gate. `docs/faq.md` and `docs/troubleshooting.md` cover common questions and failure scenarios.
