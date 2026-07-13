@@ -99,6 +99,18 @@ documents:
     version: 1
     # Increments every time a Change Request touches this document.
     cycle_id: 1
+  - path: "docs/03-requirements/requirements.md"
+    template: "templates/requirements.md"
+    status: "approved"
+    version: 3
+    cycle_id: 1
+    # For a category that splits into an index + item files (rules/document-
+    # locations.md — Requirements, User Stories, Use Cases, Domain Model,
+    # Database Design, Architecture, API Design, Security, Testing, Backlog),
+    # this one entry represents the WHOLE category, tracked at the index
+    # file's path. There is no separate documents[] entry per req-XXX.md —
+    # adding, changing, or deprecating one item still just bumps this
+    # entry's version, the same as any other edit to the category.
 
 change_requests:
   - id: "CR-001"

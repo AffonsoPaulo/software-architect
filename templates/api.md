@@ -1,10 +1,12 @@
 # API Design — Template
 
-Saved at `docs/09-api-design/api.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/09-api-design.md`. Defines the interaction contracts — however this system is actually invoked — from the approved Use Cases, Database Design, and Architecture. No interaction unit exists without a Use Case behind it, and its style follows Architecture's guidance rather than being redecided here.
+Saved at `docs/09-api-design/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/09-api-design.md`. Defines the interaction contracts — however this system is actually invoked — from the approved Use Cases, Database Design, and Architecture. No interaction unit exists without a Use Case behind it, and its style follows Architecture's guidance rather than being redecided here.
 
-**This template is deliberately not JSON-API-shaped.** "API Design" is this phase's name, but the concept covers any interaction surface: an HTTP REST/GraphQL endpoint, a server-rendered MVC route (Laravel Blade, Rails views, Django templates — the route renders a view and redirects, there's no separate JSON contract), a CLI command, an event/message handler, or a public library/SDK function. Use whichever vocabulary actually fits this project; do not force a server-rendered route into REST-style request/response thinking just because the fields below default-read that way. Each interaction unit is a heading followed by an italic metadata line, per `rules/document-format.md`.
+**This template is deliberately not JSON-API-shaped.** "API Design" is this phase's name, but the concept covers any interaction surface: an HTTP REST/GraphQL endpoint, a server-rendered MVC route (Laravel Blade, Rails views, Django templates — the route renders a view and redirects, there's no separate JSON contract), a CLI command, an event/message handler, or a public library/SDK function. Use whichever vocabulary actually fits this project; do not force a server-rendered route into REST-style request/response thinking just because the fields below default-read that way.
 
-## Structure (Casual)
+This category splits into an **index file** (`api.md`) and one **item file** per interaction unit (`api-001.md`, `api-002.md`, ...) — see `rules/document-locations.md`.
+
+## Index file — `api.md`
 
 ```markdown
 # API Design
@@ -24,9 +26,15 @@ with a flash message, a non-zero exit code with a stderr message, a
 rejected/dead-lettered event — used consistently by every interaction
 unit.>
 
-## Interactions
+| ID | Trigger | Traces to |
+|---|---|---|
+| [API-001](api-001.md) | `POST /orders/{id}/refund` | UC-003, ARCH-002 |
+```
 
-### API-001 — <short title>
+## Item file — `api-001.md`
+
+```markdown
+# API-001 — <short title>
 *Traces to: UC-003, ARCH-002*
 
 **Trigger**: `POST /orders/{id}/refund` <however this unit is invoked: an
@@ -58,14 +66,9 @@ information, a `flowchart` of the logic is a valid substitute.>
 
 ## Fully Dressed additions
 
+Item files gain:
+
 ```markdown
-### API-001 — <short title>
-*Traces to: UC-003, ARCH-002*
-
-**Trigger**: ...
-**Input**: ...
-**Effect/output**: ...
-
 **Example**
 <A concrete, filled-in example of one real request/invocation and its
 successful response — not the abstract field list above, an actual
@@ -78,9 +81,6 @@ POST /orders/4821/refund
 200 OK
 { "order_id": "4821", "status": "refunded", "refund_id": "rf_9182" }
 ```
-
-**Failure modes**
-- ...
 
 **Rate limiting**
 <Whether/how this unit is rate-limited, and the failure behavior when

@@ -1,13 +1,27 @@
 # User Stories — Template
 
-Saved at `docs/04-user-stories/user-stories.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/04-user-stories.md`. Converts approved functional requirements into User Stories, ready to become Use Cases in phase 05. Each story is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/04-user-stories/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/04-user-stories.md`. Converts approved functional requirements into User Stories, ready to become Use Cases in phase 05.
 
-## Structure (Casual)
+This category splits into an **index file** (`user-stories.md`) and one **item file** per story (`us-001.md`, `us-002.md`, ...) — see `rules/document-locations.md`.
+
+## Index file — `user-stories.md`
 
 ```markdown
 # User Stories
 
-### US-001 — <short title>
+| ID | Title | Traces to |
+|---|---|---|
+| [US-001](us-001.md) | Post a recipe | REQ-004 |
+
+Note: REQ-XXX entries that are purely non-functional have no User Story —
+they trace directly to ARCH-XXX/SEC-XXX instead, per
+rules/traceability-rules.md's documented exception.
+```
+
+## Item file — `us-001.md`
+
+```markdown
+# US-001 — <short title>
 *Traces to: REQ-004*
 
 **As a** <persona>, **I want to** <action>, **so that** <benefit>.
@@ -21,7 +35,7 @@ Valuable, Estimable, Small, Testable — only needs detail where it's not
 obvious.>
 ```
 
-<Gherkin (Given/When/Then) format is also acceptable instead of As a/I want to/so that, if confirmed with the user as their preference — pick one format and stay consistent for the whole document; do not mix formats across stories.>
+<Gherkin (Given/When/Then) format is also acceptable instead of As a/I want to/so that, if confirmed with the user as their preference — pick one format and stay consistent across every item file.>
 
 - `persona` is a specific actor, not "the user" generically if more than one actor exists.
 - `Traces to` is mandatory — every `US-XXX` must trace to at least one `REQ-XXX` (`rules/traceability-rules.md`, never optional, unlike REQ→BR).
@@ -29,7 +43,7 @@ obvious.>
 ## Fully Dressed additions
 
 ```markdown
-### US-001 — <short title>
+# US-001 — <short title>
 *Traces to: REQ-004 · Priority: Must have*
 
 **As a** <persona>, **I want to** <action>, **so that** <benefit>.

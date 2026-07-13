@@ -1,8 +1,10 @@
 # Database Design — Template
 
-Saved at `docs/07-database-design/database.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/07-database-design.md`. Translates the approved Domain Model into a physical/logical database schema — the first phase where storage-shaped decisions are actually allowed. Each table/collection is a heading followed by an italic metadata line, per `rules/document-format.md`; column detail is a plain markdown table underneath (not part of the metadata line — see `rules/document-format.md`'s "Tables for structured, non-traceability data").
+Saved at `docs/07-database-design/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/07-database-design.md`. Translates the approved Domain Model into a physical/logical database schema — the first phase where storage-shaped decisions are actually allowed.
 
-## Structure (Casual)
+This category splits into an **index file** (`database.md`) and one **item file** per table/collection (`tbl-001.md`, `tbl-002.md`, ...) — see `rules/document-locations.md`. Column detail is a plain markdown table inside each item file (not a metadata line — see `rules/document-format.md`'s "Tables for structured, non-traceability data").
+
+## Index file — `database.md`
 
 ```markdown
 # Database Design
@@ -13,18 +15,9 @@ Saved at `docs/07-database-design/database.md` in the target project (see `rules
 In brownfield mode, this records what's already in production and
 non-negotiable rather than a fresh choice.>
 
-## Tables / collections
-
-### TBL-001 — orders
-*Traces to: ENT-001*
-
-| Column | Type | Constraints |
+| ID | Table | Traces to |
 |---|---|---|
-| id | uuid | primary key |
-| customer_id | uuid | foreign key -> customers.id, not null |
-
-**Indexes**
-- <index description and the access pattern it serves>
+| [TBL-001](tbl-001.md) | orders | ENT-001 |
 
 ## Migration strategy
 <How schema changes will be versioned and applied — `[confirmation individual]`.>
@@ -35,21 +28,27 @@ erDiagram
 ```
 ```
 
-## Fully Dressed additions
+## Item file — `tbl-001.md`
 
 ```markdown
-## Data dictionary
-<Business-meaning definitions, distinct from the column tables above —
-what each column actually MEANS to the business, not just its SQL type.
-Especially useful for columns whose name alone is ambiguous.>
+# TBL-001 — orders
+*Traces to: ENT-001*
 
-| Table.Column | Business meaning |
-|---|---|
-| orders.status | Where the order is in its lifecycle: draft, paid,
-  shipped, refunded, cancelled — see ENT-001's invariants for valid
-  transitions |
+| Column | Type | Constraints |
+|---|---|---|
+| id | uuid | primary key |
+| customer_id | uuid | foreign key -> customers.id, not null |
 
-### TBL-001 — orders
+**Indexes**
+- <index description and the access pattern it serves>
+```
+
+## Fully Dressed additions
+
+Item files gain:
+
+```markdown
+# TBL-001 — orders
 *Traces to: ENT-001*
 
 | Column | Type | Constraints |
@@ -69,6 +68,21 @@ answer.>
 <How long this data is kept, and what happens after — archived,
 deleted, anonymized. "Kept indefinitely, no archival policy" is a valid
 explicit answer, not a gap, as long as it was actually confirmed.>
+```
+
+The index file gains:
+
+```markdown
+## Data dictionary
+<Business-meaning definitions, distinct from the column tables in each
+item file — what each column actually MEANS to the business, not just
+its SQL type.>
+
+| Table.Column | Business meaning |
+|---|---|
+| orders.status | Where the order is in its lifecycle: draft, paid,
+  shipped, refunded, cancelled — see ENT-001's invariants for valid
+  transitions |
 
 ## Backup and recovery expectations
 <Backup frequency, retention, and the recovery point/time objective this

@@ -1,19 +1,27 @@
 # Risk Register — Template
 
-A single, growing document at `docs/11-security/risk-register.md` in the target project (see `rules/document-locations.md`). Any phase may append to it — not only Security — most commonly for:
+A single, growing category at `docs/11-security/` in the target project (see `rules/document-locations.md`). Any phase may append to it — not only Security — most commonly for:
 
 - An "I don't know" answer left as an open pending item (`rules/confirmation-protocol.md`).
 - A Quality Gate criterion that was explicitly overridden via the escape valve (`rules/quality-gate-structure.md`).
 - An actual project/technical risk surfaced during Security (phase 11) or any other phase.
 
-Each entry is a heading followed by an italic metadata line, per `rules/document-format.md`.
+This category splits into an **index file** (`risk-register.md`) and one **item file** per risk (`risk-001.md`, `risk-002.md`, ...) — see `rules/document-locations.md`.
 
-## Structure (Casual)
+## Index file — `risk-register.md`
 
 ```markdown
 # Risk Register
 
-### RISK-001 — <short title>
+| ID | Title | Source | Status | Traces to |
+|---|---|---|---|---|
+| [RISK-001](risk-001.md) | <short title> | Gate override | Open | (none) |
+```
+
+## Item file — `risk-001.md`
+
+```markdown
+# RISK-001 — <short title>
 *Source: Gate override · Traces to: (none) · Impact: Medium · Status: Open*
 
 <The risk or open item, stated concretely — not "performance might be an
@@ -32,7 +40,7 @@ the user/team, never "the AI">
 ## Fully Dressed additions
 
 ```markdown
-### RISK-001 — <short title>
+# RISK-001 — <short title>
 *Source: Security review · Category: Technical · Probability: Medium · Impact: Medium · Traces to: ARCH-003 · Status: Open*
 
 <description, as in Casual>

@@ -1,13 +1,23 @@
 # Use Cases — Template
 
-Saved at `docs/05-use-cases/use-cases.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/05-use-cases.md`. Details the interaction flows — main, alternative, exception — behind each User Story or closely related group of stories, ready to inform the Domain Model (phase 06). Each use case is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/05-use-cases/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/05-use-cases.md`. Details the interaction flows — main, alternative, exception — behind each User Story or closely related group of stories, ready to inform the Domain Model (phase 06).
 
-## Structure (Casual)
+This category splits into an **index file** (`use-cases.md`) and one **item file** per use case (`uc-001.md`, `uc-002.md`, ...) — see `rules/document-locations.md`.
+
+## Index file — `use-cases.md`
 
 ```markdown
 # Use Cases
 
-## UC-001 — <short title>
+| ID | Title | Traces to |
+|---|---|---|
+| [UC-001](uc-001.md) | Post a recipe | US-006 |
+```
+
+## Item file — `uc-001.md`
+
+```markdown
+# UC-001 — <short title>
 *Traces to: US-006*
 
 **Primary actor**: ...
@@ -39,7 +49,7 @@ shipped) — per `rules/diagram-conventions.md`.>
 ## Fully Dressed additions
 
 ```markdown
-## UC-001 — <short title>
+# UC-001 — <short title>
 *Traces to: US-006*
 
 **Goal in context**

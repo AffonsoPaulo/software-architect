@@ -1,16 +1,27 @@
 # Requirements — Template
 
-Saved at `docs/03-requirements/requirements.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/03-requirements-engineering.md`. This is where the project's actual requirements live — the first document in the traceability graph proper (see `rules/traceability-rules.md`), and the one every later phase ultimately traces back to. Each requirement is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/03-requirements/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/03-requirements-engineering.md`. This is where the project's actual requirements live — the first document in the traceability graph proper (see `rules/traceability-rules.md`), and the one every later phase ultimately traces back to.
 
-## Structure (Casual)
+This category splits into an **index file** (`requirements.md`) and one **item file** per requirement (`req-001.md`, `req-002.md`, ...) — see `rules/document-locations.md`. Each item file is a complete document on its own, per `rules/document-format.md`.
+
+## Index file — `requirements.md`
 
 ```markdown
 # Requirements
 
-## Functional requirements
-<One subsection per REQ-XXX of type "functional", in confirmed order.>
+<One or two sentences of context, if useful — this file is a table of
+contents, not a restatement of every requirement.>
 
-### REQ-001 — <short title>
+| ID | Title | Type | Priority | Traces to |
+|---|---|---|---|---|
+| [REQ-001](req-001.md) | Post a recipe | Functional | Must have | BR-003 |
+| [REQ-002](req-002.md) | Response time | Non-functional | Must have | (none) |
+```
+
+## Item file — `req-001.md`
+
+```markdown
+# REQ-001 — <short title>
 *Type: Functional · Priority: Must have · Traces to: BR-003*
 
 <The requirement, stated as a single testable capability.>
@@ -23,27 +34,15 @@ Saved at `docs/03-requirements/requirements.md` in the target project (see `rule
 - <a specific scenario where this requirement's normal behavior doesn't
   straightforwardly apply — an error condition, a boundary, a conflict
   with another requirement>
-
-## Non-functional requirements
-<Same format, for type "non-functional" — performance, availability,
-scalability, usability, compliance, etc. Each still needs acceptance
-criteria specific enough to be testable, e.g. "95th percentile response
-time under 300ms at 500 concurrent users," not "the system should be
-fast." `[confirmation individual]` — these are asked and confirmed
-individually.>
-
-### REQ-002 — <short title>
-*Type: Non-functional · Priority: Must have · Traces to: (none)*
-
-...
 ```
 
 - `Traces to` holds the `BR-XXX` this requirement enforces, if any (`rules/traceability-rules.md`: not every requirement has one, especially pure technical/NFR requirements) — write `(none)` explicitly when there isn't one.
 - `Priority` uses MoSCoW (`Must have` / `Should have` / `Could have`) or an equivalent scheme confirmed with the user.
+- `Type` is `Functional` or `Non-functional`. Non-functional requirements are always individually confirmed (`[confirmation individual]`).
 
 ## Fully Dressed additions
 
-Add these lines to the metadata (`*...*`) line, and these subsections under each requirement:
+Add these lines to the item file's metadata line, and these subsections underneath:
 
 ```markdown
 *Type: Functional · Priority: Must have · Traces to: BR-003 · Status: Approved*
@@ -89,3 +88,4 @@ if standalone.>
 - **Every requirement needs, at minimum**: a complete description, at least one testable acceptance criterion, its business rule link if one exists, at least one edge case, and no unresolved ambiguity in its wording. This is not a style guideline — it is exactly what `quality-gates/03-requirements-engineering-gate.md` checks, criterion by criterion, per requirement.
 - **Traceability exception**: a purely non-functional requirement does not need a `US-XXX` in phase 04 — it traces directly to `ARCH-XXX`/`SEC-XXX` instead (`rules/traceability-rules.md`). Functional requirements always need at least one `US-XXX`.
 - `REQ-XXX` IDs come from `project-state.md`'s `id_sequences.REQ`, global to the project, never renumbered.
+- The index file's table is kept in sync with the item files as requirements are added/changed — it's a reading aid, never the source of truth for a requirement's actual content.

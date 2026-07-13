@@ -1,8 +1,10 @@
 # Security — Template
 
-Saved at `docs/11-security/security.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/11-security.md`. Models threats, defines authentication/authorization in detail, classifies data, and records compliance requirements — always mandatory, regardless of project size or cycle. Risks identified here (or anywhere else in the project) live in `docs/11-security/risk-register.md` via `templates/risk-register.md`. Each control is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/11-security/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/11-security.md`. Models threats, defines authentication/authorization in detail, classifies data, and records compliance requirements — always mandatory, regardless of project size or cycle.
 
-## Structure (Casual)
+This category splits into an **index file** (`security.md`) and one **item file** per control (`sec-001.md`, `sec-002.md`, ...) — see `rules/document-locations.md`. The Risk Register (`risk-register.md`) is its own, separately-splitting category — see below.
+
+## Index file — `security.md`
 
 ```markdown
 # Security
@@ -37,8 +39,15 @@ confirmed, not assumed either way.>
 <Vault / env vars / KMS / other.>
 
 ## Controls
+| ID | Title | Traces to |
+|---|---|---|
+| [SEC-001](sec-001.md) | <short title> | ARCH-003, API-001 |
+```
 
-### SEC-001 — <short title>
+## Item file — `sec-001.md`
+
+```markdown
+# SEC-001 — <short title>
 *Traces to: ARCH-003, API-001*
 
 <The control, stated as a concrete measure — e.g. "all refund
@@ -47,6 +56,8 @@ support role.">
 ```
 
 ## Fully Dressed additions
+
+The index file's threat model gains a full STRIDE pass per component, plus:
 
 ```markdown
 ## Threat model

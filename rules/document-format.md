@@ -53,6 +53,13 @@ A heading followed by a metadata line with a `Traces to` (or `Delivers`) key is 
 
 An ID is declared as a heading in exactly one document — its "home" (`rules/id-conventions.md`). A different document that needs to sequence or group already-declared IDs (Implementation Plan sequencing Backlog's `TASK-XXX` items, for instance) never repeats them as a heading — that would register as a second declaration of the same ID and fail `scripts/validate-ids.mjs`'s uniqueness check. It references them in a plain markdown table or list instead. `scripts/validate-gate.mjs` has a couple of small, phase-specific parsers for exactly this (Implementation Plan's `## Sequence` table, Roadmap's `## Deferred` list) — documented in `templates/implementation-plan.md` and `templates/roadmap.md` respectively, not part of the generic heading+metadata-line convention above.
 
+### Index files and item files
+
+Some categories split into an index file plus one file per item instead of one file holding everything — `rules/document-locations.md` has the definitive list of which categories split and the filename convention. Two format specifics for a split category:
+
+- **An item file's heading is `#` (H1)**, not nested under a category grouping — the file *is* the artifact now, not a subsection of a bigger document. `# REQ-001 — Post a recipe` at the top of `req-001.md`, metadata line immediately after, exactly as in any other artifact declaration.
+- **The index file's summary table links to each item file** with a relative markdown link (`[REQ-001](req-001.md)`), plus enough inline context (title, and whatever dimension the category is naturally organized by — type, priority, milestone) to browse the whole category without opening every file. The index file carries no `Traces to` metadata line of its own — it's not an artifact, just a table of contents plus whatever category-wide narrative genuinely spans every item (an intro paragraph, a diagram, a coverage table).
+
 ### Tables for structured, non-traceability data
 
 Data that's inherently tabular and never participates in the traceability graph — database columns, a coverage matrix — is a plain markdown table, not a metadata line. Nothing parses these; they exist purely for the reader.

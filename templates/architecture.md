@@ -1,8 +1,10 @@
 # Architecture — Template
 
-Saved at `docs/08-architecture/architecture.md` in the target project (see `rules/document-locations.md`), with individual decision records under `docs/08-architecture/adr/`. Produced by `playbooks/08-architecture.md`. Defines system architecture — style, components, integrations — compatible with the approved Database Design and satisfying every non-functional requirement. Phase 09 (API Design) works from the decisions made here, not the other way around. Each component is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/08-architecture/` in the target project (see `rules/document-locations.md`), with individual decision records under `docs/08-architecture/adr/`. Produced by `playbooks/08-architecture.md`. Defines system architecture — style, components, integrations — compatible with the approved Database Design and satisfying every non-functional requirement. Phase 09 (API Design) works from the decisions made here, not the other way around.
 
-## Structure (Casual)
+This category splits into an **index file** (`architecture.md`) and one **item file** per component (`arch-001.md`, `arch-002.md`, ...) — see `rules/document-locations.md`. `docs/08-architecture/adr/ADR-XXX.md` is unaffected — it already followed this one-file-per-decision shape before this convention existed.
+
+## Index file — `architecture.md`
 
 ```markdown
 # Architecture
@@ -13,13 +15,9 @@ Saved at `docs/08-architecture/architecture.md` in the target project (see `rule
 and whether this cycle's work conforms to it or consciously diverges
 (the latter needs its own ADR).>
 
-## Components
-
-### ARCH-001 — <component name>
-*Traces to: REQ-012 · ADR: ADR-003*
-
-<One clear responsibility — a component with more than one unrelated
-responsibility is a sign it should be split.>
+| ID | Component | Traces to | ADR |
+|---|---|---|---|
+| [ARCH-001](arch-001.md) | <name> | REQ-012 | ADR-003 |
 
 ## Core technologies
 <Language, framework, infrastructure — `[confirmation individual]`.>
@@ -46,9 +44,21 @@ where that's not obvious from the component diagram alone —
 `rules/diagram-conventions.md`.>
 ```
 
+## Item file — `arch-001.md`
+
+```markdown
+# ARCH-001 — <component name>
+*Traces to: REQ-012 · ADR: ADR-003*
+
+<One clear responsibility — a component with more than one unrelated
+responsibility is a sign it should be split.>
+```
+
 `Traces to` is required for components that exist to satisfy a non-functional requirement — list every NFR this component addresses. `ADR` names the ADR that documents the consequential decision behind this component's existence/shape, if it's not simply implied by an already existing style/technology decision recorded in another ADR — omit the `ADR` key entirely if there isn't one yet.
 
 ## Fully Dressed additions
+
+The index file gains:
 
 ```markdown
 ## Context view

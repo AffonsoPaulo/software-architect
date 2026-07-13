@@ -2,6 +2,31 @@
 
 Where the Skill reads and writes files — in the target user's project, not inside this Skill package.
 
+## Index files vs. item files
+
+A phase whose main payload is a list of independently-meaningful, ID-bearing artifacts (a requirement, a use case, a database table...) splits into a **hybrid** layout: one short **index file** at the category's usual path, holding only the narrative/overview content that genuinely spans every item (intro, category-wide decisions, diagrams, a summary table linking to each item) — plus one **item file** per artifact, in the same directory, holding that artifact's full content per `rules/document-format.md`.
+
+This mirrors the ADR/Change Request pattern already in place before this convention existed — `architecture.md` (index) references `adr/ADR-XXX.md` (items) rather than restating them, and this rule generalizes that same shape to every category where it fits.
+
+**Item filename convention**: `<lowercase-prefix>-<NNN>.md`, matching the artifact's ID exactly except lowercased and hyphenated (`REQ-001` → `req-001.md`). The ID as written *inside* the file's heading stays uppercase (`# REQ-001 — ...`), per `rules/id-conventions.md` — only the filename is lowercased. `adr/ADR-XXX.md` and `change-requests/CR-XXX.md` predate this convention and keep their existing uppercase filenames; not renamed, since there's no functional reason to churn something already working.
+
+**Which categories split, and which stay single-file:**
+
+| Splits (index + item files) | Stays single-file |
+|---|---|
+| Requirements (`req-XXX.md`) | Calibration — no items |
+| User Stories (`us-XXX.md`) | Vision — no items |
+| Use Cases (`uc-XXX.md`) | Business Analysis — few `BR-XXX`, and processes/actors/justification aren't ID-bearing |
+| Domain Model (`ent-XXX.md`) | Frontend Planning — screens have no reserved ID prefix |
+| Database Design (`tbl-XXX.md`) | Deployment — environments aren't ID-bearing |
+| Architecture (`arch-XXX.md`), plus its existing `adr/` | Roadmap — milestones have no reserved ID prefix |
+| API Design (`api-XXX.md`) | Implementation Plan — sequences existing Backlog tasks, never declares new artifacts |
+| Security (`sec-XXX.md`), plus its Risk Register (`risk-XXX.md`) | Review — a report, not an artifact list |
+| Testing (`test-XXX.md`) | |
+| Backlog (`task-XXX.md`) | |
+
+The rule of thumb: split when the category's items are the whole point and the category-level content is thin (a couple of intro sentences, maybe a diagram); stay single-file when there's real connective narrative binding the items together, or when the "items" don't have a reserved ID prefix at all (`rules/id-conventions.md`).
+
 ## In the target project (the repository the Skill is helping to plan)
 
 ```
@@ -15,44 +40,55 @@ Where the Skill reads and writes files — in the target user's project, not ins
     02-business-analysis/
       business-analysis.md
     03-requirements/
-      requirements.md
+      requirements.md              # index: intro + summary table
+      req-001.md, req-002.md, ...  # one file per REQ-XXX
     04-user-stories/
-      user-stories.md
+      user-stories.md              # index
+      us-001.md, ...
     05-use-cases/
-      use-cases.md
+      use-cases.md                 # index
+      uc-001.md, ...
     06-domain-model/
-      domain-model.md
+      domain-model.md              # index: aggregates, ubiquitous language, diagram
+      ent-001.md, ...
     07-database-design/
-      database.md
+      database.md                  # index: database type, migration strategy, diagram
+      tbl-001.md, ...
     08-architecture/
-      architecture.md
-      adr/                        # ADR-XXX files, one per consequential decision
+      architecture.md              # index: style, core tech, NFR coverage, diagram
+      arch-001.md, ...
+      adr/                         # ADR-XXX.md files, one per consequential decision (predates this convention)
     09-api-design/
-      api.md
+      api.md                       # index: interaction style, versioning, failure format
+      api-001.md, ...
     10-frontend-planning/
-      frontend.md
+      frontend.md                  # single file — screens aren't ID-bearing
     11-security/
-      security.md
-      risk-register.md
+      security.md                  # index: threat model summary, auth/authz, compliance
+      sec-001.md, ...
+      risk-register.md             # index
+      risk-001.md, ...
     12-testing/
-      testing.md
+      testing.md                   # index: levels, coverage target, test data strategy
+      test-001.md, ...
     13-deployment/
       deployment.md
     14-roadmap/
       roadmap.md
     15-backlog/
-      backlog.md
+      backlog.md                   # index: Definition of Ready, grouped-by-milestone summary
+      task-001.md, ...
     16-implementation-plan/
       implementation-plan.md
     17-review/
       review-report.md
     change-requests/
-      CR-XXX.md                   # one file per Change Request, any phase
+      CR-XXX.md                   # one file per Change Request, any phase (predates this convention)
 ```
 
 - `project-state.md` lives at the root of `docs/`, not inside any phase subfolder — it's project-wide, not phase-specific.
 - `risk-register.md` lives under `11-security/` because Security is where risk tracking becomes formal, but any phase can add entries to it (e.g. an "I don't know" pending item from an earlier phase, per `confirmation-protocol.md`).
-- `adr/` and `change-requests/` are the only subfolders that hold multiple numbered files instead of one document per phase.
+- `project-state.md`'s `documents[]` array tracks one entry per **index file** for a split category (e.g. `docs/03-requirements/requirements.md`), not one per item file — approval/version applies to the category as a whole. Adding, changing, or deprecating an individual item bumps that entry's `version`, the same as any other edit to the category.
 
 ## Inside this Skill package (`software-architect/`)
 

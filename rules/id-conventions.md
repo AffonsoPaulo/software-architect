@@ -29,7 +29,7 @@ Every artifact the Skill produces gets a unique, permanent ID. This file is the 
 
 ## Where an ID must appear
 
-- As the leading token of a heading, in the document where the artifact is defined (its "home" document) — e.g. `### REQ-001 — Post a recipe`. See `rules/document-format.md` for the full heading + metadata-line convention.
+- As the leading token of a heading, in the document where the artifact is defined (its "home" document) — e.g. `### REQ-001 — Post a recipe`, or `# REQ-001 — Post a recipe` at the top of its own `req-001.md` for a category that splits into item files (`rules/document-locations.md`). See `rules/document-format.md` for the full heading + metadata-line convention.
 - In the `Traces to` key of the metadata line of every other document that references it (see `traceability-rules.md` for which artifacts must reference which).
 - Optionally inline in prose elsewhere, but the heading declaration and metadata-line references are what `scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` actually parse — prose mentions are not load-bearing.
 

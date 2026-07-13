@@ -1,29 +1,17 @@
 # Domain Model — Template
 
-Saved at `docs/06-domain-model/domain-model.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/06-domain-model.md`. Extracts entities, value objects, aggregates, and business invariants from the approved Use Cases — the conceptual foundation Database Design (phase 07) will translate into schema. Deliberately free of any database-shaped thinking; see "What this document must never contain" below. Each entity is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/06-domain-model/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/06-domain-model.md`. Extracts entities, value objects, aggregates, and business invariants from the approved Use Cases — the conceptual foundation Database Design (phase 07) will translate into schema. Deliberately free of any database-shaped thinking; see "What this document must never contain" below.
 
-## Structure (Casual)
+This category splits into an **index file** (`domain-model.md`) and one **item file** per entity/value object (`ent-001.md`, `ent-002.md`, ...) — see `rules/document-locations.md`. Aggregates, relationships, and the class diagram — which genuinely span multiple entities — stay in the index file.
+
+## Index file — `domain-model.md`
 
 ```markdown
 # Domain Model
 
-## Entities and value objects
-<One subsection per ENT-XXX.>
-
-### ENT-001 — <name>
-*Kind: Entity · Traces to: UC-003*
-
-**Attributes**
-- <conceptual attribute — a name and a plain-language meaning, not a
-  column type>
-
-**Invariants**
-- <a rule that must always hold — REQUIRED, at least one entry; "no
-  special rules beyond basic validity" is a valid explicit entry, an
-  empty list is not>
-
-**Belongs to aggregate**: <ENT-XXX of the aggregate root, or "itself is
-the root">
+| ID | Name | Kind | Belongs to aggregate | Traces to |
+|---|---|---|---|---|
+| [ENT-001](ent-001.md) | Recipe | Entity | itself is the root | UC-003 |
 
 ## Aggregates
 <One subsection per aggregate root: which entities/value objects it
@@ -39,9 +27,30 @@ classDiagram
 ```
 ```
 
+## Item file — `ent-001.md`
+
+```markdown
+# ENT-001 — <name>
+*Kind: Entity · Traces to: UC-003*
+
+**Attributes**
+- <conceptual attribute — a name and a plain-language meaning, not a
+  column type>
+
+**Invariants**
+- <a rule that must always hold — REQUIRED, at least one entry; "no
+  special rules beyond basic validity" is a valid explicit entry, an
+  empty list is not>
+
+**Belongs to aggregate**: <ENT-XXX of the aggregate root, or "itself is
+the root">
+```
+
 `Kind` is `Entity` (has identity, mutable over time) or `Value object` (no identity, immutable).
 
 ## Fully Dressed additions
+
+Item files gain no new metadata keys, but the index file gains:
 
 ```markdown
 ## Ubiquitous language

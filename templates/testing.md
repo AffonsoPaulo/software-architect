@@ -1,8 +1,10 @@
 # Testing — Template
 
-Saved at `docs/12-testing/testing.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/12-testing.md`. Defines the test strategy per level, ensuring every requirement has planned coverage before implementation starts. Each test plan item is a heading followed by an italic metadata line, per `rules/document-format.md`.
+Saved at `docs/12-testing/` in the target project (see `rules/document-locations.md`). Produced by `playbooks/12-testing.md`. Defines the test strategy per level, ensuring every requirement has planned coverage before implementation starts.
 
-## Structure (Casual)
+This category splits into an **index file** (`testing.md`) and one **item file** per test plan (`test-001.md`, `test-002.md`, ...) — see `rules/document-locations.md`.
+
+## Index file — `testing.md`
 
 ```markdown
 # Testing
@@ -18,9 +20,15 @@ ambiguous.>
 ## Test data strategy
 <Fixtures / mocks / dedicated environment / combination.>
 
-## Test plans
+| ID | Title | Level | Kind | Traces to |
+|---|---|---|---|---|
+| [TEST-001](test-001.md) | <short title> | Integration | Automated | REQ-004 |
+```
 
-### TEST-001 — <short title>
+## Item file — `test-001.md`
+
+```markdown
+# TEST-001 — <short title>
 *Traces to: REQ-004 · Level: Integration · Kind: Automated*
 
 <What this test verifies, specific enough to know when it's failing —
@@ -31,6 +39,8 @@ exactly this, not a loosely related behavior.>
 `Kind` is `Automated` or `Manual` — required, explicit. Never left implicit which a requirement's test actually is.
 
 ## Fully Dressed additions
+
+The index file gains:
 
 ```markdown
 ## Entry/exit criteria
@@ -54,8 +64,12 @@ org-wide process instead of inventing one.>
 Risk-based reasoning, not just "test everything equally." E.g. "payment
 flow gets the deepest coverage; the about page gets a single smoke
 test.">
+```
 
-### TEST-001 — <short title>
+Item files gain:
+
+```markdown
+# TEST-001 — <short title>
 *Traces to: REQ-004 · Level: Integration · Kind: Automated*
 
 <description, as in Casual>
