@@ -1,33 +1,8 @@
 # Architecture — Template
 
-Saved at `docs/08-architecture/architecture.md` in the target project (see `rules/document-locations.md`), with individual decision records under `docs/08-architecture/adr/`. Produced by `playbooks/08-architecture.md`. Defines system architecture — style, components, integrations — compatible with the approved Database Design and satisfying every non-functional requirement. Phase 09 (API Design) works from the decisions made here, not the other way around.
+Saved at `docs/08-architecture/architecture.md` in the target project (see `rules/document-locations.md`), with individual decision records under `docs/08-architecture/adr/`. Produced by `playbooks/08-architecture.md`. Defines system architecture — style, components, integrations — compatible with the approved Database Design and satisfying every non-functional requirement. Phase 09 (API Design) works from the decisions made here, not the other way around. Each component is a heading followed by an italic metadata line, per `rules/document-format.md`.
 
-## Structure
-
-```yaml
----
-components:
-  - id: ARCH-001
-    name: "<component name>"
-    responsibility: "<one clear responsibility — a component with more than
-      one unrelated responsibility is a sign it should be split>"
-    traces_to: ["REQ-012"]
-    # REQUIRED for components that exist to satisfy a non-functional
-    # requirement — list every NFR this component addresses.
-    adr: "ADR-003"
-    # the ADR that documents the consequential decision behind this
-    # component's existence/shape, if it's not simply implied by an already
-    # existing style/technology decision recorded in another ADR
-interaction_style_guidance: "<the high-level shape of how this system is
-  invoked/consumed — not limited to REST/GraphQL/RPC. Examples: REST API,
-  GraphQL API, RPC, server-rendered MVC (routes render views directly, no
-  separate JSON contract), CLI command surface, event/message handler,
-  public library/SDK interface, or a description in the user's own words
-  if none of these fit. Single vs. multiple interaction surfaces, if
-  relevant. High-level orientation for phase 09, not the detailed
-  contract design.>"
----
-```
+## Structure (Casual)
 
 ```markdown
 # Architecture
@@ -39,8 +14,12 @@ and whether this cycle's work conforms to it or consciously diverges
 (the latter needs its own ADR).>
 
 ## Components
-<One subsection per ARCH-XXX: responsibility, external integration points
-if any, which NFRs it addresses.>
+
+### ARCH-001 — <component name>
+*Traces to: REQ-012 · ADR: ADR-003*
+
+<One clear responsibility — a component with more than one unrelated
+responsibility is a sign it should be split.>
 
 ## Core technologies
 <Language, framework, infrastructure — `[confirmation individual]`.>
@@ -67,10 +46,64 @@ where that's not obvious from the component diagram alone —
 `rules/diagram-conventions.md`.>
 ```
 
+`Traces to` is required for components that exist to satisfy a non-functional requirement — list every NFR this component addresses. `ADR` names the ADR that documents the consequential decision behind this component's existence/shape, if it's not simply implied by an already existing style/technology decision recorded in another ADR — omit the `ADR` key entirely if there isn't one yet.
+
+## Fully Dressed additions
+
+```markdown
+## Context view
+<The system as a single box, with every external actor and system it
+talks to around it — arc42/C4's "system context" level. A `graph TD` or
+`flowchart` showing the system boundary, not its internals.>
+
+```mermaid
+graph TD
+    ...
+```
+
+## Runtime view
+<For each critical scenario (checkout, authentication, anything
+consequential) a `sequenceDiagram` showing how the components above
+actually collaborate to execute it at runtime — distinct from the
+static component diagram, which shows structure, not behavior.>
+
+```mermaid
+sequenceDiagram
+    ...
+```
+
+## Crosscutting concepts
+<Patterns applied consistently across every component, stated once
+here instead of repeated per component: logging approach, error-
+handling convention, configuration management, caching strategy.
+"Standard framework defaults, no project-specific convention" is valid
+if actually true.>
+
+## Quality tree
+<Which specific NFRs matter most and how they were prioritized relative
+to each other, when they trade off against one another — e.g.
+"availability was prioritized over latency for the payment path;
+inverse for the search path." Distinct from the NFR coverage table
+above, which shows WHAT addresses each NFR, not how conflicts between
+them were resolved.>
+
+## Risks and technical debt
+<Known architectural risks or deliberately accepted debt — e.g. "the
+initial monolith will need to split out the notification service before
+10x current load." Each with what would trigger revisiting it. "(none)
+currently identified" is valid for a genuinely fresh design.>
+
+## Glossary
+<Architecture-specific terms not already covered by the Domain Model's
+ubiquitous language (Fully Dressed) — infrastructure and pattern
+vocabulary, e.g. "circuit breaker," "read replica," used consistently
+across this document.>
+```
+
 ## Notes for whoever fills this in
 
 - **Every consequential architectural decision gets its own ADR** (`templates/adr.md`) under `docs/08-architecture/adr/` — this document references them, it doesn't restate their reasoning inline.
 - **Every non-functional requirement needs a component/decision that addresses it** — the coverage table above is the gate's primary scriptable check; an NFR with no entry is a gap, not an oversight to fix later.
 - `ARCH-XXX` IDs come from `project-state.md`'s `id_sequences.ARCH`, global to the project.
-- This document never designs actual API endpoints or contracts — `interaction_style_guidance` is a boundary, not a preview. Phase 09 does that work.
+- This document never designs actual API endpoints or contracts — `Interaction style guidance` is a boundary, not a preview. Phase 09 does that work.
 - **This Skill targets any system in any language/architecture** — do not default to REST just because it's the most common answer. A CLI tool, an embedded system, a message-queue consumer, or a server-rendered Blade/Rails/Django-style monolith are all equally valid answers here, each with its own vocabulary in phase 09.

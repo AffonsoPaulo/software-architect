@@ -1,53 +1,68 @@
 # Roadmap — Template
 
-Saved at `docs/14-roadmap/roadmap.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/14-roadmap.md`. Organizes everything defined so far into delivery milestones with dependencies — a synthesis of the whole project up to this point, not a new source of requirements. Does not break milestones down into individual tasks — that's phase 15 (Backlog).
+Saved at `docs/14-roadmap/roadmap.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/14-roadmap.md`. Organizes everything defined so far into delivery milestones with dependencies — a synthesis of the whole project up to this point, not a new source of requirements. Does not break milestones down into individual tasks — that's phase 15 (Backlog). Milestones don't get a formal ID prefix (`rules/id-conventions.md`) — each is a heading followed by an italic metadata line, per `rules/document-format.md`, using the milestone's name in place of an ID.
 
-## Structure
-
-```yaml
----
-has_real_dates: false
-# REQUIRED, explicit. true only if the user actually provided real dates —
-# never assumed. If false, milestones are ordered/relative only (Milestone
-# 1, Milestone 2...), never assigned a calendar date.
-milestones:
-  - id: "milestone-mvp"
-    # milestones don't get a formal ID prefix (none reserved in
-    # rules/id-conventions.md) — use a short, stable slug instead
-    name: "MVP"
-    delivers: ["US-001", "US-002", "UC-003"]
-    # REQUIRED — every US-XXX/UC-XXX in the project must appear in the
-    # `delivers` list of exactly one milestone, OR be explicitly listed
-    # in `deferred` below with a reason. Never silently absent from both.
-    done_criterion: "<what 'done' means for this milestone, concretely>"
-    depends_on: []
-    # other milestone ids that must complete first, if any
-    target_date: null
-    # only set if has_real_dates is true
-deferred:
-  - item: "US-014"
-    reason: "<why this is out of the current roadmap — e.g. 'nice-to-have,
-      revisit after MVP validates the core flow'>"
----
-```
+## Structure (Casual)
 
 ```markdown
 # Roadmap
 
+**Has real dates**: No <REQUIRED, explicit. "Yes" only if the user
+actually provided real dates — never assumed. If "No", milestones are
+ordered/relative only (Milestone 1, Milestone 2...), never assigned a
+calendar date.>
+
 ## Milestones
-<One subsection per milestone: what it delivers (by US-XXX/UC-XXX),
-dependencies on other milestones, done criterion.>
+
+### Milestone 1 — MVP
+*Delivers: US-001, US-002, UC-003 · Depends on: (none) · Target date: (none)*
+
+<What "done" means for this milestone, concretely.>
 
 ## Deferred
 <Anything confirmed as approved but intentionally not in the current
-roadmap, with a stated reason — never silently dropped.>
+roadmap. One bullet per item, ID first, then the reason — never silently
+dropped.>
+
+- US-014 — nice-to-have, revisit after MVP validates the core flow
 
 ```mermaid
 gantt
     ...
 ```
-<Use `gantt` only if `has_real_dates: true`. Otherwise use a `flowchart`
+<Use `gantt` only if "Has real dates" is Yes. Otherwise use a `flowchart`
 of milestone dependencies — per rules/diagram-conventions.md.>
+```
+
+Every `US-XXX`/`UC-XXX` in the project must appear in exactly one milestone's `Delivers` list, or in `Deferred` with a reason — never silently absent from both.
+
+## Fully Dressed additions
+
+```markdown
+### Milestone 1 — MVP
+*Delivers: US-001, US-002, UC-003 · Depends on: (none) · Target date: (none)*
+
+<done criterion, as in Casual>
+
+**External dependencies**
+<Anything this milestone needs from outside the team's own control —
+a partner's API going live, a legal review completing, a third-party
+credential being issued. "(none)" if genuinely self-contained.>
+
+**Success metrics**
+<Business-level metrics that tell you this milestone actually worked
+once shipped — ties back to Vision's Success metrics (Fully Dressed)
+where relevant, scoped down to what this specific milestone should move.>
+
+**Milestone risks**
+<Risks specific to delivering THIS milestone (schedule, scope, technical)
+— distinct from the project-wide risk register, though a serious one may
+also get a RISK-XXX entry there.>
+
+## Stakeholder communication plan
+<Who needs to know about progress/delays on this roadmap, how often, and
+through what channel — e.g. "biweekly update to Finance via email."
+"(none) — single-person project" is valid.>
 ```
 
 ## Notes for whoever fills this in

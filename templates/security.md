@@ -1,41 +1,8 @@
 # Security — Template
 
-Saved at `docs/11-security/security.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/11-security.md`. Models threats, defines authentication/authorization in detail, classifies data, and records compliance requirements — always mandatory, regardless of project size or cycle. Risks identified here (or anywhere else in the project) live in `docs/11-security/risk-register.md` via `templates/risk-register.md`.
+Saved at `docs/11-security/security.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/11-security.md`. Models threats, defines authentication/authorization in detail, classifies data, and records compliance requirements — always mandatory, regardless of project size or cycle. Risks identified here (or anywhere else in the project) live in `docs/11-security/risk-register.md` via `templates/risk-register.md`. Each control is a heading followed by an italic metadata line, per `rules/document-format.md`.
 
-## Structure
-
-```yaml
----
-controls:
-  - id: SEC-001
-    traces_to: ["ARCH-003", "API-001"]
-    # At least one of: an ARCH-XXX (component protected) or an API-XXX
-    # (interaction unit protected) — REQUIRED, never blank.
-    description: "<the control, stated as a concrete measure — e.g.
-      'all refund interaction units require an authenticated session
-      with the customer or support role'>"
-threat_model:
-  - component: "ARCH-003"
-    threats:
-      - category: "<STRIDE category or equivalent simplified label>"
-        description: "<the threat, concretely>"
-        mitigation: "SEC-001"
-        # a SEC-XXX control, OR an explicit accepted-risk reference
-        # (RISK-XXX in the risk register) — never left blank
-data_classification:
-  - data: "<what data — e.g. 'customer payment method'>"
-    classification: "<PII | financial | health | other-sensitive | none>"
-    handling: "<required treatment — encryption at rest, access
-      restrictions, retention limits, etc.>"
-authentication:
-  mechanism: "<password | OAuth | SSO | magic link | other — `[confirmation individual]`>"
-authorization:
-  model: "<RBAC | ABAC | other — `[confirmation individual]`>"
-compliance:
-  - "<LGPD | GDPR | PCI-DSS | HIPAA | none | other — `[confirmation individual]`>"
-secrets_strategy: "<vault | env vars | KMS | other>"
----
-```
+## Structure (Casual)
 
 ```markdown
 # Security
@@ -46,23 +13,91 @@ STRIDE or an equivalent simplified approach, each with a mitigation
 (SEC-XXX) or an explicit accepted risk (RISK-XXX) — never left open
 without one or the other.>
 
+### ARCH-003 — <component name>
+| Threat | Category | Mitigation |
+|---|---|---|
+| <concrete threat> | <STRIDE category or equivalent> | SEC-001 or RISK-XXX |
+
 ## Authentication and authorization
-<Mechanism and model, in detail. `[confirmation individual]`.>
+**Mechanism**: password / OAuth / SSO / magic link / other —
+`[confirmation individual]`
+**Model**: RBAC / ABAC / other — `[confirmation individual]`
 
 ## Data classification
-<Every category of sensitive data this project handles, its
-classification, and its required treatment.>
+| Data | Classification | Handling |
+|---|---|---|
+| Customer payment method | Financial | Encrypted at rest, access
+  restricted to billing service |
 
 ## Compliance
-<Applicable regulatory requirements, or explicitly "none" — confirmed,
-not assumed either way.>
+<LGPD / GDPR / PCI-DSS / HIPAA / none / other — `[confirmation individual]`,
+confirmed, not assumed either way.>
 
 ## Secrets strategy
-...
+<Vault / env vars / KMS / other.>
 
 ## Controls
-<One subsection per SEC-XXX: what it protects (component and/or
-interaction unit), what it does.>
+
+### SEC-001 — <short title>
+*Traces to: ARCH-003, API-001*
+
+<The control, stated as a concrete measure — e.g. "all refund
+interaction units require an authenticated session with the customer or
+support role.">
+```
+
+## Fully Dressed additions
+
+```markdown
+## Threat model
+<Full STRIDE pass, not just an illustrative example — every critical
+component gets all six categories considered explicitly, even when the
+answer for a category is "not applicable to this component.">
+
+### ARCH-003 — <component name>
+| Threat | STRIDE category | Mitigation |
+|---|---|---|
+| ... | Spoofing | ... |
+| ... | Tampering | ... |
+| ... | Repudiation | ... |
+| ... | Information disclosure | ... |
+| ... | Denial of service | ... |
+| ... | Elevation of privilege | ... |
+
+## Data flow diagram
+<A diagram showing data moving between components/actors with explicit
+trust boundaries marked — where data crosses from a lower-trust zone
+(public internet, third-party) into a higher-trust one (internal
+network, database). This is what a full STRIDE pass is actually
+evaluated against.>
+
+```mermaid
+flowchart TD
+    ...
+```
+
+## Incident response plan
+<Who's notified and what happens when a security incident is detected
+— detection, containment, eradication, recovery, post-mortem, at
+whatever level of detail this project's size warrants. Points to an
+existing org-wide plan if one already exists, rather than inventing a
+project-specific one from scratch.>
+
+## Security testing plan
+<How the controls above get verified before release — static analysis,
+dependency scanning, penetration testing, specific manual review
+checklist. Distinct from `docs/12-testing/testing.md`'s general test
+plan — this is security-specific verification.>
+
+## Compliance control mapping
+<For each compliance regime named above, the SPECIFIC articles/controls
+this project must satisfy and which SEC-XXX/control addresses each —
+not just "we comply with GDPR" but "GDPR Art. 17 (right to erasure) →
+SEC-004.">
+
+| Regime | Article/control | Addressed by |
+|---|---|---|
+| ... | ... | SEC-XXX |
 ```
 
 ## Notes for whoever fills this in

@@ -1,8 +1,8 @@
 # Vision — Template
 
-Saved at `docs/01-discovery/vision.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/01-discovery.md`. This is the narrative root of the whole project — it has no artifact ID and no `traces_to` (see `rules/traceability-rules.md`: the graph is anchored at Business Rule/Requirement, and Vision sits above even those). Every `REQ-XXX` written in phase 03 should be traceable back to a specific part of this document in prose, even though that link isn't a formal ID reference.
+Saved at `docs/01-discovery/vision.md` in the target project (see `rules/document-locations.md`). Produced by `playbooks/01-discovery.md`. This is the narrative root of the whole project — it has no artifact ID and no `traces_to` (see `rules/traceability-rules.md`: the graph is anchored at Business Rule/Requirement, and Vision sits above even those). Every `REQ-XXX` written in phase 03 should be traceable back to a specific part of this document in prose, even though that link isn't a formal ID reference. Plain markdown throughout, per `rules/document-format.md` — this document has no IDs of its own, so it never needs the heading + metadata-line convention.
 
-## Structure
+## Structure (Casual)
 
 ```markdown
 # Vision
@@ -42,6 +42,42 @@ of reversal if gotten wrong.>
 <Explicitly what this project does NOT cover, even if adjacent or
 tempting. If nothing is out of scope, that itself is worth confirming
 explicitly rather than leaving the section empty by omission.>
+```
+
+## Fully Dressed additions
+
+```markdown
+## Business opportunity
+<What this project makes possible beyond just fixing the problem above —
+new revenue, market position, competitive parity. Distinct from
+"Business objective": objective is the falsifiable target, opportunity is
+the broader upside case behind pursuing it at all.>
+
+## Stakeholder profiles
+<One entry per distinct stakeholder GROUP (not the same as Target
+audience's end users) — e.g. "Finance," "Support," "Compliance." Each
+with: what they care about in this project, and what would make them
+consider it a success or a failure.>
+
+## Assumptions and dependencies
+<What this Vision assumes to be true but hasn't been verified (e.g. "we
+assume the existing payment provider's API supports partial refunds"),
+and any external dependency the project's success relies on but doesn't
+control (a partner's API, a regulatory deadline, another team's
+deliverable).>
+
+## Business-level risks
+<Risks at the level of the business case itself — not technical risk
+(that's `docs/11-security/risk-register.md`) — e.g. "a competitor ships
+this first," "the regulatory window closes before launch." Each gets a
+one-line mitigation or explicit acceptance.>
+
+## Success metrics
+<Every "Success criteria" entry restated with a measured baseline and a
+target: metric name, current value (or "not currently measured," if
+true), target value, and how/when it's measured. This is what turns a
+qualitative success criterion into something that can actually be
+checked after launch.>
 ```
 
 ## What this document must never contain
