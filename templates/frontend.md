@@ -19,7 +19,14 @@ screens:
     # REQUIRED — at least one UC-XXX. Never blank.
     name: "<screen name>"
     api_calls: ["API-001"]
-    # which endpoints from docs/09-api-design/api.md this screen calls
+    # Which interaction units from docs/09-api-design/api.md this screen
+    # uses. For a client-server style (REST/GraphQL/RPC consumed by a
+    # separate frontend), these are real calls the screen makes. For a
+    # server-rendered style (MVC — Laravel Blade, Rails views, Django
+    # templates), the screen and the interaction unit are typically the
+    # SAME route — list the same API-XXX here rather than inventing a
+    # separate synthetic call, and say so explicitly in this screen's
+    # notes (e.g. "this screen IS API-001's rendered response").
 ---
 ```
 
@@ -53,3 +60,4 @@ flowchart TD
 - **Every screen needs `traces_to`** pointing to at least one `UC-XXX` — a screen invented without a Use Case behind it doesn't belong here.
 - **Every Use Case with a real user-facing interaction needs a screen**, unless it's explicitly backend-only (documented as such).
 - This phase does not design visual style, exact layout, or pixel-level detail — it plans structure and navigation, not the interface itself.
+- **Server-rendered / MVC projects**: don't treat this document and `docs/09-api-design/api.md` as fully independent — a screen here is very often the same thing as an interaction unit there. This document adds navigation/structure framing on top of what's already defined in `api.md`; it doesn't redefine the route.

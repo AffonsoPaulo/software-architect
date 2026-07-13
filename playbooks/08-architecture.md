@@ -37,7 +37,7 @@ Never skippable.
 - External integration points (third-party services, queues, cache)?
 - How does each non-functional requirement (`REQ-XXX` NFR) get addressed by the chosen architecture — explicit traceability?
 - Core technologies (language, framework, infrastructure) — `[confirmation individual]`
-- API style the architecture favors (REST/GraphQL/RPC, single API vs. multiple per-service APIs) — a high-level decision phase 09 will detail, not redecide
+- Interaction style this architecture uses — not limited to REST/GraphQL/RPC: could be server-rendered MVC, a CLI command surface, an event/message handler, a library/SDK interface, or something else entirely; name what the project actually is rather than defaulting to the most common answer — a high-level decision phase 09 will detail, not redecide
 
 ## Optional questions
 
@@ -51,7 +51,7 @@ Never skippable.
 4. Integration points.
 5. Core technologies — `[confirmation individual]`.
 6. NFR coverage — walk every non-functional `REQ-XXX` from phase 03 and confirm which component/decision addresses it; any NFR with no answer here is a gap to resolve before this phase closes, not something to leave implicit.
-7. API style guidance — last, since it depends on everything above.
+7. Interaction style guidance — last, since it depends on everything above. Ask openly ("how is this system actually invoked/used?") before offering REST/GraphQL/RPC as examples — offering those first biases the answer toward them even when the project is something else entirely (a CLI tool, a server-rendered monolith, an event consumer).
 
 ## How to confirm answers
 
@@ -66,7 +66,7 @@ Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFR
 - Every consequential architectural decision has an associated ADR.
 - Every non-functional requirement has a component/decision that addresses it — 100%, not "the obvious ones."
 - No component has an unclear or overlapping responsibility.
-- API style guidance is recorded specifically enough for phase 09 to consume without re-asking the high-level question.
+- Interaction style guidance is recorded specifically enough for phase 09 to consume without re-asking the high-level question, and it names what the project actually is rather than defaulting to REST because that's the common case.
 
 ## Special cases
 
@@ -77,6 +77,7 @@ Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFR
 
 - "Microservices" chosen because it sounds modern rather than because the project's actual scale/team structure warrants it — if the reasoning given doesn't hold up against the project's size (from Calibration), ask again rather than accepting a style mismatched to the project's actual needs.
 - A component described by its technology ("the Redis component") rather than its responsibility ("the session cache") — ask for the responsibility; the technology choice belongs in "core technologies," not the component's identity.
+- Assuming "API" means a JSON REST API by default — this Skill covers any system in any language, and a server-rendered monolith (Laravel Blade, Rails views, Django templates), a CLI tool, or an embedded system are equally valid, common answers. Ask what the project actually is rather than presenting REST/GraphQL/RPC as the only options.
 
 ## Frequent errors
 
@@ -92,7 +93,7 @@ Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFR
 
 ## Anti-patterns
 
-See `rules/ai-invariants.md`. In particular: never assume an architectural style or core technology because it's common for this kind of project — and never let this phase quietly start designing API contracts, which belongs entirely to phase 09.
+See `rules/ai-invariants.md`. In particular: never assume an architectural style or core technology because it's common for this kind of project — never let this phase quietly start designing API contracts, which belongs entirely to phase 09 — and never default interaction style guidance to REST/GraphQL/RPC without asking; this Skill must work for any system in any language, including server-rendered monoliths, CLI tools, and everything that isn't a JSON API.
 
 ## Checklist
 
@@ -100,8 +101,8 @@ See `rules/ai-invariants.md`. In particular: never assume an architectural style
 
 ## Quality Gate
 
-`quality-gates/08-architecture-gate.md`. Summary: every consequential decision has an ADR; every non-functional requirement has architectural coverage; every component has a clear, singular responsibility; API style guidance is recorded for phase 09.
+`quality-gates/08-architecture-gate.md`. Summary: every consequential decision has an ADR; every non-functional requirement has architectural coverage; every component has a clear, singular responsibility; interaction style guidance is recorded for phase 09.
 
 ## Approval criteria
 
-This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style and core technologies have been individually confirmed, and the user has explicitly confirmed the full architecture including API style guidance.
+This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style and core technologies have been individually confirmed, and the user has explicitly confirmed the full architecture including interaction style guidance.

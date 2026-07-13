@@ -7,4 +7,4 @@
 - [ ] Every component has a single, clear responsibility
 - [ ] Architectural style and core technologies were individually confirmed
 - [ ] In brownfield mode, the architecture reflects the actual existing system
-- [ ] `api_style_guidance` is specific enough for phase 09 to use directly
+- [ ] `interaction_style_guidance` is specific enough for phase 09 to use directly, and names what the project actually is rather than defaulting to REST

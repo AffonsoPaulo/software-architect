@@ -50,7 +50,7 @@ Standard loop (`rules/confirmation-protocol.md`). State management and design sy
 
 ## How to document answers
 
-Each confirmed screen gets a stable slug (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `traces_to` pointing to its source Use Case(s), plus which API endpoints it calls. The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it.
+Each confirmed screen gets a stable slug (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `traces_to` pointing to its source Use Case(s), plus which interaction units from `docs/09-api-design/api.md` it uses — real calls for a client-server style, or the same route for a server-rendered style (see "Special cases"). The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it.
 
 ## How to validate answers
 
@@ -62,6 +62,7 @@ Each confirmed screen gets a stable slug (no formal ID prefix is reserved for sc
 
 - **A Use Case spans multiple screens, or multiple Use Cases share one screen**: both are valid — record the actual mapping as confirmed, not a forced 1:1 assumption.
 - **Existing design system from a brownfield project**: if Calibration's subagent research already surfaced one, present it as the default to confirm rather than asking as if starting fresh.
+- **Server-rendered / MVC projects** (Laravel Blade, Rails views, Django templates, and similar): a screen here is very often the exact same route already documented as an interaction unit in `docs/09-api-design/api.md` — there's no separate client calling a JSON API. In this case, don't redesign the route; reference the existing `API-XXX` and add only the navigation/structure framing this phase is actually for (which screen links to which, high-level layout grouping). State explicitly in the screen's notes that it IS that interaction unit's rendered response, not a consumer of it.
 
 ## Common ambiguities
 
