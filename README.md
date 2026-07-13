@@ -76,24 +76,27 @@ Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confir
 ## Directory structure
 
 ```
-software-architect/
-  SKILL.md             # orchestrator (entrypoint, only file always loaded)
-  README.md             # this file
-  rules/                 # 12 cross-cutting rules referenced by every phase
-  playbooks/             # one file per phase (00-project-calibration .. 17-review)
-  templates/              # document templates produced by each phase
-  quality-gates/          # one gate per phase
-  checklists/             # one checklist per phase
-  scripts/                # Node.js validation scripts (IDs, traceability, gates) — zero npm dependencies
-  examples/               # two fully worked, validated example projects (this branch only — see below)
-  docs/                   # this skill's own usage documentation
+software-architect/            (repo root)
+  README.md                    # this file
+  LICENSE
+  examples/                    # this branch only — see "Worked examples" below
+  skills/
+    software-architect/        # everything npx skills add actually installs
+      SKILL.md                 # orchestrator (entrypoint, only file always loaded)
+      rules/                    # 12 cross-cutting rules referenced by every phase
+      playbooks/                 # one file per phase (00-project-calibration .. 17-review)
+      templates/                  # document templates produced by each phase
+      quality-gates/               # one gate per phase
+      checklists/                  # one checklist per phase
+      scripts/                     # Node.js validation scripts (IDs, traceability, gates) — zero npm dependencies
+      docs/                       # this skill's own usage documentation
 ```
 
-See `docs/how-it-works.md` for how these pieces fit together.
+`SKILL.md` lives under `skills/software-architect/`, not at the repo root — `npx skills add` treats a root-level `SKILL.md` as a single-file skill and installs only that file, discarding everything it references. Nesting it under `skills/<name>/` is what makes the tool install the whole directory. See `docs/how-it-works.md` for how these pieces fit together.
 
 ## Worked examples
 
-You're on the `with-examples` branch, so `examples/` is right here: a small CLI tool (Casual depth, Agile confirmation, an incremental second cycle) and a larger multi-tenant SaaS (Fully Dressed depth, Strict confirmation, all 18 phases). This branch exists separately from `main` because `npx skills add` installs whatever's on `main` — keeping these two full example projects off it means using the Skill never drags them onto an installer's disk. Run `scripts/self-test.mjs` to validate both.
+You're on the `with-examples` branch, so `examples/` is right here at the repo root: a small CLI tool (Casual depth, Agile confirmation, an incremental second cycle) and a larger multi-tenant SaaS (Fully Dressed depth, Strict confirmation, all 18 phases). This branch exists separately from `main` because `npx skills add` installs whatever's on `main` — keeping these two full example projects off it means using the Skill never drags them onto an installer's disk. Run `skills/software-architect/scripts/self-test.mjs` to validate both.
 
 ## License
 

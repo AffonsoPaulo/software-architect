@@ -16,11 +16,15 @@ import { buildProjectIndex } from './lib/docs.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = dirname(SCRIPT_DIR);
+// examples/ lives at the repo root (sibling to skills/), not inside
+// skills/software-architect/ — this branch keeps it out of what
+// `npx skills add` installs (see root README.md's "Worked examples").
+const REPO_ROOT = dirname(dirname(SKILL_ROOT));
 
 const EXAMPLES = ['small-cli-tool', 'saas-multi-tenant'];
 
 function testExample(name) {
-  const projectRoot = join(SKILL_ROOT, 'examples', name);
+  const projectRoot = join(REPO_ROOT, 'examples', name);
   // Check for project-state.md specifically, not just the docs/
   // directory — the directory tree is scaffolded ahead of content
   // during construction, and an empty docs/ tree would otherwise
