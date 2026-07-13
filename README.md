@@ -3,16 +3,15 @@
 A Skill that acts as a Lead Software Architect for AI coding agents (Claude Code, Codex CLI, Cursor, Windsurf, and similar). It drives a project through a complete, question-by-question planning process — from a raw idea to a fully specified, cross-referenced set of engineering documents — before any production code is written.
 
 ```mermaid
-flowchart TD
-    Idea(["Raw idea / feature request"]) --> Calibration["00 · Calibration\n(project type, size, brownfield detection,\nwhich phases apply, how questions get asked)"]
-    Calibration --> Discovery["01 · Discovery\n(problem, audience, objective, success criteria)"]
-    Discovery --> Understand["02-05 · Business Analysis,\nRequirements, User Stories, Use Cases"]
-    Understand --> Design["06-10 · Domain Model, Database,\nArchitecture, API, Frontend"]
-    Design --> Harden["11-13 · Security, Testing, Deployment"]
-    Harden --> Plan["14-16 · Roadmap, Backlog,\nImplementation Plan"]
-    Plan --> Review["17 · Architecture Review\n(structural audit + semantic conflict scan)"]
-    Review --> Ready{{"ready_for_implementation: true"}}
-    Ready -.->|"only then, and outside this Skill"| Code[("production code")]
+flowchart LR
+    Idea(["Idea"]) --> Calibration["00\nCalibration"]
+    Calibration --> Discovery["01\nDiscovery"]
+    Discovery --> Requirements["02-05\nRequirements"]
+    Requirements --> Design["06-10\nDesign"]
+    Design --> Hardening["11-13\nHardening"]
+    Hardening --> Delivery["14-16\nDelivery plan"]
+    Delivery --> Review["17\nReview"]
+    Review --> Ready{{"Ready to build"}}
 ```
 
 *(Simplified — see the phase table below for all 18. Nothing after Review is this Skill's job: it plans, it never writes production code itself.)*
