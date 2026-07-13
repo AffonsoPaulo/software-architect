@@ -90,3 +90,7 @@ See `docs/how-it-works.md` for how these pieces fit together.
 ## Worked examples
 
 Two complete worked projects — a small CLI tool (Casual depth, Agile confirmation, an incremental second cycle) and a larger multi-tenant SaaS (Fully Dressed depth, Strict confirmation, all 18 phases) — live on the [`with-examples`](../../tree/with-examples/examples) branch, not on `main`. `npx skills add` installs whatever's on `main`, so keeping them off it means using the Skill never drags two full example projects onto your disk. Browse them on that branch, or check it out locally (`git checkout with-examples`) to run `scripts/self-test.mjs` against them.
+
+## License
+
+MIT — see `LICENSE`.
