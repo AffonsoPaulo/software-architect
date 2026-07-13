@@ -4,7 +4,7 @@ The five criteria below are the Skill's founding brief's own example, reproduced
 
 ## Scriptable criteria
 - [ ] Every `REQ-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
-- [ ] Every `REQ-XXX` referencing a `business_rule` points to a `BR-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `REQ-XXX`'s `traces_to` entry, if set, points to a `BR-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
 - [ ] Every functional `REQ-XXX` has at least one entry in `acceptance_criteria` and at least one entry in `edge_cases` (non-empty lists) — checked by `scripts/validate-gate.mjs`
 
 ## Judgment criteria (AI/human) — the five founding-brief checks, per requirement

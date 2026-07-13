@@ -13,9 +13,12 @@ requirements:
     description: "<the requirement, stated as a single testable capability>"
     acceptance_criteria:
       - "<a specific, checkable condition — not 'works well', something you could pass/fail>"
-    business_rule: "BR-003"
-    # optional — the BR-XXX this requirement enforces, if any (rules/traceability-rules.md:
-    # not every requirement has one, especially pure technical/NFR requirements)
+    traces_to: ["BR-003"]
+    # optional (can be an empty list) — the BR-XXX this requirement enforces, if
+    # any (rules/traceability-rules.md: not every requirement has one, especially
+    # pure technical/NFR requirements). Uses traces_to, like every other template,
+    # so the validation scripts can extract it generically — not a differently
+    # named field.
     priority: "must"
     # "must" | "should" | "could" (MoSCoW) — or an equivalent scheme confirmed with the user
     edge_cases:
@@ -37,7 +40,7 @@ checklist, its business rule reference if any, priority, and edge cases.>
 **Description**: ...
 **Acceptance criteria**:
 - [ ] ...
-**Business rule**: BR-003 (if applicable)
+**Traces to**: BR-003 (if applicable)
 **Priority**: must
 **Edge cases**:
 - ...
