@@ -497,16 +497,24 @@ export function buildDocSite(projectRoot, outputPath) {
     contentParts.push(`<section id="${phaseId}">${rendered.html}</section>`);
   }
 
+  // Trailing sections (Change Requests, Changelog) continue the sidebar's
+  // numbering sequence from the last phase — each is conditional on
+  // actually existing in this project, so the number only advances for
+  // whichever ones are present, never leaving a gap.
+  let trailingNum = PHASES.length;
+
   const crRendered = renderChangeRequests(projectRoot);
   if (crRendered) {
-    navParts.push(buildNav('change-requests', 'Change Requests', crRendered.navItems));
+    navParts.push(buildNav('change-requests', `${trailingNum} · Change Requests`, crRendered.navItems));
     contentParts.push(`<section id="change-requests"><h1>Change Requests</h1>${crRendered.html}</section>`);
+    trailingNum++;
   }
 
   const changelogRendered = renderChangelog(projectRoot);
   if (changelogRendered) {
-    navParts.push(buildNav('changelog', 'Changelog', []));
+    navParts.push(buildNav('changelog', `${trailingNum} · Changelog`, []));
     contentParts.push(`<section id="changelog">${changelogRendered.html}</section>`);
+    trailingNum++;
   }
 
   const projectName = basename(resolve(projectRoot));
