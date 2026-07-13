@@ -12,6 +12,11 @@ confirmation_mode_history:
   - mode: "strict"
     changed_at: "2026-05-05T09:00:00Z"
 
+documentation_depth: "fully_dressed"
+documentation_depth_history:
+  - depth: "fully_dressed"
+    changed_at: "2026-05-05T09:00:00Z"
+
 id_sequences:
   BR: 2
   REQ: 4

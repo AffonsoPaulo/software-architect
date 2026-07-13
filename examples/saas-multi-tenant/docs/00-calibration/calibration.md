@@ -15,6 +15,9 @@ A rough internal pitch deck exists but contains no technical detail — treated 
 ## Confirmation mode
 Strict — every question confirmed individually, one at a time. Chosen because of the project's size and the real cost of getting multi-tenancy or security decisions wrong.
 
+## Documentation depth
+Fully Dressed — chosen because this product has external stakeholders (a design-partner customer, an engineering lead who wasn't in every conversation), handles PII and multi-tenant data, and needs documentation thorough enough for someone who joins later to trust without re-deriving it.
+
 ## Language
 English.
 

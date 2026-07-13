@@ -1,31 +1,22 @@
----
-has_real_dates: false
-milestones:
-  - id: "milestone-mvp"
-    name: "MVP — CSV/JSON conversion"
-    delivers: ["US-001"]
-    done_criterion: "convert command works both directions between CSV and JSON, memory-bounded per REQ-002, published to npm."
-    depends_on: []
-    target_date: null
-  - id: "milestone-yaml"
-    name: "YAML support (cycle 2)"
-    delivers: ["US-002"]
-    done_criterion: "convert command supports YAML as both input and output format, published as a minor version bump."
-    depends_on: ["milestone-mvp"]
-    target_date: null
-deferred: []
----
-
 # Roadmap
 
+**Has real dates**: No — relative milestones, confirmed with the user.
+
 ## Milestones
-No real deadline — relative milestones, confirmed with the user (`has_real_dates: false`).
 
 ### Milestone 1 — MVP (CSV/JSON conversion)
-Delivers US-001. Done when the `convert` command works both directions, satisfies REQ-002's memory bound, and is published.
+*Delivers: US-001, UC-001 · Depends on: (none) · Target date: (none)*
+
+Done when the `convert` command works both directions between CSV and JSON, is memory-bounded per REQ-002, and is published to npm.
 
 ### Milestone 2 — YAML support (cycle 2)
-Delivers US-002. Depends on Milestone 1 (reuses its internal representation). Done when YAML is a fully supported format.
+*Delivers: US-002, UC-002 · Depends on: Milestone 1 · Target date: (none)*
+
+Done when the `convert` command supports YAML as both input and output format, published as a minor version bump. Depends on Milestone 1 since it reuses its internal representation.
+
+## Deferred
+
+None.
 
 ```mermaid
 flowchart LR

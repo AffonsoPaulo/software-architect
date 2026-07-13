@@ -1,17 +1,3 @@
----
-components:
-  - id: ARCH-001
-    name: "Conversion Engine"
-    responsibility: "parses an input format into an internal representation and serializes it to a target format, streaming to bound memory usage"
-    traces_to: ["REQ-002"]
-    adr: "ADR-001"
-  - id: ARCH-002
-    name: "YAML Parser Adapter"
-    responsibility: "parses/serializes YAML into the same internal representation the Conversion Engine already uses for CSV/JSON (cycle 2)"
-    traces_to: []
-interaction_style_guidance: "CLI command surface — a single executable with subcommands/flags, not an HTTP API. No client-server boundary at all."
----
-
 # Architecture
 
 ## Architectural style
@@ -20,9 +6,13 @@ Single-process CLI binary, no client-server split, no persistence layer — `[co
 ## Components
 
 ### ARCH-001 — Conversion Engine
+*Traces to: REQ-002 · ADR: ADR-001*
+
 Parses an input format into an internal representation (a stream of flat records) and serializes it to a target format. Streams rather than loading the whole file into memory, to satisfy REQ-002.
 
 ### ARCH-002 — YAML Parser Adapter (cycle 2)
+*Traces to: (none)*
+
 Parses/serializes YAML into the same internal representation ARCH-001 already uses — added without changing ARCH-001's shape, since the internal representation was already format-agnostic.
 
 ## Core technologies
@@ -34,7 +24,7 @@ Node.js (matches the target developer machines, which already have it installed)
 | REQ-002 (memory bound) | ARCH-001 / ADR-001 |
 
 ## Interaction style guidance
-CLI command surface — see `interaction_style_guidance` above. Phase 09 details the actual command/flags.
+CLI command surface — a single executable with subcommands/flags, not an HTTP API. No client-server boundary at all. Phase 09 details the actual command/flags.
 
 ```mermaid
 graph TD

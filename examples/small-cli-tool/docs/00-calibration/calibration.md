@@ -15,6 +15,9 @@ None. Greenfield.
 ## Confirmation mode
 Agile — batched confirmation except for questions tagged `[confirmation individual]`. Chosen because the project is small and low-risk; the user preferred fewer interruptions.
 
+## Documentation depth
+Casual — chosen because this is a small, low-stakes utility with no external stakeholders; the lighter field set is enough to build and maintain it confidently.
+
 ## Language
 English.
 

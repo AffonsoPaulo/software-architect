@@ -24,7 +24,7 @@ Does that match what you meant?
 
 **User**: Must-have, obviously — it's the whole point of the tool. And yeah, just error out with something useful, no need for anything fancier.
 
-**AI**: Recording REQ-001 as `must` priority, with the malformed-input edge case as "prints a specific parse error, exits non-zero, no output file written." I'll batch-confirm this along with the escaping and flattening answers above — here's the full REQ-001 entry as I'm about to write it: [shows the complete front-matter block]. All correct?
+**AI**: Recording REQ-001 as `must` priority, with the malformed-input edge case as "prints a specific parse error, exits non-zero, no output file written." I'll batch-confirm this along with the escaping and flattening answers above — here's the full REQ-001 heading and metadata line as I'm about to write it: [shows the complete `### REQ-001 — ...` entry]. All correct?
 
 **User**: Yep, looks good.
 

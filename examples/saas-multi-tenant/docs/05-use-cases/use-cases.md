@@ -1,66 +1,55 @@
----
-use_cases:
-  - id: UC-001
-    traces_to: ["US-001"]
-    primary_actor: "Team Member"
-    secondary_actors: ["Project Admin"]
-    preconditions:
-      - "The actor is authenticated and is a member of the project's tenant."
-    postconditions:
-      - "A new task exists in the project, in 'To Do' status, visible to all project members."
-    main_flow:
-      - "Actor opens the project and selects 'New Task'."
-      - "Actor enters a title, optional description, and optionally selects an assignee from the project's members."
-      - "System validates the project exists and belongs to the actor's tenant."
-      - "System creates the task in 'To Do' status."
-    alternative_flows:
-      - trigger: "At step 3, the project doesn't exist or belongs to a different tenant"
-        steps:
-          - "System responds identically to a not-found case — no confirmation or denial that reveals another tenant's project exists (per REQ-003)."
-      - trigger: "At step 2, the selected assignee isn't a member of the project's tenant"
-        steps:
-          - "System rejects the assignment with a clear error; the task is not created until a valid assignee (or none) is chosen."
-  - id: UC-002
-    traces_to: ["US-002"]
-    primary_actor: "Team Member"
-    secondary_actors: []
-    preconditions:
-      - "The actor is authenticated and is a member of the project's tenant."
-    postconditions:
-      - "The actor sees the list of tasks matching the applied filters."
-    main_flow:
-      - "Actor opens the project's task board."
-      - "System loads all tasks belonging to the project, scoped to the actor's tenant."
-      - "Actor optionally applies status and/or assignee filters."
-      - "System narrows the displayed list to tasks matching all applied filters."
-    alternative_flows:
-      - trigger: "At step 2, the project has zero tasks"
-        steps:
-          - "System shows an empty state, not an error."
----
-
 # Use Cases
 
 ## UC-001 — Create a task
-**Traces to**: US-001
+*Traces to: US-001*
+
+**Goal in context**
+Get a piece of identified work recorded against a project so it's visible to the team and assignable — the digital replacement for adding a row to the shared spreadsheet.
+
+**Scope**
+The TaskFlow Application Server (ARCH-001), specifically its task-creation path.
+
+**Stakeholders and interests**
+| Stakeholder | Interest |
+|---|---|
+| Team Member (primary actor) | Task is recorded quickly, without friction |
+| Project Admin | Task is correctly scoped to their project and tenant, never leaks to or from another tenant |
+
 **Primary actor**: Team Member
 **Secondary actors**: Project Admin
 
-**Preconditions**:
+**Trigger**: The actor selects "New Task" from within a project they're a member of.
+
+**Preconditions**
 - Actor is authenticated and a member of the project's tenant.
 
-**Main flow**:
+**Minimal guarantees**
+No task is ever created against a project belonging to a different tenant than the actor's, regardless of how the request is crafted — this holds even if every other step of the flow fails or is retried.
+
+**Main flow**
 1. Actor opens the project and selects "New Task".
 2. Actor enters title, optional description, optionally selects an assignee.
 3. System validates the project exists and belongs to the actor's tenant.
 4. System creates the task in "To Do" status.
 
-**Alternative/exception flows**:
+**Alternative/exception flows**
 - At step 3, cross-tenant project access attempt: respond identically to not-found — no existence leak (REQ-003).
 - At step 2, assignee outside the project's tenant: rejected with a clear error.
 
-**Postconditions**:
-- A new task exists, "To Do" status, visible to the project.
+**Success guarantees**
+A new task exists, "To Do" status, visible to the project.
+
+**Special requirements**
+None beyond the project's general NFRs (REQ-003, REQ-004) — task creation is not itself latency-critical in the way task listing is.
+
+**Technology and data variations**
+None — web-only for this release, no channel-specific variation.
+
+**Frequency of occurrence**
+Estimated several times per day per active team, based on the design-partner's current spreadsheet-row-add frequency.
+
+**Open issues**
+None outstanding.
 
 ```mermaid
 sequenceDiagram
@@ -78,20 +67,50 @@ sequenceDiagram
 ```
 
 ## UC-002 — View and filter tasks
-**Traces to**: US-002
+*Traces to: US-002*
+
+**Goal in context**
+See the current state of a project's work at a glance, without asking a teammate — the digital replacement for "check the spreadsheet" or "ask in Slack."
+
+**Scope**
+The TaskFlow Application Server (ARCH-001), specifically its task-listing/filtering path.
+
+**Stakeholders and interests**
+| Stakeholder | Interest |
+|---|---|
+| Team Member (primary actor) | Sees an accurate, current, correctly-scoped list quickly |
+| Project Admin | Same as Team Member — no privileged view difference for listing |
+
 **Primary actor**: Team Member
 
-**Preconditions**:
+**Trigger**: The actor opens a project's task board.
+
+**Preconditions**
 - Actor is authenticated and a member of the project's tenant.
 
-**Main flow**:
+**Minimal guarantees**
+The list returned never includes a task belonging to a project outside the actor's tenant, regardless of what filters or project ID are supplied.
+
+**Main flow**
 1. Actor opens the project's task board.
 2. System loads all tasks for the project, scoped to the actor's tenant.
 3. Actor optionally applies status/assignee filters.
 4. System narrows the list accordingly.
 
-**Alternative/exception flows**:
+**Alternative/exception flows**
 - At step 2, zero tasks: show empty state, not an error.
 
-**Postconditions**:
-- Actor sees the task list matching applied filters.
+**Success guarantees**
+Actor sees the task list matching applied filters.
+
+**Special requirements**
+This use case is where REQ-004's latency target is actually exercised — the query behind step 2 must use the (project_id, status) composite index (`docs/07-database-design/database.md`), not a full scan.
+
+**Technology and data variations**
+None — web-only for this release.
+
+**Frequency of occurrence**
+Estimated the single most frequent action in the product — every team member opening the board multiple times a day.
+
+**Open issues**
+None outstanding.

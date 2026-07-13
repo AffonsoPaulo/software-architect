@@ -12,6 +12,11 @@ confirmation_mode_history:
   - mode: "agile"
     changed_at: "2026-06-01T09:00:00Z"
 
+documentation_depth: "casual"
+documentation_depth_history:
+  - depth: "casual"
+    changed_at: "2026-06-01T09:00:00Z"
+
 id_sequences:
   BR: 0
   REQ: 3
