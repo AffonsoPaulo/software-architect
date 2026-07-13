@@ -22,7 +22,7 @@ Skippable for trivial stories where the main flow has no realistic alternative/e
 
 ## Documents produced
 
-- `docs/05-use-cases/use-cases.md` via `templates/use-cases.md`.
+- `docs/05-use-cases/use-cases.md` (index) plus one `docs/05-use-cases/uc-XXX.md` per use case, via `templates/use-cases.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -56,7 +56,7 @@ Standard loop (`rules/confirmation-protocol.md`). Any alternative/exception flow
 
 ## How to document answers
 
-Each confirmed use case becomes a `UC-XXX` entry, `traces_to` set to its source `US-XXX` (or multiple, if consolidating related stories). Main flow and alternative flows are numbered/linked per step. Diagrams follow `rules/diagram-conventions.md`: `sequenceDiagram` for multi-actor main flows, `stateDiagram` added when the use case concerns a stateful entity. At Fully Dressed depth, the additional answers map to `templates/use-cases.md`'s "Fully Dressed additions" subsections — including "Success guarantees," which is the same content as Casual's "Postconditions," renamed to match Cockburn's convention.
+Each confirmed use case becomes its own `docs/05-use-cases/uc-XXX.md` item file, `Traces to` set to its source `US-XXX` (or multiple, if consolidating related stories), with a matching row added to `use-cases.md`'s index table. Main flow and alternative flows are numbered/linked per step. Diagrams follow `rules/diagram-conventions.md`: `sequenceDiagram` for multi-actor main flows, `stateDiagram` added when the use case concerns a stateful entity. At Fully Dressed depth, the additional answers map to `templates/use-cases.md`'s "Fully Dressed additions" subsections — including "Success guarantees," which is the same content as Casual's "Postconditions," renamed to match Cockburn's convention.
 
 ## How to validate answers
 

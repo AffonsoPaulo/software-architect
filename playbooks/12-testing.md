@@ -23,7 +23,7 @@ Skippable only for genuinely disposable prototypes explicitly confirmed as such 
 
 ## Documents produced
 
-- `docs/12-testing/testing.md` via `templates/testing.md`.
+- `docs/12-testing/testing.md` (index: levels, coverage target, test data strategy) plus one `docs/12-testing/test-XXX.md` per test plan, via `templates/testing.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -57,7 +57,7 @@ Standard loop (`rules/confirmation-protocol.md`). Test levels/tooling is individ
 
 ## How to document answers
 
-Each confirmed test plan becomes a `TEST-XXX` entry, `traces_to` set to its source `REQ-XXX`. `Kind` (automated/manual) is recorded exactly as confirmed — never assumed to be automated by default. At Fully Dressed depth, the additional answers map to `templates/testing.md`'s "Fully Dressed additions" section.
+Each confirmed test plan becomes its own `docs/12-testing/test-XXX.md` item file, `Traces to` set to its source `REQ-XXX`, with a matching row added to `testing.md`'s index table. `Kind` (automated/manual) is recorded exactly as confirmed — never assumed to be automated by default. At Fully Dressed depth, the additional answers map to `templates/testing.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

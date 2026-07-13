@@ -23,7 +23,7 @@ Skippable only alongside Domain Model, for projects with no persistence layer at
 
 ## Documents produced
 
-- `docs/07-database-design/database.md` via `templates/database.md`.
+- `docs/07-database-design/database.md` (index: database type, migration strategy, diagram) plus one `docs/07-database-design/tbl-XXX.md` per table/collection, via `templates/database.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -56,7 +56,7 @@ Standard loop (`rules/confirmation-protocol.md`). Database type and migration st
 
 ## How to document answers
 
-Each confirmed table/collection becomes a `TBL-XXX` entry, `traces_to` set to the Domain Model entity (or entities) it persists. Columns, constraints, and indexes are recorded per the confirmed answers — never inferred beyond what was actually asked and confirmed. The `erDiagram` (`rules/diagram-conventions.md`) is built from this confirmed data. At Fully Dressed depth, the additional answers map to `templates/database.md`'s "Fully Dressed additions" section.
+Each confirmed table/collection becomes its own `docs/07-database-design/tbl-XXX.md` item file, `Traces to` set to the Domain Model entity (or entities) it persists, with a matching row added to `database.md`'s index table. Columns, constraints, and indexes are recorded per the confirmed answers — never inferred beyond what was actually asked and confirmed. The `erDiagram` (`rules/diagram-conventions.md`) is built from this confirmed data. At Fully Dressed depth, the additional answers map to `templates/database.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

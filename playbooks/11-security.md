@@ -24,8 +24,8 @@ Never skippable.
 
 ## Documents produced
 
-- `docs/11-security/security.md` via `templates/security.md`.
-- `docs/11-security/risk-register.md` via `templates/risk-register.md`.
+- `docs/11-security/security.md` (index: threat model summary, auth/authz, compliance) plus one `docs/11-security/sec-XXX.md` per control, via `templates/security.md` (`rules/document-locations.md`).
+- `docs/11-security/risk-register.md` (index) plus one `docs/11-security/risk-XXX.md` per risk, via `templates/risk-register.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -63,7 +63,7 @@ Standard loop (`rules/confirmation-protocol.md`). Nearly everything in this phas
 
 ## How to document answers
 
-Each confirmed control becomes a `SEC-XXX` entry, `traces_to` set to the component and/or interaction unit it protects. Every threat gets recorded with its mitigation or a cross-reference to a `RISK-XXX` entry in the risk register — never just noted in passing without one of the two. At Fully Dressed depth, the additional answers map to `templates/security.md`'s "Fully Dressed additions" section (full STRIDE pass, data flow diagram, incident response, security testing plan, compliance control mapping).
+Each confirmed control becomes its own `docs/11-security/sec-XXX.md` item file, `Traces to` set to the component and/or interaction unit it protects, with a matching row added to `security.md`'s index table. Every threat gets recorded with its mitigation or a cross-reference to a `RISK-XXX` item file in the risk register — never just noted in passing without one of the two. At Fully Dressed depth, the additional answers map to `templates/security.md`'s "Fully Dressed additions" section (full STRIDE pass, data flow diagram, incident response, security testing plan, compliance control mapping).
 
 ## How to validate answers
 

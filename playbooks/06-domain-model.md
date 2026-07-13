@@ -22,7 +22,7 @@ Skippable only for projects with no meaningful data model (e.g. a stateless util
 
 ## Documents produced
 
-- `docs/06-domain-model/domain-model.md` via `templates/domain-model.md`.
+- `docs/06-domain-model/domain-model.md` (index: aggregates, relationships, diagram) plus one `docs/06-domain-model/ent-XXX.md` per entity/value object, via `templates/domain-model.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -54,7 +54,7 @@ Standard loop (`rules/confirmation-protocol.md`). Aggregate boundary decisions a
 
 ## How to document answers
 
-Each confirmed entity/value object becomes an `ENT-XXX` entry, `traces_to` set to the Use Case(s) it appears in. Relationships are recorded with cardinality and a plain-language description. The `classDiagram` (`rules/diagram-conventions.md`) is built from the same confirmed data — never drawn first and reverse-documented. At Fully Dressed depth, the additional answers map to `templates/domain-model.md`'s "Fully Dressed additions" section.
+Each confirmed entity/value object becomes its own `docs/06-domain-model/ent-XXX.md` item file, `Traces to` set to the Use Case(s) it appears in, with a matching row added to `domain-model.md`'s index table. Relationships are recorded in the index file (they span more than one entity), with cardinality and a plain-language description. The `classDiagram` (`rules/diagram-conventions.md`) is built from the same confirmed data — never drawn first and reverse-documented. At Fully Dressed depth, the additional answers map to `templates/domain-model.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

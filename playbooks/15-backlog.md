@@ -22,7 +22,7 @@ Skippable only alongside Roadmap, for a project too small to benefit from either
 
 ## Documents produced
 
-- `docs/15-backlog/backlog.md` via `templates/backlog.md`.
+- `docs/15-backlog/backlog.md` (index: Definition of Ready, grouped-by-milestone summary) plus one `docs/15-backlog/task-XXX.md` per item, via `templates/backlog.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -52,7 +52,7 @@ Standard loop (`rules/confirmation-protocol.md`). Definition of Ready is individ
 
 ## How to document answers
 
-Each confirmed item becomes a `TASK-XXX` heading grouped under its milestone, `Traces to` set to its source `US-XXX`/`UC-XXX`, tagged with its priority, status starting at `Not started`, per `rules/document-format.md`. IDs come from `project-state.md`'s `id_sequences.TASK`. At Fully Dressed depth, the additional answers map to `templates/backlog.md`'s "Fully Dressed additions" subsections.
+Each confirmed item becomes its own `docs/15-backlog/task-XXX.md` item file, `Traces to` set to its source `US-XXX`/`UC-XXX`, tagged with its priority, status starting at `Not started`, with a link added under its milestone in `backlog.md`'s index. IDs come from `project-state.md`'s `id_sequences.TASK`. At Fully Dressed depth, the additional answers map to `templates/backlog.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 

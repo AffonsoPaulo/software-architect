@@ -27,8 +27,8 @@ Never skippable.
 
 ## Documents produced
 
-- `docs/08-architecture/architecture.md` via `templates/architecture.md`.
-- `docs/08-architecture/adr/*.md` via `templates/adr.md`.
+- `docs/08-architecture/architecture.md` (index: style, core tech, NFR coverage, diagram) plus one `docs/08-architecture/arch-XXX.md` per component, via `templates/architecture.md` (`rules/document-locations.md`).
+- `docs/08-architecture/adr/*.md` via `templates/adr.md` — already one file per decision, unaffected by this convention.
 
 ## Mandatory questions
 
@@ -66,7 +66,7 @@ Standard loop (`rules/confirmation-protocol.md`). Architectural style and core t
 
 ## How to document answers
 
-Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFRs it addresses. Every consequential decision (style, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 6 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
+Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item file, `Traces to` set to the NFRs it addresses, with a matching row added to `architecture.md`'s index table. Every consequential decision (style, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 6 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
 
 ## How to validate answers
 

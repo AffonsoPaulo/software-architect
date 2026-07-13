@@ -23,7 +23,7 @@ Never. Even a small or incremental cycle still runs this phase, though the numbe
 
 ## Documents produced
 
-- `docs/03-requirements/requirements.md` via `templates/requirements.md`.
+- `docs/03-requirements/requirements.md` (index) plus one `docs/03-requirements/req-XXX.md` per requirement, via `templates/requirements.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -55,7 +55,7 @@ Standard loop (`rules/confirmation-protocol.md`). Non-functional requirements ar
 
 ## How to document answers
 
-Each confirmed requirement becomes a `REQ-XXX` heading in `templates/requirements.md`, in the order it was confirmed, per `rules/document-format.md`. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`. At Fully Dressed depth, the additional answers map to that template's "Fully Dressed additions" subsections (Rationale, Source, Risk if not met, Verification method, Dependencies) and `Status` starts at `Approved` once confirmed.
+Each confirmed requirement becomes its own `docs/03-requirements/req-XXX.md` item file, per `templates/requirements.md` and `rules/document-locations.md`, with a matching row added to `requirements.md`'s index table. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`. At Fully Dressed depth, the additional answers map to that template's "Fully Dressed additions" subsections (Rationale, Source, Risk if not met, Verification method, Dependencies) and `Status` starts at `Approved` once confirmed.
 
 ## How to validate answers
 

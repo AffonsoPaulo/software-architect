@@ -22,7 +22,7 @@ Skippable only in the degenerate case where every requirement in this cycle is p
 
 ## Documents produced
 
-- `docs/04-user-stories/user-stories.md` via `templates/user-stories.md`.
+- `docs/04-user-stories/user-stories.md` (index) plus one `docs/04-user-stories/us-XXX.md` per story, via `templates/user-stories.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -52,7 +52,7 @@ Standard loop (`rules/confirmation-protocol.md`). No question here is individual
 
 ## How to document answers
 
-Each confirmed story becomes a `US-XXX` entry, `traces_to` set to its source `REQ-XXX` (or multiple, if it consolidates more than one requirement — rare, but valid). IDs come from `project-state.md`'s `id_sequences.US`. At Fully Dressed depth, the additional answers map to `templates/user-stories.md`'s "Fully Dressed additions" subsections.
+Each confirmed story becomes its own `docs/04-user-stories/us-XXX.md` item file, `Traces to` set to its source `REQ-XXX` (or multiple, if it consolidates more than one requirement — rare, but valid), with a matching row added to `user-stories.md`'s index table. IDs come from `project-state.md`'s `id_sequences.US`. At Fully Dressed depth, the additional answers map to `templates/user-stories.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 

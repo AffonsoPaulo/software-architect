@@ -29,7 +29,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 
 ## Documents produced
 
-- `docs/09-api-design/api.md` via `templates/api.md`.
+- `docs/09-api-design/api.md` (index: interaction style, versioning, failure format) plus one `docs/09-api-design/api-XXX.md` per interaction unit, via `templates/api.md` (`rules/document-locations.md`).
 
 ## Mandatory questions
 
@@ -63,7 +63,7 @@ Standard loop (`rules/confirmation-protocol.md`). Authentication/authorization m
 
 ## How to document answers
 
-Each confirmed interaction unit becomes an `API-XXX` entry with `traces_to` set to both its source `UC-XXX` and its hosting `ARCH-XXX`. Input/output fields reference `TBL-XXX` columns where a field maps directly to stored data. Failure modes follow the single confirmed format — never a one-off shape for a specific unit. For server-rendered/MVC projects, document each unit once here rather than duplicating it as a separate "screen" in `docs/10-frontend-planning/frontend.md` — see that phase's notes on referencing rather than restating. At Fully Dressed depth, the additional answers map to `templates/api.md`'s "Fully Dressed additions" subsections.
+Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` item file with `Traces to` set to both its source `UC-XXX` and its hosting `ARCH-XXX`, with a matching row added to `api.md`'s index table. Input/output fields reference `TBL-XXX` columns where a field maps directly to stored data. Failure modes follow the single confirmed format — never a one-off shape for a specific unit. For server-rendered/MVC projects, document each unit once here rather than duplicating it as a separate "screen" in `docs/10-frontend-planning/frontend.md` — see that phase's notes on referencing rather than restating. At Fully Dressed depth, the additional answers map to `templates/api.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 
