@@ -40,12 +40,12 @@ Functionally the same flow as as-is — the design-partner customer confirmed th
 ## Business rules
 
 ### BR-001 — Task deletion requires Project Admin role
-*Traces to: (none)*
+*Traces to: (none) · Author: Priya*
 
 Only a user with the Project Admin role can delete a task.
 
 ### BR-002 — A task belongs to exactly one project
-*Traces to: (none)*
+*Traces to: (none) · Author: Priya*
 
 A task must belong to exactly one project; it cannot exist outside a project or span multiple projects.
 

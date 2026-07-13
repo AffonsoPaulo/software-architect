@@ -1,5 +1,5 @@
 # TASK-005 — Set up load-testing infrastructure
-*Traces to: US-002, UC-002 · Priority: Medium · Status: Not started*
+*Traces to: US-002, UC-002 · Priority: Medium · Status: Not started · Author: Priya*
 
 Set up load-testing infrastructure (k6, CI integration) to validate REQ-004.
 

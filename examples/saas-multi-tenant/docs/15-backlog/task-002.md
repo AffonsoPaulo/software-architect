@@ -1,5 +1,5 @@
 # TASK-002 — Implement Tenant Context Middleware and RLS policies
-*Traces to: US-001 · Priority: High · Status: Not started*
+*Traces to: US-001 · Priority: High · Status: Not started · Author: Priya*
 
 Implement Tenant Context Middleware (ARCH-002) and RLS policies (ADR-002).
 

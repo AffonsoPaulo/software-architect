@@ -1,5 +1,5 @@
 # RISK-001 — Undecided SSO providers beyond Google Workspace and Microsoft
-*Source: Unknown answer · Category: Business · Traces to: SEC-002 · Probability: Medium · Impact: Low · Status: Accepted*
+*Source: Unknown answer · Category: Business · Traces to: SEC-002 · Probability: Medium · Impact: Low · Status: Accepted · Author: Priya*
 
 Which specific SSO providers beyond Google Workspace and Microsoft to support (e.g. Okta) is not yet decided — the design-partner customer uses Google Workspace, which is covered, but this may need revisiting if a future customer requires a different provider.
 

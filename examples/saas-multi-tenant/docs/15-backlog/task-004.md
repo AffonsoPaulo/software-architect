@@ -1,5 +1,5 @@
 # TASK-004 — Implement task listing/filtering
-*Traces to: US-002, UC-002 · Priority: High · Status: Not started*
+*Traces to: US-002, UC-002 · Priority: High · Status: Not started · Author: Priya*
 
 Implement task listing/filtering (API-002).
 

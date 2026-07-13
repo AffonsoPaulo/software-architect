@@ -1,5 +1,5 @@
 # TASK-001 — Implement task creation
-*Traces to: US-001, UC-001 · Priority: High · Status: Not started*
+*Traces to: US-001, UC-001 · Priority: High · Status: Not started · Author: Priya*
 
 Implement task creation (API-001, ENT-003/TBL-003).
 
