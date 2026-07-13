@@ -91,3 +91,7 @@ See `docs/how-it-works.md` for how these pieces fit together.
 ## Worked examples
 
 You're on the `with-examples` branch, so `examples/` is right here: a small CLI tool (Casual depth, Agile confirmation, an incremental second cycle) and a larger multi-tenant SaaS (Fully Dressed depth, Strict confirmation, all 18 phases). This branch exists separately from `main` because `npx skills add` installs whatever's on `main` — keeping these two full example projects off it means using the Skill never drags them onto an installer's disk. Run `scripts/self-test.mjs` to validate both.
+
+## License
+
+MIT — see `LICENSE`.
