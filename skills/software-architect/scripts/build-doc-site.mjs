@@ -22,6 +22,19 @@ import { renderMarkdown, escapeHtml } from './lib/markdown-lite.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MERMAID_JS = readFileSync(join(__dirname, 'lib', 'vendor', 'mermaid.min.js'), 'utf8');
 
+const COPY_ICON = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M3.5 10V3.5a1 1 0 0 1 1-1H10"/></svg>';
+const CHECK_ICON = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+// Wraps one source file's rendered HTML in a container that carries the
+// file's own raw markdown (base64, UTF-8 safe) for the hover-reveal
+// "copy" button — one button per source .md file, since every file in
+// this Skill's docs/ (index or item) is already a complete, standalone
+// document per rules/document-format.md.
+function wrapArtifactBlock(html, rawContent) {
+  const b64 = Buffer.from(rawContent, 'utf8').toString('base64');
+  return `<div class="artifact-block">${html}<button type="button" class="copy-btn" data-md="${b64}" title="Copy markdown" aria-label="Copy markdown">${COPY_ICON}</button></div>`;
+}
+
 // Mirrors rules/document-locations.md exactly: which phases exist, in
 // what order, and — for categories that split into an index + item
 // files (rules/document-locations.md's hybrid layout) — the index
@@ -80,7 +93,7 @@ function renderPhase(projectRoot, phase) {
 
   function renderFile(content, namespace) {
     const { html, headings } = renderMarkdown(content, { namespace, rewriteLink: rewriteMdLink });
-    sections.push(html);
+    sections.push(wrapArtifactBlock(html, content));
     for (const h of headings) {
       if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
     }
@@ -128,7 +141,7 @@ function renderChangeRequests(projectRoot) {
   for (const f of files) {
     const content = readFileSync(join(dir, f), 'utf8');
     const { html, headings } = renderMarkdown(content, { namespace: 'change-requests', rewriteLink: rewriteMdLink });
-    sections.push(html);
+    sections.push(wrapArtifactBlock(html, content));
     for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
   }
   return { html: sections.join('\n'), navItems };
@@ -255,14 +268,15 @@ main {
 }
 main section { margin-top: 72px; }
 main > section:first-child { margin-top: 0; }
+main .artifact-block { position: relative; margin-top: 40px; }
+main section > .artifact-block:first-child { margin-top: 0; }
 main h1, main h2, main h3, main h4 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-weight: 700;
   line-height: 1.3;
   scroll-margin-top: 24px;
 }
-main h1 { font-size: 26px; margin-top: 40px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-main h1:first-child { margin-top: 0; }
+main h1 { font-size: 26px; margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
 main h2 { font-size: 20px; margin-top: 32px; color: var(--accent); }
 main h3 { font-size: 17px; margin-top: 26px; }
 main h4 { font-size: 15px; margin-top: 20px; }
@@ -284,9 +298,14 @@ main p.metadata-line { color: var(--text-muted); font-style: italic; font-size: 
 main p.body-text { margin: 16px 0; }
 main p.label-line { margin: 20px 0 4px; }
 main p.label-line + p.body-text { margin-top: 4px; }
-main table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+main .table-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 20px 0; }
+main table { border-collapse: collapse; width: 100%; margin: 0; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 main th, main td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
 main th { background: var(--bg-sidebar); }
+main tr:first-child th, main tr:first-child td { border-top: none; }
+main tr:last-child td { border-bottom: none; }
+main th:first-child, main td:first-child { border-left: none; }
+main th:last-child, main td:last-child { border-right: none; }
 main code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
 main pre.code-block { background: var(--code-bg); padding: 14px; border-radius: 8px; overflow-x: auto; }
 main pre.code-block code { background: none; padding: 0; }
@@ -330,14 +349,40 @@ main li.checklist-item input[type="checkbox"]:checked::after {
   font-size: 13px;
   margin-bottom: 8px;
 }
+.copy-btn {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity .15s, color .15s, border-color .15s;
+}
+.artifact-block:hover .copy-btn,
+.artifact-block:focus-within .copy-btn {
+  opacity: 1;
+}
+.copy-btn:hover { background: var(--border); color: var(--text); }
+.copy-btn.copied { color: var(--accent); border-color: var(--accent); opacity: 1; }
 @media print {
   nav.sidebar { display: none; }
   main { max-width: 100%; margin-left: 0; padding: 0; }
   main .artifact-id { color: #000; border-color: #000; }
+  .copy-btn { display: none; }
 }
 @media (max-width: 900px) {
   nav.sidebar { width: 100%; height: auto; position: relative; bottom: auto; }
   main { margin-left: 0; padding: 24px; }
+  .copy-btn { opacity: 1; }
 }
 </style>
 </head>
@@ -384,6 +429,48 @@ ${mermaidJs}
       });
     }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
     targets.forEach(function (t) { observer.observe(t.el); });
+  })();
+  (function () {
+    var CHECK_ICON = ${JSON.stringify(CHECK_ICON)};
+    function b64ToUtf8(b64) {
+      var binary = atob(b64);
+      var bytes = Uint8Array.from(binary, function (c) { return c.charCodeAt(0); });
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    function showCopied(btn) {
+      var original = btn.innerHTML;
+      btn.innerHTML = CHECK_ICON;
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.innerHTML = original;
+        btn.classList.remove('copied');
+      }, 1200);
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+      var md = b64ToUtf8(btn.getAttribute('data-md'));
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(function () { showCopied(btn); }, function () {
+          fallbackCopy(md);
+          showCopied(btn);
+        });
+      } else {
+        fallbackCopy(md);
+        showCopied(btn);
+      }
+    });
   })();
 </script>
 </body>
