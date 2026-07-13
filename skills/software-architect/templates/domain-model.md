@@ -33,9 +33,9 @@ classDiagram
 # ENT-001 — <name>
 *Kind: Entity · Traces to: UC-003*
 
-**Attributes**
-- <conceptual attribute — a name and a plain-language meaning, not a
-  column type>
+| Attribute | Meaning |
+|---|---|
+| ... | <conceptual, plain-language meaning — not a column type> |
 
 **Invariants**
 - <a rule that must always hold — REQUIRED, at least one entry; "no

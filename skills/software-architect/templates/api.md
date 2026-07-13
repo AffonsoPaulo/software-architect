@@ -37,22 +37,17 @@ unit.>
 # API-001 — <short title>
 *Traces to: UC-003, ARCH-002*
 
-**Trigger**: `POST /orders/{id}/refund` <however this unit is invoked: an
-HTTP method + route, a CLI command with its flags, an event/topic name,
-a function signature — whatever is native to the confirmed interaction
-style>
-
-**Input**: <what goes in — fields/types for a JSON body, form fields for
-a server-rendered form, args/flags for a CLI command, a message payload
-shape for an event handler — referencing TBL-XXX where a field maps
-directly to a stored column>
-
-**Effect/output**: <what happens / what comes back — a JSON response, a
-rendered view + redirect, stdout + exit code, a published event>
+| Field | Value |
+|---|---|
+| Trigger | `POST /orders/{id}/refund` <however this unit is invoked: an HTTP method + route, a CLI command with its flags, an event/topic name, a function signature — whatever is native to the confirmed interaction style> |
+| Input | <what goes in — fields/types for a JSON body, form fields for a server-rendered form, args/flags for a CLI command, a message payload shape for an event handler — referencing TBL-XXX where a field maps directly to a stored column> |
+| Effect/output | <what happens / what comes back — a JSON response, a rendered view + redirect, stdout + exit code, a published event> |
 
 **Failure modes**
-- Order not found → <the standard failure_format's shape for this case>
-- Refund window expired (BR-001) → ...
+| Condition | Response |
+|---|---|
+| Order not found | <the standard failure_format's shape for this case> |
+| Refund window expired (BR-001) | ... |
 
 ```mermaid
 sequenceDiagram
@@ -66,9 +61,28 @@ information, a `flowchart` of the logic is a valid substitute.>
 
 ## Fully Dressed additions
 
-Item files gain:
+Item files gain four more rows in the `Field | Value` table, plus a new `Example` subsection. Full item file at this depth:
 
 ```markdown
+# API-001 — <short title>
+*Traces to: UC-003, ARCH-002*
+
+| Field | Value |
+|---|---|
+| Trigger | `POST /orders/{id}/refund` <however this unit is invoked: an HTTP method + route, a CLI command with its flags, an event/topic name, a function signature — whatever is native to the confirmed interaction style> |
+| Input | <what goes in — fields/types for a JSON body, form fields for a server-rendered form, args/flags for a CLI command, a message payload shape for an event handler — referencing TBL-XXX where a field maps directly to a stored column> |
+| Effect/output | <what happens / what comes back — a JSON response, a rendered view + redirect, stdout + exit code, a published event> |
+| Rate limiting | <Whether/how this unit is rate-limited, and the failure behavior when the limit is hit. "No rate limiting" is valid for an internal-only or low-traffic unit, if confirmed as such.> |
+| Pagination | <Only for units that return a list — convention used (offset, cursor, page-based), and default/max page size. "(n/a) — not a list-returning unit" otherwise.> |
+| Deprecation policy | <How this unit would be deprecated if it ever needs to be — notice period, sunset header, redirect. Can point to a project-wide policy stated once instead of repeating it per unit.> |
+| Idempotency | <Whether calling this twice with the same input is safe, and if so how that's achieved (idempotency key, natural idempotency of the operation itself). Important for any unit with a real-world side effect (payments, sending messages) — "N/A, read-only" is valid for a pure query.> |
+
+**Failure modes**
+| Condition | Response |
+|---|---|
+| Order not found | <the standard failure_format's shape for this case> |
+| Refund window expired (BR-001) | ... |
+
 **Example**
 <A concrete, filled-in example of one real request/invocation and its
 successful response — not the abstract field list above, an actual
@@ -82,27 +96,10 @@ POST /orders/4821/refund
 { "order_id": "4821", "status": "refunded", "refund_id": "rf_9182" }
 ```
 
-**Rate limiting**
-<Whether/how this unit is rate-limited, and the failure behavior when
-the limit is hit. "No rate limiting" is valid for an internal-only or
-low-traffic unit, if confirmed as such.>
-
-**Pagination**
-<Only for units that return a list — convention used (offset, cursor,
-page-based), and default/max page size. "(n/a) — not a list-returning
-unit" otherwise.>
-
-**Deprecation policy**
-<How this unit would be deprecated if it ever needs to be — notice
-period, sunset header, redirect. Can point to a project-wide policy
-stated once instead of repeating it per unit.>
-
-**Idempotency**
-<Whether calling this twice with the same input is safe, and if so how
-that's achieved (idempotency key, natural idempotency of the operation
-itself). Important for any unit with a real-world side effect
-(payments, sending messages) — "N/A, read-only" is valid for a pure
-query.>
+```mermaid
+sequenceDiagram
+    ...
+```
 ```
 
 ## Notes for whoever fills this in
