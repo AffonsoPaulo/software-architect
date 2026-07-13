@@ -16,7 +16,9 @@ Via `npx skills`, pointing at wherever this package is published/hosted. Once in
 
 ## How to use
 
-Just start describing what you want to build. The Skill begins at Project Calibration, asking about project type, size, and how you want to be asked questions going forward (Strict — one question at a time, individually confirmed — or Agile — batched, except for consequential decisions like architecture or security, which are always confirmed individually regardless of mode). From there it walks the phases in order, confirming every answer before documenting it and every document before moving on.
+Just start describing what you want to build. The Skill begins at Project Calibration, asking about project type, size, how you want to be asked questions going forward (Strict — one question at a time, individually confirmed — or Agile — batched, except for consequential decisions like architecture or security, which are always confirmed individually regardless of mode), and how much documentation depth you want (Casual — the baseline field set — or Fully Dressed — the deeper, industry-standard field set: rationale and verification method on requirements, a full STRIDE pass in Security, and similar depth throughout). From there it walks the phases in order, confirming every answer before documenting it and every document before moving on.
+
+Every document it writes (except its own internal `project-state.md`) is plain markdown, meant to be opened and read as a real document — no YAML block holding "the real data" above a thin prose restatement. Open any generated file, select all, and paste it into Word; that's the bar it's held to.
 
 If you come back to a project later, it resumes exactly where it left off — see `docs/project-state.md` in your project (created by the Skill, not part of this package). If a project is already fully planned and implemented and you want to add something new, just ask — the Skill recognizes this and opens a new incremental cycle rather than starting over.
 
@@ -38,4 +40,4 @@ software-architect/
   docs/                   # this skill's own usage documentation
 ```
 
-See `docs/how-it-works.md` for how these pieces fit together, and `examples/` for two complete worked projects — a small CLI tool (demonstrating scope calibration and an incremental second cycle) and a larger multi-tenant SaaS (demonstrating all 18 phases with Strict-mode confirmation).
+See `docs/how-it-works.md` for how these pieces fit together, and `examples/` for two complete worked projects — a small CLI tool (Casual depth, Agile confirmation, an incremental second cycle) and a larger multi-tenant SaaS (Fully Dressed depth, Strict confirmation, all 18 phases).

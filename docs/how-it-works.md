@@ -51,6 +51,14 @@ Every question, in every phase, follows the same loop, defined once in `rules/co
 
 `examples/small-cli-tool/docs/transcript.md` and `examples/saas-multi-tenant/docs/transcript.md` show the same kind of question handled in both modes, side by side.
 
+## Document format: written for a human first
+
+Every document the Skill writes into a target project — except `project-state.md` itself — is plain markdown, meant to be opened, read top to bottom, and pasted into Word or Confluence without cleanup. There is no YAML front-matter holding "the real data" while the markdown body restates it thinly; the markdown body *is* the document. An artifact is declared by a heading (`### REQ-001 — Post a recipe`) immediately followed by one italicized metadata line (`*Type: Functional · Priority: Must have · Traces to: BR-002*`) that a script can still parse — see `rules/document-format.md` for the full convention and the reasoning behind it. `project-state.md` is the one exception: it's the Skill's own operational state, never meant to be read by a stakeholder, so it stays YAML.
+
+## Documentation depth: Casual vs. Fully Dressed
+
+Chosen once, in Calibration, right after `confirmation_mode` — see `rules/documentation-depth.md`. **Casual** is each template's baseline field set, enough for a small or fast-moving project. **Fully Dressed** adds a deeper, industry-standard field set per template (rationale/source/verification method on requirements, a full STRIDE pass in Security, context/runtime views in Architecture, and so on) for projects where that rigor is worth the extra interview time. Both levels use the exact same document format and the exact same structural Quality Gate checks — depth only changes how much gets asked and written, never how an ID or a `Traces to` line is expressed. `examples/small-cli-tool/` runs Casual; `examples/saas-multi-tenant/` runs Fully Dressed — read them side by side to see the difference concretely.
+
 ## Traceability
 
 Every artifact the Skill produces gets a permanent ID (`REQ-001`, `US-014`, `ARCH-003`, ...) with a `traces_to` field pointing to what it's derived from. The chain everyone thinks of first — Requirement → Story → Use Case → API → Database → Test → Task → Implementation — is the *intuition*, not the *specification*. The actual specification is the artifact-by-artifact table in `rules/traceability-rules.md`, which is a graph anchored at Requirement/Business Rule, not a straight line — a database table traces to a domain entity, not to "the database phase," and a test traces directly to a requirement, never through the database at all.
