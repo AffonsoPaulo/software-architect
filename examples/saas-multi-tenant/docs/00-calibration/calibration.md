@@ -1,25 +1,14 @@
 # Project Calibration
 
-## Project type
-New product — a multi-tenant SaaS for project/task management ("TaskFlow").
-
-## Size
-Large: multiple teams will build on this, multi-tenant data isolation is a hard requirement, and the product is expected to scale to hundreds of concurrent users across many customer organizations.
-
-## Stakeholders
-Product lead, engineering lead, and a design partner customer (an early adopter organization providing requirements input) — beyond the requesting developer.
-
-## Prior artifacts
-A rough internal pitch deck exists but contains no technical detail — treated as informal context, not a source of confirmed requirements.
-
-## Confirmation mode
-Strict — every question confirmed individually, one at a time. Chosen because of the project's size and the real cost of getting multi-tenancy or security decisions wrong.
-
-## Documentation depth
-Fully Dressed — chosen because this product has external stakeholders (a design-partner customer, an engineering lead who wasn't in every conversation), handles PII and multi-tenant data, and needs documentation thorough enough for someone who joins later to trust without re-deriving it.
-
-## Language
-English.
+| Field | Value |
+|---|---|
+| Project type | New product — a multi-tenant SaaS for project/task management ("TaskFlow"). |
+| Size | Large: multiple teams will build on this, multi-tenant data isolation is a hard requirement, and the product is expected to scale to hundreds of concurrent users across many customer organizations. |
+| Stakeholders | Product lead, engineering lead, and a design partner customer (an early adopter organization providing requirements input) — beyond the requesting developer. |
+| Prior artifacts | A rough internal pitch deck exists but contains no technical detail — treated as informal context, not a source of confirmed requirements. |
+| Confirmation mode | Strict — every question confirmed individually, one at a time. Chosen because of the project's size and the real cost of getting multi-tenancy or security decisions wrong. |
+| Documentation depth | Fully Dressed — chosen because this product has external stakeholders (a design-partner customer, an engineering lead who wasn't in every conversation), handles PII and multi-tenant data, and needs documentation thorough enough for someone who joins later to trust without re-deriving it. |
+| Language | English. |
 
 ## Phase inclusion
 

@@ -1,25 +1,14 @@
 # Project Calibration
 
-## Project type
-New product — a small, standalone command-line utility.
-
-## Size
-Small: one developer, no persistence layer, no multi-user concerns.
-
-## Stakeholders
-None beyond the requesting developer — this is a personal/team utility, not a product with external stakeholders.
-
-## Prior artifacts
-None. Greenfield.
-
-## Confirmation mode
-Agile — batched confirmation except for questions tagged `[confirmation individual]`. Chosen because the project is small and low-risk; the user preferred fewer interruptions.
-
-## Documentation depth
-Casual — chosen because this is a small, low-stakes utility with no external stakeholders; the lighter field set is enough to build and maintain it confidently.
-
-## Language
-English.
+| Field | Value |
+|---|---|
+| Project type | New product — a small, standalone command-line utility. |
+| Size | Small: one developer, no persistence layer, no multi-user concerns. |
+| Stakeholders | None beyond the requesting developer — this is a personal/team utility, not a product with external stakeholders. |
+| Prior artifacts | None. Greenfield. |
+| Confirmation mode | Agile — batched confirmation except for questions tagged `[confirmation individual]`. Chosen because the project is small and low-risk; the user preferred fewer interruptions. |
+| Documentation depth | Casual — chosen because this is a small, low-stakes utility with no external stakeholders; the lighter field set is enough to build and maintain it confidently. |
+| Language | English. |
 
 ## Phase inclusion
 
