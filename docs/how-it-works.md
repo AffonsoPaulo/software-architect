@@ -2,6 +2,8 @@
 
 A guide for humans to the Skill as actually built — not the plan, the result. If you're extending or debugging the Skill, start here.
 
+> Every `examples/...` path mentioned below lives on the `with-examples` branch, not `main` — see the root `README.md`'s "Worked examples" section for why. Switch branches (`git checkout with-examples`) to actually open these files.
+
 ## The shape of a project
 
 Every project the Skill helps plan goes through up to 18 phases, in order, before any code is written:
@@ -76,4 +78,4 @@ Phase 17 (Review) is not an interview — it's an audit. It delegates the mechan
 - `rules/` — the 12 cross-cutting rules every playbook references instead of restating.
 - `playbooks/` — one file per phase, all following the same 20-section structure defined in `rules/playbook-structure.md`.
 - `scripts/` — the Node.js validators, zero npm dependencies (see the module docstrings for why).
-- `examples/` — two fully worked, validated projects; read these before reading any single playbook in isolation if you want to see the whole thing hang together.
+- `examples/` (on the `with-examples` branch) — two fully worked, validated projects; read these before reading any single playbook in isolation if you want to see the whole thing hang together.

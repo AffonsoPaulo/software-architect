@@ -1,5 +1,7 @@
 # FAQ
 
+> Every `examples/...` path mentioned below lives on the `with-examples` branch, not `main` — see the root `README.md`'s "Worked examples" section for why.
+
 ## Can I skip phases?
 
 Yes, except four: Requirements Engineering (03), Architecture (08), Security (11), and Architecture Review (17) — those are always mandatory, regardless of project size. Every other phase can be skipped, but only during `playbooks/00-project-calibration.md`, and only with a specific, real reason recorded in `docs/project-state.md`'s `skip_reason` field — never silently and never decided by the AI alone. See `examples/small-cli-tool/docs/project-state.md` for a real project that skips Business Analysis, Domain Model, Database Design, and Frontend Planning, each with its own stated reason.

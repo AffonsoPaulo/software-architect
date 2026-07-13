@@ -5,6 +5,13 @@
 // playbook/template be checked quickly without re-running the whole
 // Skill by hand.
 //
+// examples/ is intentionally absent from the main branch — it lives on
+// the `with-examples` branch only, so `npx skills add` (which installs
+// whatever's on main) never pulls two full worked projects onto a
+// user's disk just to use the Skill. Run this script against the
+// `with-examples` branch to actually exercise it; on main, every
+// example reports SKIPPED by design, not as a bug.
+//
 // Usage: node self-test.mjs
 
 import { existsSync } from 'node:fs';
@@ -27,7 +34,7 @@ function testExample(name) {
   // "pass" trivially (zero artifacts, zero violations), which is false
   // confidence, not a real clean bill of health.
   if (!existsSync(join(projectRoot, 'docs', 'project-state.md'))) {
-    return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — example not populated yet (see plan-24)` };
+    return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — examples/ lives on the 'with-examples' branch only; switch branches to actually run this check` };
   }
   // Zero artifacts found is the same false-positive-clean risk as an
   // empty docs/ tree — most commonly means the example's documents
@@ -70,7 +77,7 @@ function main() {
     process.exit(1);
   }
   if (anySkipped) {
-    console.log('self-test: INCOMPLETE — one or more examples not yet populated. Not a failure by itself, but self-test cannot fully vouch for the package until plan-24 is done.');
+    console.log("self-test: INCOMPLETE on this branch — examples/ isn't here (by design; see the 'with-examples' branch). Not a failure.");
     process.exit(0);
   }
   console.log('self-test: OK — both examples clean.');
