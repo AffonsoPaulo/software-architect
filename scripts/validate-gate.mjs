@@ -64,15 +64,43 @@ function findDoc(index, pathSuffix) {
   return index.documents.find((d) => d.path.replace(/\\/g, '/').endsWith(pathSuffix));
 }
 
+// TASK-XXX is declared once, in Backlog (phase 15) — Implementation Plan
+// only sequences existing tasks, it never redeclares them as headings
+// (that would be a false duplicate-id). So its "## Sequence" section is a
+// plain markdown table, not headings, and is parsed directly here rather
+// than through the generic artifact/reference extraction:
+//   | Task | Depends on | Parallelizable with |
+//   |---|---|---|
+//   | TASK-001 | (none) | — |
+function parseSequenceTable(content) {
+  const section = content.split(/^## Sequence\s*$/m)[1] || '';
+  const untilNextHeading = section.split(/^## /m)[0];
+  const edges = new Map();
+  for (const line of untilNextHeading.split('\n')) {
+    const cells = line.split('|').map((c) => c.trim());
+    // A row is `| TASK-XXX | ... | ... |`, which splits into
+    // ['', 'TASK-XXX', ..., ''] — at least 3 cells with the first real
+    // cell matching a TASK id (skips the header/separator rows).
+    if (cells.length < 4) continue;
+    const taskMatch = cells[1].match(/^TASK-[A-Za-z0-9]+$/);
+    if (!taskMatch) continue;
+    const dependsOn = cells[2]
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0 && !EMPTY_TOKENS.has(t.toLowerCase()));
+    edges.set(cells[1], dependsOn);
+  }
+  return edges;
+}
+
+const EMPTY_TOKENS = new Set(['(none)', 'none', '—', '-', 'n/a']);
+
 function checkImplementationPlanCycles(projectRoot) {
   const index = buildProjectIndex(projectRoot);
   const doc = findDoc(index, '16-implementation-plan/implementation-plan.md');
-  if (!doc || !Array.isArray(doc.data.sequence)) {
-    return { label: 'Implementation Plan dependency cycle check', status: 'skipped (no sequence found)' };
-  }
-  const edges = new Map();
-  for (const item of doc.data.sequence) {
-    edges.set(item.task, Array.isArray(item.depends_on) ? item.depends_on : []);
+  const edges = doc ? parseSequenceTable(doc.content) : new Map();
+  if (!doc || edges.size === 0) {
+    return { label: 'Implementation Plan dependency cycle check', status: 'skipped (no tasks found)' };
   }
   const WHITE = 0, GRAY = 1, BLACK = 2;
   const color = new Map([...edges.keys()].map((k) => [k, WHITE]));
@@ -105,14 +133,23 @@ function checkImplementationPlanCycles(projectRoot) {
 function checkRoadmapCoverage(projectRoot) {
   const index = buildProjectIndex(projectRoot);
   const doc = findDoc(index, '14-roadmap/roadmap.md');
-  if (!doc || !Array.isArray(doc.data.milestones)) {
+  const milestoneRefs = doc ? index.references.filter((r) => r.path === doc.path && Array.isArray(r.raw.delivers)) : [];
+  if (!doc || milestoneRefs.length === 0) {
     return { label: 'Roadmap 100% US/UC coverage check', status: 'skipped (no milestones found)' };
   }
   const delivered = new Set();
-  for (const m of doc.data.milestones) {
-    for (const id of m.delivers || []) delivered.add(id);
+  for (const m of milestoneRefs) {
+    for (const id of m.raw.delivers) delivered.add(id);
   }
-  const deferred = new Set((doc.data.deferred || []).map((d) => d.item));
+  // "## Deferred" bullets: "- US-014 — reason" (rules/document-format.md
+  // doesn't reserve a metadata-line shape for this list, since a deferred
+  // item is a plain fact, not a graph edge — parsed directly off the raw
+  // content instead of the generic artifact/reference extraction.
+  const deferredSection = doc.content.split(/^## Deferred\s*$/m)[1] || '';
+  const deferredUntilNextHeading = deferredSection.split(/^## /m)[0];
+  const deferred = new Set(
+    [...deferredUntilNextHeading.matchAll(/^-\s*([A-Z]+-[A-Za-z0-9]+)/gm)].map((m) => m[1])
+  );
   const stories = index.artifacts.filter((a) => /^(US|UC)-\d+$/.test(a.id));
   const uncovered = stories.filter((s) => !delivered.has(s.id) && !deferred.has(s.id));
   return {

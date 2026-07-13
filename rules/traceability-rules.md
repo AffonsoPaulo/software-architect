@@ -10,6 +10,8 @@ Requirement → Story → Use Case → API → Database → Test → Task → Im
 
 This is useful for explaining *why* traceability matters to a user, but it is **not** what gets validated. In practice — and as reflected in every phase's Quality Gate — traceability is a **graph anchored at Requirement/Business Rule**, not a sequential pipeline. For example, `TBL-XXX` (a database table) traces to `ENT-XXX` (a Domain Model entity), not to "Database" as a stage; `TEST-XXX` traces directly to `REQ-XXX`, never passing "through" Database. This file is the definitive, authoritative table — `scripts/validate-traceability.mjs` implements exactly this table, not the illustrative chain above.
 
+Every `traces_to` in the table below is written as the `Traces to` key of an artifact's metadata line — see `rules/document-format.md` for the exact heading + metadata-line convention every template uses.
+
 ## The definitive table
 
 | Artifact | `traces_to` | Required? | Notes |

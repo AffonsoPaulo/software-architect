@@ -29,6 +29,15 @@ confirmation_mode_history:
   - mode: "strict"
     changed_at: "2026-07-13T10:00:00Z"
 
+documentation_depth: "casual"
+# "casual" | "fully_dressed" — chosen during phase 00, right after confirmation_mode,
+# explained to the user before asking (rules/documentation-depth.md). Applies to every
+# phase in every cycle. Can change at any point via explicit user request only — never
+# changed by the AI on its own, and never retroactive to already-approved documents.
+documentation_depth_history:
+  - depth: "casual"
+    changed_at: "2026-07-13T10:00:00Z"
+
 id_sequences:
   # Last-used number per ID prefix (rules/id-conventions.md), GLOBAL to the whole
   # project — never per cycle, never reset. The next REQ, for example, is always

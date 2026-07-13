@@ -120,7 +120,9 @@ export function validateTraceability(projectRoot) {
   }
 
   for (const req of requirements) {
-    const type = req.raw && req.raw.type;
+    // Written in the document as "Functional"/"Non-functional" (natural
+    // capitalization, rules/document-format.md) — normalize before comparing.
+    const type = req.raw && typeof req.raw.type === 'string' ? req.raw.type.toLowerCase() : undefined;
     if (type === 'functional') {
       if (!skipped.has('04') && !referencedByAnyPrefix(req.id, ['US'])) {
         violations.push({
@@ -185,10 +187,13 @@ export function validateTraceability(projectRoot) {
   // least one TASK-XXX, mirroring the Backlog gate's "every US in a
   // currently-included milestone has a backlog item."
   const roadmapDoc = index.documents.find((d) => d.path.replace(/\\/g, '/').endsWith('14-roadmap/roadmap.md'));
-  if (roadmapDoc && Array.isArray(roadmapDoc.data.milestones) && !skipped.has('15')) {
+  const milestoneRefs = roadmapDoc
+    ? index.references.filter((r) => r.path === roadmapDoc.path && Array.isArray(r.raw.delivers))
+    : [];
+  if (roadmapDoc && milestoneRefs.length > 0 && !skipped.has('15')) {
     const delivered = new Set();
-    for (const m of roadmapDoc.data.milestones) {
-      for (const id of m.delivers || []) delivered.add(id);
+    for (const m of milestoneRefs) {
+      for (const id of m.raw.delivers) delivered.add(id);
     }
     for (const id of delivered) {
       if (!referencedByAnyPrefix(id, ['TASK'])) {

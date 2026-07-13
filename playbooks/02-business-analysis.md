@@ -50,7 +50,7 @@ Standard loop (`rules/confirmation-protocol.md`). Business rules are always indi
 ## How to document answers
 
 - Each process becomes its own subsection with a numbered step list and a Mermaid `flowchart` (`rules/diagram-conventions.md`).
-- Each business rule gets a new `BR-XXX` (next value from `project-state.md`'s `id_sequences.BR`) and is recorded both tersely in the front-matter and in full sentence form in the body.
+- Each business rule gets a new `BR-XXX` (next value from `project-state.md`'s `id_sequences.BR`), declared as its own heading with a full sentence statement underneath, per `rules/document-format.md`.
 - Actors are listed once, cross-referenced from whichever processes they participate in.
 
 ## How to validate answers

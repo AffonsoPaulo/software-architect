@@ -2,7 +2,6 @@
 
 ## Scriptable criteria
 - [ ] `docs/02-business-analysis/business-analysis.md` exists — checked by `scripts/validate-gate.mjs`
-- [ ] Every `BR-XXX` declared in the front-matter has a corresponding entry in the "Business rules" section — checked by `scripts/validate-ids.mjs`
 - [ ] Every `BR-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 
 ## Judgment criteria (AI/human)

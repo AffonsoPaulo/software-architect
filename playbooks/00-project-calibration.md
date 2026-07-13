@@ -39,6 +39,7 @@ Never skipped. If `SKILL.md` detects state 2 (project in progress, mid-cycle), i
 - Project type: new product / feature on existing product / prototype / internal script / legacy migration — `[confirmation individual]`
 - Size: small (few screens/endpoints, one developer) / medium / large (multiple teams, multi-tenant, compliance needs) — `[confirmation individual]`
 - Confirmation mode: Strict or Agile — explain the difference (`rules/confirmation-protocol.md`) before asking — `[confirmation individual]`
+- Documentation depth: Casual or Fully Dressed — explain the difference (`rules/documentation-depth.md`) before asking — `[confirmation individual]`
 - Document language — propose the language the user is currently conversing in, but confirm explicitly before recording it (`rules/language-policy.md`) — `[confirmation individual]`
 
 **Asked in both modes, scoped differently:**
@@ -60,7 +61,7 @@ Never skipped. If `SKILL.md` detects state 2 (project in progress, mid-cycle), i
 ## Interview flow
 
 1. Detect mode automatically by checking for `docs/project-state.md` — this is a file check, not a question.
-2. **Initial mode**: ask project type → size → prior artifacts → stakeholders → confirmation mode → language, in that order (each confirmed individually — see "How to confirm answers"). Then propose the phase-inclusion list and confirm it as a whole (this list benefits from being reviewed together, once the individual inputs above are settled).
+2. **Initial mode**: ask project type → size → prior artifacts → stakeholders → confirmation mode → documentation depth → language, in that order (each confirmed individually — see "How to confirm answers"). Then propose the phase-inclusion list and confirm it as a whole (this list benefits from being reviewed together, once the individual inputs above are settled).
 3. **Incremental mode**: read the existing `project-state.md` silently first — do not ask the user to repeat anything already there. Ask increment scope → prior artifacts (delta only) → stakeholders (delta only) → propose which phases this increment touches → ask about existing-document impact last, since the answer may depend on what phases are touched.
 4. If project type is "feature on existing product" or "legacy migration" (in either mode): after project type is confirmed, trigger the brownfield subagent (see "Special cases") before finalizing the phase-inclusion list — its findings inform which phases are realistically needed.
 
@@ -70,7 +71,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 
 ## How to document answers
 
-- Project type, size, confirmation mode, language → `project-state.md` top-level fields, plus written out in prose in `calibration.md`.
+- Project type, size, confirmation mode, documentation depth, language → `project-state.md` top-level fields, plus written out in prose in `calibration.md`.
 - Phase inclusion/skip table → both the terse `status`/`skip_reason` per phase entry in `project-state.md`'s active cycle, and the full table with reasoning in `calibration.md`.
 - Brownfield subagent findings → a dedicated section in `calibration.md`, explicitly labeled as findings, never merged into a confirmed-answer section.
 
@@ -93,7 +94,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 ## Frequent errors
 
 - Finalizing the phase-inclusion list without the user's explicit confirmation of the full table, not just the individual factors that fed into it.
-- Re-asking project type, size, confirmation mode, or language in incremental mode — these are project-wide and already answered.
+- Re-asking project type, size, confirmation mode, documentation depth, or language in incremental mode — these are project-wide and already answered.
 - Treating brownfield subagent findings as settled fact without flagging contradictions with what the user said.
 
 ## Examples
@@ -112,8 +113,8 @@ See `rules/ai-invariants.md` — in particular, never assume a phase's skip stat
 
 ## Quality Gate
 
-`quality-gates/00-calibration-gate.md`. Summary: every phase 01–17 has an explicit status; the four always-mandatory phases are never skipped; confirmation mode and language are recorded; `project-state.md` is left in a state `SKILL.md` can act on directly.
+`quality-gates/00-calibration-gate.md`. Summary: every phase 01–17 has an explicit status; the four always-mandatory phases are never skipped; confirmation mode, documentation depth, and language are recorded; `project-state.md` is left in a state `SKILL.md` can act on directly.
 
 ## Approval criteria
 
-This phase is done when `project-state.md`'s active cycle has a complete phase list (every phase 01–17 present with a status), confirmation mode and language are set, `calibration.md` is written, and the user has given explicit final confirmation of the whole phase-inclusion list. Only then does the Skill move to the first included phase.
+This phase is done when `project-state.md`'s active cycle has a complete phase list (every phase 01–17 present with a status), confirmation mode, documentation depth, and language are set, `calibration.md` is written, and the user has given explicit final confirmation of the whole phase-inclusion list. Only then does the Skill move to the first included phase.

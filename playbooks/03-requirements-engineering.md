@@ -48,7 +48,7 @@ Standard loop (`rules/confirmation-protocol.md`). Non-functional requirements ar
 
 ## How to document answers
 
-Each confirmed requirement becomes a `REQ-XXX` entry in `templates/requirements.md`'s front-matter and body, in the order it was confirmed. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`.
+Each confirmed requirement becomes a `REQ-XXX` heading in `templates/requirements.md`, in the order it was confirmed, per `rules/document-format.md`. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`.
 
 ## How to validate answers
 

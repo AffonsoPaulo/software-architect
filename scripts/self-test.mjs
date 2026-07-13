@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { validateIds } from './validate-ids.mjs';
 import { validateTraceability } from './validate-traceability.mjs';
+import { buildProjectIndex } from './lib/docs.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = dirname(SCRIPT_DIR);
@@ -27,6 +28,15 @@ function testExample(name) {
   // confidence, not a real clean bill of health.
   if (!existsSync(join(projectRoot, 'docs', 'project-state.md'))) {
     return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — example not populated yet (see plan-24)` };
+  }
+  // Zero artifacts found is the same false-positive-clean risk as an
+  // empty docs/ tree — most commonly means the example's documents
+  // still use the retired YAML-front-matter format (rules/document-format.md)
+  // and haven't been rewritten to the current heading+metadata-line
+  // convention yet, not that the project genuinely has nothing to check.
+  const { artifacts } = buildProjectIndex(projectRoot);
+  if (artifacts.length === 0) {
+    return { name, skipped: true, reason: `${projectRoot} has project-state.md but zero artifacts were found — likely still in the old document format (rules/document-format.md)` };
   }
   const idViolations = validateIds(projectRoot);
   const { violations: traceViolations } = validateTraceability(projectRoot);

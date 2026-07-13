@@ -1,0 +1,76 @@
+# Document Format
+
+## Why this exists
+
+Every document this Skill writes into the target project's `docs/` (except `project-state.md` — see below) is written **for a human to read first**, and only usably parseable by tooling second. The acceptance bar: at any point, the user can open the `.md` file, copy the whole thing, paste it into Word (or Google Docs, or Confluence), and hand it to someone else — a stakeholder, a new hire, an auditor — without needing to clean it up first. A YAML block at the top of the file, or any field that only makes sense to a machine, fails that bar. Markdown tables, headings, prose, and ```mermaid``` diagrams (rendered natively by GitHub/GitLab/most modern doc tools, and falling back to a readable code block elsewhere) all pass it.
+
+This means: **no YAML front-matter in any phase document.** The markdown body is not a summary of "the real data" sitting in a front-matter block above it — the markdown body *is* the document. `project-state.md` is the one exception: it is the Skill's own operational state, never meant to be read by a stakeholder, and stays pure YAML (see `templates/project-state.md`).
+
+## The convention
+
+Every artifact this Skill assigns an ID to (`rules/id-conventions.md`) is declared by a **heading**, immediately followed by one **italicized metadata line**. Both are ordinary, readable markdown — the metadata line reads like a subtitle or caption, not a code block.
+
+```markdown
+### REQ-001 — Post a recipe
+*Type: Functional · Priority: Must have · Traces to: BR-002*
+
+Members can post a recipe with a title, an ingredient list, and
+step-by-step instructions.
+```
+
+- **Heading**: starts with the artifact's ID, then an em dash (`—`), then a short title. Heading level (`#`, `##`, `###`...) follows whatever nesting makes sense for that document — the ID-first rule is what matters, not the level.
+- **Metadata line**: the first non-blank line right after the heading, wrapped in a single pair of `*asterisks*`, with `Key: value` pairs separated by ` · `. This is what a script parses — a heading followed immediately by an italic `Key: value · Key: value` line is treated as one artifact's metadata, nothing more exotic.
+- Everything after the metadata line — prose, bullet lists, tables, sub-headings for "Acceptance criteria" / "Edge cases" / etc. — is free-form, human-authored content. Scripts never need to parse it.
+
+### Standard keys
+
+Any key may appear in a metadata line; these are the ones the validation scripts (`scripts/lib/docs.mjs`) actually read, so every template uses this exact wording:
+
+| Key | Meaning | Parsed as |
+|---|---|---|
+| `Traces to` | The traceability graph edge (`rules/traceability-rules.md`) | comma-separated list of IDs |
+| `Delivers` | Roadmap milestone → US/UC it ships | comma-separated list of IDs |
+| `Depends on` | Implementation Plan / Roadmap dependency | comma-separated list of IDs |
+
+Any other key (`Type`, `Priority`, `Status`, `Kind`, `Source`, `Probability`, `Impact`, `Owner`, `ADR`, `Date`, `Target date`, and so on — each template defines which ones it uses) is captured too, but read as a plain scalar string, used only by that template's own phase-specific checks (if any) — not by the generic traceability engine.
+
+An empty relationship is written explicitly, never omitted: `Traces to: (none)` for a requirement with no business rule behind it, not a missing key. A missing `Traces to` key means "not yet declared," which validators treat as zero targets — the same as `(none)` — but writing it explicitly is still preferred so a reader never wonders whether it was forgotten. Accepted "empty" tokens: `(none)`, `none`, `—`, `-`, `n/a` (case-insensitive) — all parse to an empty list.
+
+### Items without a formal ID
+
+Some artifacts intentionally have no reserved ID prefix (`rules/id-conventions.md`) — Frontend Planning's screens, Roadmap's milestones. These still use a heading + metadata line, just without an ID token in the heading:
+
+```markdown
+### Recipe List / Home
+*Traces to: UC-001, UC-002*
+
+The entry point, listing every recipe with its average rating.
+```
+
+A heading followed by a metadata line with a `Traces to` (or `Delivers`) key is registered as a **reference** even with no ID of its own — this is what lets a screen or milestone participate in coverage checks (e.g. "every Use Case has something covering it") the same way a formally-ID'd artifact does.
+
+### An artifact is declared once, referenced elsewhere without a heading
+
+An ID is declared as a heading in exactly one document — its "home" (`rules/id-conventions.md`). A different document that needs to sequence or group already-declared IDs (Implementation Plan sequencing Backlog's `TASK-XXX` items, for instance) never repeats them as a heading — that would register as a second declaration of the same ID and fail `scripts/validate-ids.mjs`'s uniqueness check. It references them in a plain markdown table or list instead. `scripts/validate-gate.mjs` has a couple of small, phase-specific parsers for exactly this (Implementation Plan's `## Sequence` table, Roadmap's `## Deferred` list) — documented in `templates/implementation-plan.md` and `templates/roadmap.md` respectively, not part of the generic heading+metadata-line convention above.
+
+### Tables for structured, non-traceability data
+
+Data that's inherently tabular and never participates in the traceability graph — database columns, a coverage matrix — is a plain markdown table, not a metadata line. Nothing parses these; they exist purely for the reader.
+
+```markdown
+## TBL-001 — recipes
+*Traces to: ENT-001*
+
+| Column | Type | Constraints |
+|---|---|---|
+| id | integer | primary key |
+| title | text | not null |
+```
+
+## What changed from v1.0.0
+
+Earlier versions of this Skill put a YAML front-matter block at the top of every template, with the markdown body underneath restating the same data in prose. That block has been removed from every template except `project-state.md`. If you are updating a project that already has documents in the old format, they still parse under the old front-matter extraction for `project-state.md` only — phase documents need to be rewritten into this convention to work with current validation scripts. There is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
+
+## `project-state.md` is exempt
+
+`project-state.md` is never read by a stakeholder as documentation — it is the Skill's own working state, read and written on every turn. It keeps its YAML structure (`templates/project-state.md`) so it stays unambiguous and easy for the Skill itself to edit precisely. This file is the only one under `docs/` that works this way.

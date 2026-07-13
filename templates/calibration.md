@@ -32,6 +32,10 @@ clearly as findings to inform later questions, not decisions.>
 <Strict or Agile, `[confirmation individual]` — project-wide, see
 rules/confirmation-protocol.md>
 
+## Documentation depth
+<Casual or Fully Dressed, `[confirmation individual]` — project-wide, see
+rules/documentation-depth.md>
+
 ## Language
 <the language confirmed for generated documents, `[confirmation individual]`,
 see rules/language-policy.md>
@@ -68,4 +72,4 @@ Instead of the full structure above, an incremental calibration only records:
 it is never edited directly>
 ```
 
-Project type, size, stakeholders, confirmation mode, and language are **not** re-asked or re-recorded — they already live in `project-state.md` and apply to the whole project.
+Project type, size, stakeholders, confirmation mode, documentation depth, and language are **not** re-asked or re-recorded — they already live in `project-state.md` and apply to the whole project.
