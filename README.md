@@ -57,7 +57,11 @@ A few cross-cutting rules apply in every phase, not just some:
 
 ## How to install
 
-Via `npx skills`, pointing at wherever this package is published/hosted. Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, it doesn't require a special command.
+```
+npx skills add AffonsoPaulo/software-architect
+```
+
+Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, it doesn't require a special command.
 
 ## How to use
 
