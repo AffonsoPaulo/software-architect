@@ -6,6 +6,7 @@
 - [ ] `confirmation_mode` is set
 - [ ] `documentation_depth` is set
 - [ ] `language` is set
+- [ ] This cycle's `author` is set (non-blank), asked fresh this cycle
 - [ ] The full phase-inclusion list was shown to the user and explicitly confirmed, not assumed
 - [ ] Every skip reason is specific to this project, not a generic placeholder
 - [ ] Brownfield subagent research ran and is recorded, if project type warrants it

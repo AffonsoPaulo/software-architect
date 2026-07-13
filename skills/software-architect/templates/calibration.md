@@ -9,6 +9,7 @@ Saved at `docs/00-calibration/calibration.md` in the target project (see `rules/
 
 | Field | Value |
 |---|---|
+| Author | <name/handle of whoever is confirming this cycle's answers, `[confirmation individual]` — asked fresh every cycle, project-state.md's cycles[].author, rules/versioning.md> |
 | Project type | <one of: new product / feature on existing product / prototype / internal script / legacy migration — as confirmed by the user, `[confirmation individual]`> |
 | Size | <small / medium / large, as confirmed by the user, `[confirmation individual]`, plus the one-line reasoning the user gave (this is not a self-assessment the AI makes — it's what the user said, rewritten for clarity and confirmed)> |
 | Stakeholders | <who beyond the current user needs to be consulted, if anyone> |
@@ -42,8 +43,10 @@ Instead of the full structure above, an incremental calibration only records:
 ```markdown
 # Project Calibration — Cycle <N> (incremental)
 
-## Increment scope
-<what this cycle adds, in one or two sentences>
+| Field | Value |
+|---|---|
+| Increment scope | <what this cycle adds, in one or two sentences> |
+| Author | <name/handle of whoever is confirming this cycle's answers, `[confirmation individual]` — asked fresh, never inherited from a prior cycle even if it's the same actual person, rules/versioning.md> |
 
 ## Phases touched
 | Phase | Status | Reason |

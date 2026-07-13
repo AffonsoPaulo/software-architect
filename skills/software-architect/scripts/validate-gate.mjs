@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // Generic quality-gate runner. Loads a phase's quality-gates/<phase>-gate.md
 // and checklists/<phase>-checklist.md, runs the scriptable checks
-// (delegating to validate-ids.mjs / validate-traceability.mjs, plus a
-// small number of phase-specific mechanical checks — dependency-cycle
-// detection for Implementation Plan, milestone coverage for Roadmap —
-// that don't fit the generic ID/traceability model), and lists every
-// judgment criterion as pending manual review. It never decides on its
-// own whether a gate passes when judgment criteria exist — it only
-// reports what is objectively verifiable.
+// (delegating to validate-ids.mjs / validate-traceability.mjs /
+// validate-versioning.mjs, plus a small number of phase-specific
+// mechanical checks — dependency-cycle detection for Implementation Plan,
+// milestone coverage for Roadmap — that don't fit the generic model), and
+// lists every judgment criterion as pending manual review. It never
+// decides on its own whether a gate passes when judgment criteria exist —
+// it only reports what is objectively verifiable.
 //
 // Usage: node validate-gate.mjs <phase> [project-root]
 //   <phase> is the numeric prefix, e.g. "03" or "17".
@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { validateIds } from './validate-ids.mjs';
 import { validateTraceability } from './validate-traceability.mjs';
+import { validateAuthorPresence, validateVersioning } from './validate-versioning.mjs';
 import { buildProjectIndex } from './lib/docs.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -172,6 +173,7 @@ export function runGate(phase, projectRoot) {
 
   const idViolations = validateIds(projectRoot);
   const traceResult = validateTraceability(projectRoot);
+  const versioningViolations = [...validateAuthorPresence(projectRoot), ...validateVersioning(projectRoot)];
   const extra = phaseSpecificChecks(phase, projectRoot);
 
   return {
@@ -181,6 +183,7 @@ export function runGate(phase, projectRoot) {
     judgment,
     idViolations,
     traceabilityViolations: traceResult.violations,
+    versioningViolations,
     extra,
   };
 }
@@ -196,8 +199,8 @@ function main() {
 
   console.log(`Gate: ${result.gatePath}`);
   console.log('');
-  console.log('Scriptable criteria (from validate-ids.mjs / validate-traceability.mjs / phase-specific checks):');
-  const overallClean = result.idViolations.length === 0 && result.traceabilityViolations.length === 0;
+  console.log('Scriptable criteria (from validate-ids.mjs / validate-traceability.mjs / validate-versioning.mjs / phase-specific checks):');
+  const overallClean = result.idViolations.length === 0 && result.traceabilityViolations.length === 0 && result.versioningViolations.length === 0;
   for (const c of result.scriptable) {
     console.log(`  [${overallClean ? 'no violations found project-wide' : 'SEE VIOLATIONS BELOW'}] ${c}`);
   }
@@ -208,6 +211,10 @@ function main() {
   if (result.traceabilityViolations.length > 0) {
     console.log('\n  Traceability violations:');
     for (const v of result.traceabilityViolations) console.log(`    - ${v.message}`);
+  }
+  if (result.versioningViolations.length > 0) {
+    console.log('\n  Versioning violations:');
+    for (const v of result.versioningViolations) console.log(`    - ${v.message}`);
   }
   if (result.extra.length > 0) {
     console.log('\n  Phase-specific checks:');

@@ -131,6 +131,14 @@ function renderPhase(projectRoot, phase) {
   return { html: sections.join('\n'), navItems };
 }
 
+function renderChangelog(projectRoot) {
+  const path = join(projectRoot, 'docs', 'CHANGELOG.md');
+  if (!existsSync(path)) return null;
+  const content = readFileSync(path, 'utf8');
+  const { html } = renderMarkdown(content, { namespace: 'changelog', rewriteLink: rewriteMdLink });
+  return { html: wrapArtifactBlock(html, content) };
+}
+
 function renderChangeRequests(projectRoot) {
   const dir = join(projectRoot, 'docs', 'change-requests');
   if (!existsSync(dir)) return null;
@@ -493,6 +501,12 @@ export function buildDocSite(projectRoot, outputPath) {
   if (crRendered) {
     navParts.push(buildNav('change-requests', 'Change Requests', crRendered.navItems));
     contentParts.push(`<section id="change-requests"><h1>Change Requests</h1>${crRendered.html}</section>`);
+  }
+
+  const changelogRendered = renderChangelog(projectRoot);
+  if (changelogRendered) {
+    navParts.push(buildNav('changelog', 'Changelog', []));
+    contentParts.push(`<section id="changelog">${changelogRendered.html}</section>`);
   }
 
   const projectName = basename(resolve(projectRoot));

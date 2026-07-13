@@ -44,6 +44,7 @@ Never skipped. If `SKILL.md` detects state 2 (project in progress, mid-cycle), i
 
 **Asked in both modes, scoped differently:**
 
+- Who is confirming this cycle's answers (name/handle)? — `[confirmation individual]`, recorded as this cycle's `author` (`project-state.md`'s `cycles[]`, `rules/versioning.md`). Asked fresh every single cycle, initial and incremental alike — never inherited from a prior cycle even when it's genuinely the same person asking again, since a different cycle can be a different person and nothing else in the interview would catch that.
 - Are there prior artifacts (PRD, legacy code, a prototype)? If so, where? (Initial mode: about the whole project. Incremental mode: about anything new since the last cycle that the Skill doesn't already know about.)
 - Are there stakeholders beyond the current user who need to be consulted?
 - For each phase 01–17 (initial) or each phase the increment might touch (incremental): include or skip, with a reason. The AI proposes a list; the user confirms or edits it — the AI never finalizes this list unilaterally.
@@ -61,8 +62,8 @@ Never skipped. If `SKILL.md` detects state 2 (project in progress, mid-cycle), i
 ## Interview flow
 
 1. Detect mode automatically by checking for `docs/project-state.md` — this is a file check, not a question.
-2. **Initial mode**: ask project type → size → prior artifacts → stakeholders → confirmation mode → documentation depth → language, in that order (each confirmed individually — see "How to confirm answers"). Then propose the phase-inclusion list and confirm it as a whole (this list benefits from being reviewed together, once the individual inputs above are settled).
-3. **Incremental mode**: read the existing `project-state.md` silently first — do not ask the user to repeat anything already there. Ask increment scope → prior artifacts (delta only) → stakeholders (delta only) → propose which phases this increment touches → ask about existing-document impact last, since the answer may depend on what phases are touched.
+2. **Initial mode**: ask author (who's confirming this cycle) first, then project type → size → prior artifacts → stakeholders → confirmation mode → documentation depth → language, in that order (each confirmed individually — see "How to confirm answers"). Then propose the phase-inclusion list and confirm it as a whole (this list benefits from being reviewed together, once the individual inputs above are settled).
+3. **Incremental mode**: read the existing `project-state.md` silently first — do not ask the user to repeat anything already there. Ask author first (this cycle's, not re-read from the prior cycle), then increment scope → prior artifacts (delta only) → stakeholders (delta only) → propose which phases this increment touches → ask about existing-document impact last, since the answer may depend on what phases are touched.
 4. If project type is "feature on existing product" or "legacy migration" (in either mode): after project type is confirmed, trigger the brownfield subagent (see "Special cases") before finalizing the phase-inclusion list — its findings inform which phases are realistically needed.
 
 ## How to confirm answers
@@ -72,6 +73,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 ## How to document answers
 
 - Project type, size, confirmation mode, documentation depth, language → `project-state.md` top-level fields, plus written out in prose in `calibration.md`.
+- Author → this cycle's entry in `project-state.md`'s `cycles[].author`, plus the `Author` row in `calibration.md`'s table (`rules/versioning.md`). Once this phase's gate passes, it also becomes the `Author` on every artifact this cycle goes on to create, and the first `docs/CHANGELOG.md` entry ("Initial calibration confirmed", or for incremental mode, the increment's own scope) is logged with it.
 - Phase inclusion/skip table → both the terse `status`/`skip_reason` per phase entry in `project-state.md`'s active cycle, and the full table with reasoning in `calibration.md`.
 - Brownfield subagent findings → a dedicated section in `calibration.md`, explicitly labeled as findings, never merged into a confirmed-answer section.
 
@@ -79,6 +81,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 
 - Every phase from 01 to 17 has an explicit status (included/skipped) before this phase's gate can pass — no phase is left implicitly undecided.
 - Phases 03 (Requirements), 08 (Architecture), 11 (Security), and 17 (Review) can never be marked skipped, in either mode — reject the proposal and ask again if the user tries.
+- `cycles[].author` is set for this cycle specifically — not blank, and not silently copied from the previous cycle's entry (`scripts/validate-versioning.mjs` checks this mechanically; see `quality-gates/00-calibration-gate.md`).
 
 ## Special cases
 
@@ -95,6 +98,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 
 - Finalizing the phase-inclusion list without the user's explicit confirmation of the full table, not just the individual factors that fed into it.
 - Re-asking project type, size, confirmation mode, documentation depth, or language in incremental mode — these are project-wide and already answered.
+- The opposite error for `author`: assuming it carries over from the previous cycle because it's "probably the same person," instead of asking fresh — this is the one question in this playbook that's deliberately re-asked every single cycle.
 - Treating brownfield subagent findings as settled fact without flagging contradictions with what the user said.
 
 ## Examples
@@ -113,7 +117,7 @@ See `rules/ai-invariants.md` — in particular, never assume a phase's skip stat
 
 ## Quality Gate
 
-`quality-gates/00-calibration-gate.md`. Summary: every phase 01–17 has an explicit status; the four always-mandatory phases are never skipped; confirmation mode, documentation depth, and language are recorded; `project-state.md` is left in a state `SKILL.md` can act on directly.
+`quality-gates/00-calibration-gate.md`. Summary: every phase 01–17 has an explicit status; the four always-mandatory phases are never skipped; confirmation mode, documentation depth, language, and this cycle's author are recorded; `project-state.md` is left in a state `SKILL.md` can act on directly.
 
 ## Approval criteria
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Regression test for the Skill package itself: runs validate-ids and
-// validate-traceability against the two worked examples in examples/
-// and fails (non-zero exit) if either isn't clean. Lets an edit to any
-// playbook/template be checked quickly without re-running the whole
-// Skill by hand.
+// Regression test for the Skill package itself: runs validate-ids,
+// validate-traceability, and validate-versioning against the two worked
+// examples in examples/ and fails (non-zero exit) if any isn't clean.
+// Lets an edit to any playbook/template be checked quickly without
+// re-running the whole Skill by hand.
 //
 // Usage: node self-test.mjs
 
@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { validateIds } from './validate-ids.mjs';
 import { validateTraceability } from './validate-traceability.mjs';
+import { validateAuthorPresence, validateVersioning } from './validate-versioning.mjs';
 import { buildProjectIndex } from './lib/docs.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -44,7 +45,8 @@ function testExample(name) {
   }
   const idViolations = validateIds(projectRoot);
   const { violations: traceViolations } = validateTraceability(projectRoot);
-  return { name, skipped: false, idViolations, traceViolations };
+  const versioningViolations = [...validateAuthorPresence(projectRoot), ...validateVersioning(projectRoot)];
+  return { name, skipped: false, idViolations, traceViolations, versioningViolations };
 }
 
 function main() {
@@ -59,12 +61,13 @@ function main() {
       anySkipped = true;
       continue;
     }
-    if (result.idViolations.length === 0 && result.traceViolations.length === 0) {
+    if (result.idViolations.length === 0 && result.traceViolations.length === 0 && result.versioningViolations.length === 0) {
       console.log('  OK — clean');
     } else {
       anyFailed = true;
       for (const v of result.idViolations) console.log(`  [id] ${v.message}`);
       for (const v of result.traceViolations) console.log(`  [traceability] ${v.message}`);
+      for (const v of result.versioningViolations) console.log(`  [versioning] ${v.message}`);
     }
     console.log('');
   }

@@ -6,7 +6,7 @@ One file per Change Request, saved at `docs/change-requests/CR-XXX.md` in the ta
 
 ```markdown
 # CR-001 — <short title>
-*Status: Open · Opened: 2026-07-13 · Traces to: REQ-014*
+*Status: Open · Opened: 2026-07-13 · Traces to: REQ-014 · Author: Bob*
 
 ## What changed
 <The specific change, stated plainly — what the artifact said before, what
@@ -36,7 +36,7 @@ having one is defeated.>
 
 ```markdown
 # CR-001 — <short title>
-*Status: Open · Opened: 2026-07-13 · Traces to: REQ-014*
+*Status: Open · Opened: 2026-07-13 · Traces to: REQ-014 · Author: Bob*
 
 ## What changed
 ...
@@ -64,4 +64,5 @@ is valid when genuinely true.>
 
 - A CR does not close until every row in the impact list reaches `Status: Reapproved`. Partial closure does not exist.
 - Reopening a phase during the Review gate (phase 17) always produces a CR — never a standalone edit to the document where the problem originated (`playbooks/17-review.md`).
-- The artifact(s) named in `Traces to` keep their original ID after the change — a CR updates content and increments the document's `version` in `project-state.md`, it never reassigns IDs.
+- The artifact(s) named in `Traces to` keep their original ID after the change — a CR updates content, it never reassigns IDs. Closing the CR bumps the project's `docs_version` and adds a `docs/CHANGELOG.md` entry (`rules/versioning.md`) — there is no separate per-document version counter.
+- `Author` is whoever drove this specific change — not necessarily the same person who originally created the artifact(s) it touches.
