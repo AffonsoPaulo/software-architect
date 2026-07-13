@@ -78,6 +78,7 @@ Each confirmed interaction unit becomes an `API-XXX` entry with `traces_to` set 
 - A Use Case that seems to need multiple interaction units when it's actually one unit with different parameters — ask whether these are really distinct operations or variations of the same one before creating separate `API-XXX` entries.
 - "We'll figure out error handling as we go" — push for the standard failure format now; retrofitting consistency later is exactly the kind of undocumented drift this phase exists to prevent.
 - Assuming "API" means "JSON over HTTP" without checking — always confirm the actual interaction style before drafting anything, especially when Architecture's guidance was high-level enough to leave this ambiguous.
+- Whether a plain, display-only route (a GET that just renders a page, with no meaningful input or effect beyond that) needs its own `API-XXX` entry: it doesn't, if `docs/10-frontend-planning/frontend.md`'s corresponding screen already carries `traces_to` back to the same Use Case — documenting both would be the same redundancy the server-rendered special case above already warns against. Give a route its own `API-XXX` when there's an actual input/effect/failure mode worth specifying (a mutation, a filtered/parameterized query); leave a purely-rendering route implicit in its screen otherwise.
 
 ## Frequent errors
 

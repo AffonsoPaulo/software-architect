@@ -14,7 +14,7 @@ Every question you ask, in every phase, follows the loop defined in `rules/confi
 
 ## Entry logic — three states
 
-On every invocation, first look for `docs/project-state.md` in the user's project.
+On every invocation, first look for `docs/project-state.md` in the user's project — the project rooted at the current working directory, unless the user has told you otherwise.
 
 1. **New project** — the file does not exist.
    Start `playbooks/00-project-calibration.md` in initial mode. This creates the file and its first `cycle`.

@@ -29,7 +29,7 @@ Skippable for projects with no interface at all — a pure API, a CLI, a backgro
 
 - What screens/pages exist, one per relevant Use Case (or grouping)?
 - Navigation flow between screens?
-- State management approach — `[confirmation individual]`
+- State management approach — `[confirmation individual]`. For a server-rendered/MVC project with no client-side framework (see phase 09's interaction style), this question usually resolves to "not applicable — no client-side state, every action is a full page load or redirect." That's a valid, complete answer — confirm it explicitly as such rather than treating the question as if it assumes a SPA architecture.
 - Design system/UI kit to use (existing or to be created) — `[confirmation individual]`
 - Responsiveness/target platforms (web, mobile, or both)?
 
