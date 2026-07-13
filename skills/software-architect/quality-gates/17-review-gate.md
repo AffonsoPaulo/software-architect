@@ -5,6 +5,7 @@ The strictest gate in the Skill — the only one that, when passed, sets `docs/p
 ## Scriptable criteria
 - [ ] `scripts/validate-ids.mjs` reports zero violations across every document in `/docs/` — run via delegated subagent per `rules/delegation-policy.md`
 - [ ] `scripts/validate-traceability.mjs` reports zero unresolved orphans or broken references across the full traceability graph (`rules/traceability-rules.md`), respecting documented exceptions (skipped phases, NFR-without-story, etc.) — run via delegated subagent
+- [ ] `scripts/validate-versioning.mjs` reports zero violations: every cycle and every artifact has a non-blank `Author`, `docs_version` matches `docs/CHANGELOG.md`'s newest entry, and `changelog[]`/`CHANGELOG.md` haven't drifted apart
 - [ ] All 18 phase gates (00 through 16, plus this one) show `passed` for the active cycle in `project-state.md`
 
 ## Judgment criteria (AI/human) — never delegated
@@ -12,6 +13,7 @@ The strictest gate in the Skill — the only one that, when passed, sets `docs/p
 - [ ] Every gap or conflict found, if any, was routed through a Change Request (`rules/change-management.md`) rather than patched in isolation, and every resulting downstream re-approval is complete
 - [ ] Every outstanding risk-register entry or gate escape-valve override from prior phases is either resolved or explicitly, freshly re-confirmed as still acceptable by the user at this final checkpoint
 - [ ] `docs/17-review/review-report.md` accurately reflects everything actually found and resolved — no drift between the report and reality
+- [ ] Every significant documentation event since the last `docs/CHANGELOG.md` entry has a corresponding row — the script above confirms the log is internally consistent, not that it's complete; completeness (is everything that *should* be logged actually there) requires reading what happened, which only the reviewer can judge
 - [ ] The user gave explicit final approval, individually confirmed, with a recorded timestamp — no exception, in any confirmation mode
 
 ## Pass rule

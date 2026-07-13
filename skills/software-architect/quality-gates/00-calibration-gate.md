@@ -5,6 +5,7 @@
 - [ ] Every phase `01` through `17` has an entry with a non-empty `status` field in the active cycle — checked by `scripts/validate-gate.mjs`
 - [ ] Phases `03`, `08`, `11`, and `17` do not have `status: skipped` in the active cycle — checked by `scripts/validate-gate.mjs`
 - [ ] `confirmation_mode`, `documentation_depth`, and `language` are all set (non-null) in `project-state.md` — checked by `scripts/validate-gate.mjs`
+- [ ] The active cycle's `author` is set (non-blank) in `project-state.md` — checked by `scripts/validate-versioning.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] The phase-inclusion list was proposed by the AI and explicitly confirmed by the user as a whole, not silently finalized

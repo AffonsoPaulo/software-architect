@@ -16,13 +16,16 @@ How the Skill handles a change to a document that has already been approved. Thi
 4. Every document on the impact list is reopened for a fresh confirmation pass on the specific parts affected — not rewritten wholesale, and not silently left as-is.
 5. Each affected document's status in `project-state.md` moves from `approved` to `pending re-approval` until its owning phase confirms the update.
 6. Only once every item on the impact list is re-approved does the CR itself close.
+7. Closing always produces a `docs/CHANGELOG.md` entry — Major or Patch depending on the impact list's size and whether the change reverses/supersedes a prior decision, per `rules/versioning.md`. No exception for a CR that feels small; that's exactly what Patch is for.
 
 ## What a CR does not do
 
 - It does not touch documents outside the computed impact list — traceability is what defines blast radius, not guesswork.
 - It does not bypass the normal confirmation loop (`confirmation-protocol.md`) for any reopened document — a CR is not a shortcut, it's a scoped reopening.
-- It does not reset any artifact ID — see `id-conventions.md`. A changed requirement keeps its `REQ-XXX` ID; only its content and version change.
+- It does not reset any artifact ID — see `id-conventions.md`. A changed requirement keeps its `REQ-XXX` ID; only its content changes, and the project's `docs_version` bumps once the CR closes (`rules/versioning.md`) — there is no separate per-document version counter anymore.
 
 ## Logging
 
 Every applied CR is logged in `project-state.md`: CR ID, artifact(s) affected, date, and the full impact list with each item's re-approval status. This log is what lets a future session (or a later `cycle`, see `document-locations.md`) understand why a document looks the way it does.
+
+The CR's own metadata line (`templates/change-request.md`) carries an `Author` key — whoever drove that specific change, not necessarily the same field as the artifact's own `Author` (which records who originally created it, per `rules/versioning.md`).

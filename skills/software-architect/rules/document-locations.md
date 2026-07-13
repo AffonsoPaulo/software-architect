@@ -33,6 +33,7 @@ The rule of thumb: split when the category's items are the whole point and the c
 <user's repo root>/
   docs/
     project-state.md              # single source of truth for progress, cycles, mode, language
+    CHANGELOG.md                  # project-wide log of significant documentation events, see rules/versioning.md
     00-calibration/
       calibration.md
     01-discovery/
@@ -87,8 +88,9 @@ The rule of thumb: split when the category's items are the whole point and the c
 ```
 
 - `project-state.md` lives at the root of `docs/`, not inside any phase subfolder — it's project-wide, not phase-specific.
+- `CHANGELOG.md` lives at the root of `docs/`, not inside any phase subfolder, for the same reason — it logs events from any phase, or from a Change Request touching any category (`rules/versioning.md`, `templates/changelog.md`).
 - `risk-register.md` lives under `11-security/` because Security is where risk tracking becomes formal, but any phase can add entries to it (e.g. an "I don't know" pending item from an earlier phase, per `confirmation-protocol.md`).
-- `project-state.md`'s `documents[]` array tracks one entry per **index file** for a split category (e.g. `docs/03-requirements/requirements.md`), not one per item file — approval/version applies to the category as a whole. Adding, changing, or deprecating an individual item bumps that entry's `version`, the same as any other edit to the category.
+- `project-state.md`'s `documents[]` array tracks one entry per **index file** for a split category (e.g. `docs/03-requirements/requirements.md`), not one per item file — `status` (draft/approved) applies to the category as a whole. There is no per-category version counter anymore — the whole documentation set shares one `docs_version`, bumped once per `CHANGELOG.md` entry, whichever category the entry touches (`rules/versioning.md`).
 
 ## Inside this Skill package (`software-architect/`)
 

@@ -12,7 +12,7 @@ Every artifact this Skill assigns an ID to (`rules/id-conventions.md`) is declar
 
 ```markdown
 ### REQ-001 — Post a recipe
-*Type: Functional · Priority: Must have · Traces to: BR-002*
+*Type: Functional · Priority: Must have · Traces to: BR-002 · Author: Alice*
 
 Members can post a recipe with a title, an ingredient list, and
 step-by-step instructions.
@@ -33,6 +33,8 @@ Any key may appear in a metadata line; these are the ones the validation scripts
 | `Depends on` | Implementation Plan / Roadmap dependency | comma-separated list of IDs |
 
 Any other key (`Type`, `Priority`, `Status`, `Kind`, `Source`, `Probability`, `Impact`, `Owner`, `ADR`, `Date`, `Target date`, and so on — each template defines which ones it uses) is captured too, but read as a plain scalar string, used only by that template's own phase-specific checks (if any) — not by the generic traceability engine.
+
+**`Author` is the one key every ID'd artifact's metadata line carries, regardless of category or template** — not asked per-artifact, not shown in every individual template's own worked example (it would mean repeating the same statement in a dozen files); populated automatically from `project-state.md`'s active `cycles[].author` at the moment the artifact is created (`rules/versioning.md`). `scripts/validate-versioning.mjs` checks it's never blank.
 
 An empty relationship is written explicitly, never omitted: `Traces to: (none)` for a requirement with no business rule behind it, not a missing key. A missing `Traces to` key means "not yet declared," which validators treat as zero targets — the same as `(none)` — but writing it explicitly is still preferred so a reader never wonders whether it was forgotten. Accepted "empty" tokens: `(none)`, `none`, `—`, `-`, `n/a` (case-insensitive) — all parse to an empty list.
 

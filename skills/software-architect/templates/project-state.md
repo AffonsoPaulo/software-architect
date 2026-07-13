@@ -12,6 +12,13 @@ skill_version: "1.0.0"
 # On resume, SKILL.md compares this to its own current version and warns
 # the user if they differ instead of silently assuming compatibility.
 
+docs_version: "1.1.0"
+# Single semantic version for the WHOLE documentation set — Major.Minor.Patch,
+# rules/versioning.md. Bumped once per docs/CHANGELOG.md entry; always matches
+# that file's newest row exactly (see `changelog` below — "1.1.0" here matches
+# its last entry). Not the same field as skill_version above (that's this
+# Skill package's own version; this is the target project's docs).
+
 language: "en"
 # The language confirmed with the user during phase 00 (Calibration).
 # Set once, reused for every phase and every cycle. Never re-asked.
@@ -69,6 +76,13 @@ cycles:
     # Cycle 1 is always the original end-to-end flow (phases 00-17).
     # Cycle 2+ are incremental additions opened by playbooks/00-project-calibration.md
     # in incremental mode, only once the prior cycle reached ready_for_implementation: true.
+    author: "Alice"
+    # Who confirmed this cycle's answers — asked once per cycle (initial AND every
+    # incremental cycle, never re-inherited from a prior cycle) in
+    # playbooks/00-project-calibration.md. Different cycles may have different
+    # authors when more than one person uses the Skill on the same project over
+    # time. Populates every artifact created during this cycle's Author metadata-
+    # line key automatically (rules/document-format.md, rules/versioning.md).
     started_at: "2026-07-13T10:00:00Z"
     ready_for_implementation: false
     ready_for_implementation_at: null
@@ -96,21 +110,18 @@ documents:
     template: "templates/vision.md"
     status: "draft"
     # "draft" | "approved"
-    version: 1
-    # Increments every time a Change Request touches this document.
     cycle_id: 1
   - path: "docs/03-requirements/requirements.md"
     template: "templates/requirements.md"
     status: "approved"
-    version: 3
     cycle_id: 1
     # For a category that splits into an index + item files (rules/document-
     # locations.md — Requirements, User Stories, Use Cases, Domain Model,
     # Database Design, Architecture, API Design, Security, Testing, Backlog),
     # this one entry represents the WHOLE category, tracked at the index
-    # file's path. There is no separate documents[] entry per req-XXX.md —
-    # adding, changing, or deprecating one item still just bumps this
-    # entry's version, the same as any other edit to the category.
+    # file's path. There is no separate documents[] entry per req-XXX.md.
+    # No per-document version counter — see `changelog` below; the whole
+    # documentation set shares one docs_version.
 
 change_requests:
   - id: "CR-001"
@@ -124,6 +135,28 @@ change_requests:
     closed_at: null
     # A CR closes only once every item on its impact_list is reapproved.
     # See rules/change-management.md.
+
+changelog:
+  - version: "1.0.0"
+    author: "Alice"
+    date: "2026-07-13"
+    description: "Initial calibration confirmed"
+    cycle_id: 1
+    cr_id: null
+  - version: "1.1.0"
+    author: "Alice"
+    date: "2026-07-14"
+    description: "Added REQ-001, REQ-002, REQ-003"
+    cycle_id: 1
+    cr_id: null
+  # Mirrors docs/CHANGELOG.md 1:1, same reason change_requests above mirrors
+  # docs/change-requests/CR-XXX.md — the Skill needs a machine-readable copy
+  # to resume correctly without re-parsing a markdown table. Write both
+  # together, in the same step, every time (rules/versioning.md). Exactly
+  # one of cycle_id/cr_id is set per entry — cycle_id for a phase-completion
+  # entry (Minor), cr_id for a Change-Request-closure entry (Major/Patch).
+  # scripts/validate-versioning.mjs checks this array and the markdown file
+  # never drift apart.
 ```
 
 ## Notes for whoever fills this in
