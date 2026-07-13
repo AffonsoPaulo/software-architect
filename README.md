@@ -69,7 +69,7 @@ Just start describing what you want to build. Calibration asks how you want to b
 
 Every document it writes (except its own internal `project-state.md`) is plain markdown, meant to be opened and read as a real document — no YAML block holding "the real data" above a thin prose restatement. Open any generated file, select all, and paste it into Word; that's the bar it's held to. For categories that are really a list of artifacts (Requirements, Use Cases, Architecture components, and similar), that means a short index file plus one file per item, so a single requirement or endpoint is its own reviewable, linkable document — see `rules/document-locations.md`.
 
-To review the whole thing at once instead of file by file, `node skills/software-architect/scripts/build-doc-site.mjs` builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required.
+To review the whole thing at once instead of file by file, `scripts/build-doc-site.mjs` (wherever `npx skills add` put it — typically `.claude/skills/software-architect/scripts/build-doc-site.mjs`) builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required. Claude Code users with the optional `/architect-docs` command (below) don't need to find the path themselves.
 
 If you come back to a project later, it resumes exactly where it left off — see `docs/project-state.md` in your project (created by the Skill, not part of this package). If a project is already fully planned and implemented and you want to add something new, just ask — the Skill recognizes this and opens a new incremental cycle rather than starting over.
 
@@ -77,10 +77,11 @@ Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confir
 
 ## Optional: Claude Code slash commands
 
-The Skill itself is agent-agnostic — automatic activation by intent (above) is what works the same way across Claude Code, Codex CLI, Cursor, Windsurf, and similar. `npx skills add` doesn't install slash commands (it only installs the Skill directory), and there's no shared slash-command format across agents to build one against. What's here is a Claude Code–specific convenience, not a cross-agent feature:
+The Skill itself is agent-agnostic — automatic activation by intent (above) is what works the same way across Claude Code, Codex CLI, Cursor, Windsurf, and similar. `npx skills add` doesn't install slash commands (it only installs the Skill directory), and there's no shared slash-command format across agents to build one against. What's here is a Claude Code–specific convenience, not a cross-agent feature — and, unlike the Skill itself, `npx skills add` won't fetch it for you, since `commands/` sits outside the directory it installs. Get it by cloning this repo (or downloading just `commands/architect.md` and `commands/architect-docs.md`), then:
 
 ```
-cp -r commands ~/.claude/commands/
+git clone https://github.com/AffonsoPaulo/software-architect
+cp -r software-architect/commands ~/.claude/commands/
 ```
 
 (or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). This adds:
@@ -98,12 +99,12 @@ software-architect/            (repo root)
   skills/
     software-architect/        # everything npx skills add actually installs
       SKILL.md                 # orchestrator (entrypoint, only file always loaded)
-      rules/                    # 12 cross-cutting rules referenced by every phase
+      rules/                    # 14 cross-cutting rules referenced by every phase
       playbooks/                 # one file per phase (00-project-calibration .. 17-review)
       templates/                  # document templates produced by each phase
       quality-gates/               # one gate per phase
       checklists/                  # one checklist per phase
-      scripts/                     # Node.js validation scripts (IDs, traceability, gates) — zero npm dependencies
+      scripts/                     # Node.js: validation (IDs, traceability, gates) + build-doc-site.mjs — zero npm dependencies
       docs/                       # this skill's own usage documentation
 ```
 
