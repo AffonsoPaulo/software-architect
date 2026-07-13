@@ -1,0 +1,18 @@
+# Architecture Review Gate (Master Gate)
+
+The strictest gate in the Skill — the only one that, when passed, sets `docs/project-state.md`'s active cycle `ready_for_implementation: true`. No escape valve applies anywhere in this gate; see the Pass rule below.
+
+## Scriptable criteria
+- [ ] `scripts/validate-ids.mjs` reports zero violations across every document in `/docs/` — run via delegated subagent per `rules/delegation-policy.md`
+- [ ] `scripts/validate-traceability.mjs` reports zero unresolved orphans or broken references across the full traceability graph (`rules/traceability-rules.md`), respecting documented exceptions (skipped phases, NFR-without-story, etc.) — run via delegated subagent
+- [ ] All 18 phase gates (00 through 16, plus this one) show `passed` for the active cycle in `project-state.md`
+
+## Judgment criteria (AI/human) — never delegated
+- [ ] The semantic conflict scan (main thread, not the subagent) found zero unresolved contradictions between documents
+- [ ] Every gap or conflict found, if any, was routed through a Change Request (`rules/change-management.md`) rather than patched in isolation, and every resulting downstream re-approval is complete
+- [ ] Every outstanding risk-register entry or gate escape-valve override from prior phases is either resolved or explicitly, freshly re-confirmed as still acceptable by the user at this final checkpoint
+- [ ] `docs/17-review/review-report.md` accurately reflects everything actually found and resolved — no drift between the report and reality
+- [ ] The user gave explicit final approval, individually confirmed, with a recorded timestamp — no exception, in any confirmation mode
+
+## Pass rule
+This gate has **no escape valve** — `rules/quality-gate-structure.md`'s stuck-criterion override does not apply to any criterion here. Every criterion must genuinely pass; a gap routes through a Change Request and this gate is re-evaluated after that CR closes, not overridden. Only once every criterion passes AND the user gives explicit final approval does `project-state.md`'s active cycle get `ready_for_implementation: true`. This is the only gate in the Skill whose pass directly changes that flag, and `SKILL.md` treats that flag as the sole permission to generate code.
