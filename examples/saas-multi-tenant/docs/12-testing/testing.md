@@ -24,28 +24,9 @@ Tenant isolation (REQ-003) receives the deepest test investment — an e2e test 
 
 ## Test plans
 
-### TEST-001 — Task creation validation
-*Traces to: REQ-001 · Level: Integration · Kind: Automated*
-
-Creates a task via API-001 with valid and invalid inputs (missing title, invalid assignee), asserts correct status codes and that a valid creation starts in 'to_do'.
-
-### TEST-002 — Task listing and filtering
-*Traces to: REQ-002 · Level: Integration · Kind: Automated*
-
-Seeds a project with tasks in varied statuses/assignees, asserts API-002's filtering returns the correct subset for every filter combination, and an empty list for a task-free project.
-
-### TEST-003 — Cross-tenant access rejection
-*Traces to: REQ-003 · Level: E2e · Kind: Automated*
-
-Authenticates as a user in Tenant A, attempts to access/create tasks under a Tenant B project ID (both direct guesses and IDs harvested from Tenant A's own valid responses), asserts every attempt returns 404 with no distinguishable difference from a genuinely nonexistent project.
-
-**Non-functional test detail**
-Threshold: zero successful cross-tenant reads or writes across the full attack matrix tested (direct ID guess, ID reuse, parameter tampering). Any single success fails the build.
-
-### TEST-004 — Load test at 500 concurrent users
-*Traces to: REQ-004 · Level: Load · Kind: Automated*
-
-k6 script simulating 500 concurrent users hitting API-001 and API-002 across multiple tenants, asserting p95 latency stays under 300ms and no tenant's latency degrades disproportionately (the REQ-004 noisy-neighbor edge case).
-
-**Non-functional test detail**
-Threshold: p95 < 300ms sustained over a 10-minute run at 500 concurrent simulated users; per-tenant p95 must not exceed the aggregate p95 by more than 20%, to catch noisy-neighbor effects.
+| ID | Title | Level | Kind | Traces to |
+|---|---|---|---|---|
+| [TEST-001](test-001.md) | Task creation validation | Integration | Automated | REQ-001 |
+| [TEST-002](test-002.md) | Task listing and filtering | Integration | Automated | REQ-002 |
+| [TEST-003](test-003.md) | Cross-tenant access rejection | E2e | Automated | REQ-003 |
+| [TEST-004](test-004.md) | Load test at 500 concurrent users | Load | Automated | REQ-004 |

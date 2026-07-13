@@ -11,17 +11,8 @@ Fixtures: small hand-crafted files per edge case, plus one generated 100MB CSV f
 
 ## Test plans
 
-### TEST-001 — CSV/JSON round-trip with escaping
-*Traces to: REQ-001 · Level: Integration · Kind: Automated*
-
-Round-trips a CSV fixture with commas/quotes in values through CSV→JSON→CSV and asserts the result matches the original, per REQ-001's acceptance criteria and edge cases.
-
-### TEST-002 — Memory bound on large files
-*Traces to: REQ-002 · Level: Integration · Kind: Automated*
-
-Converts a generated 100MB CSV fixture to JSON, asserting peak memory stays under 512MB (measured via `process.memoryUsage()` sampling) and the process completes successfully.
-
-### TEST-003 — YAML round-trip and unsupported-feature error (cycle 2)
-*Traces to: REQ-003 · Level: Integration · Kind: Automated*
-
-Round-trips a YAML fixture through YAML→JSON→YAML and asserts equivalence; separately asserts that a YAML fixture using anchors fails with the documented specific error rather than silently mis-converting.
+| ID | Title | Level | Kind | Traces to |
+|---|---|---|---|---|
+| [TEST-001](test-001.md) | CSV/JSON round-trip with escaping | Integration | Automated | REQ-001 |
+| [TEST-002](test-002.md) | Memory bound on large files | Integration | Automated | REQ-002 |
+| [TEST-003](test-003.md) | YAML round-trip and unsupported-feature error (cycle 2) | Integration | Automated | REQ-003 |

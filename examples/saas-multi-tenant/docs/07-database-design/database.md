@@ -5,55 +5,12 @@ Relational (PostgreSQL) — `[confirmation individual]`, confirmed for strong re
 
 ## Tables / collections
 
-### TBL-001 — tenants
-*Traces to: ENT-001*
-
-| Column | Type | Constraints |
+| ID | Table | Traces to |
 |---|---|---|
-| id | uuid | primary key |
-| name | text | not null |
-| created_at | timestamptz | not null, default now() |
-
-**Indexes**
-None beyond the primary key — tenants are looked up by id only.
-
-### TBL-002 — projects
-*Traces to: ENT-002*
-
-| Column | Type | Constraints |
-|---|---|---|
-| id | uuid | primary key |
-| tenant_id | uuid | foreign key -> tenants.id, not null |
-| name | text | not null |
-
-**Indexes**
-- Index on tenant_id — every project list query is scoped by tenant.
-
-### TBL-003 — tasks
-*Traces to: ENT-003*
-
-| Column | Type | Constraints |
-|---|---|---|
-| id | uuid | primary key |
-| project_id | uuid | foreign key -> projects.id, not null |
-| title | text | not null |
-| description | text | — |
-| status | text | not null, check in ('to_do','in_progress','done','deleted') |
-| assignee_id | uuid | foreign key -> users.id, nullable |
-
-**Indexes**
-- Composite index on (project_id, status) — the task board query filters by both.
-- Index on assignee_id — the "my tasks" filter.
-
-### TBL-004 — users
-*Traces to: ENT-004*
-
-| Column | Type | Constraints |
-|---|---|---|
-| id | uuid | primary key |
-| tenant_id | uuid | foreign key -> tenants.id, not null |
-| email | text | not null, unique per tenant_id |
-| role | text | not null, check in ('project_admin','team_member') |
+| [TBL-001](tbl-001.md) | tenants | ENT-001 |
+| [TBL-002](tbl-002.md) | projects | ENT-002 |
+| [TBL-003](tbl-003.md) | tasks | ENT-003 |
+| [TBL-004](tbl-004.md) | users | ENT-004 |
 
 ## Migration strategy
 Versioned SQL migrations, applied automatically in CI before deploy — `[confirmation individual]`.

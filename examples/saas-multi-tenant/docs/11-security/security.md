@@ -74,12 +74,7 @@ Dependency scanning (`npm audit` in CI, blocking on high/critical), the automate
 
 ## Controls
 
-### SEC-001 — Tenant isolation enforcement
-*Traces to: ARCH-002, API-001, API-002*
-
-Every data-access query is scoped by tenant via ARCH-002's middleware-injected context, backed by PostgreSQL row-level security policies as an independent second enforcement layer (ADR-002).
-
-### SEC-002 — Authentication and role-based authorization
-*Traces to: ARCH-001, API-001, API-002*
-
-All API access requires an authenticated session (OAuth/SSO); role-based authorization (Project Admin vs. Team Member, per BR-001) is enforced on every mutating endpoint. Both API-001 and API-002 require an authenticated session; API-001 (task creation) additionally checks the caller's role doesn't block the action per BR-001 semantics (task creation isn't Admin-only, but deletion — not yet in this release's API — will be when added).
+| ID | Title | Traces to |
+|---|---|---|
+| [SEC-001](sec-001.md) | Tenant isolation enforcement | ARCH-002, API-001, API-002 |
+| [SEC-002](sec-002.md) | Authentication and role-based authorization | ARCH-001, API-001, API-002 |

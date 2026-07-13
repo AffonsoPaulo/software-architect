@@ -23,7 +23,6 @@ Not applicable — the tool has no secrets or credentials.
 
 ## Controls
 
-### SEC-001 — File access restricted to explicit CLI arguments
-*Traces to: ARCH-001, API-001*
-
-The tool only ever reads the explicitly named input file and writes the explicitly named output file — no network access, no reading of unrelated files, no execution of file contents. This is the auth/authz statement required for every `API-XXX`: **API-001 and API-002 are both "public, no auth" by design** — there is no user/session concept in a local CLI tool. Protects ARCH-001 and, by extension, API-002 (which reuses the same file-handling path).
+| ID | Title | Traces to |
+|---|---|---|
+| [SEC-001](sec-001.md) | File access restricted to explicit CLI arguments | ARCH-001, API-001 |

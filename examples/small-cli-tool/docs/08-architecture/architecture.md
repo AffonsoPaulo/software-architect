@@ -5,15 +5,10 @@ Single-process CLI binary, no client-server split, no persistence layer — `[co
 
 ## Components
 
-### ARCH-001 — Conversion Engine
-*Traces to: REQ-002 · ADR: ADR-001*
-
-Parses an input format into an internal representation (a stream of flat records) and serializes it to a target format. Streams rather than loading the whole file into memory, to satisfy REQ-002.
-
-### ARCH-002 — YAML Parser Adapter (cycle 2)
-*Traces to: (none)*
-
-Parses/serializes YAML into the same internal representation ARCH-001 already uses — added without changing ARCH-001's shape, since the internal representation was already format-agnostic.
+| ID | Component | Traces to | ADR |
+|---|---|---|---|
+| [ARCH-001](arch-001.md) | Conversion Engine | REQ-002 | ADR-001 |
+| [ARCH-002](arch-002.md) | YAML Parser Adapter (cycle 2) | (none) | — |
 
 ## Core technologies
 Node.js (matches the target developer machines, which already have it installed) — `[confirmation individual]`.

@@ -5,20 +5,11 @@ Modular monolith — `[confirmation individual]`. Confirmed given the team's siz
 
 ## Components
 
-### ARCH-001 — Application Server
-*Traces to: (none) · ADR: ADR-001*
-
-Hosts all business logic (projects, tasks, users) as a single deployable modular monolith.
-
-### ARCH-002 — Tenant Context Middleware
-*Traces to: REQ-003 · ADR: ADR-002*
-
-Resolves the caller's tenant from their authenticated session on every request and injects it into every database query, so no query can accidentally cross tenant boundaries.
-
-### ARCH-003 — Connection Pool + Read Replica Layer
-*Traces to: REQ-004*
-
-Pools database connections and routes read-heavy queries (task listing) to read replicas to sustain REQ-004's concurrency/latency target.
+| ID | Component | Traces to | ADR |
+|---|---|---|---|
+| [ARCH-001](arch-001.md) | Application Server | (none) | ADR-001 |
+| [ARCH-002](arch-002.md) | Tenant Context Middleware | REQ-003 | ADR-002 |
+| [ARCH-003](arch-003.md) | Connection Pool + Read Replica Layer | REQ-004 | — |
 
 ## Core technologies
 Node.js + PostgreSQL, deployed on AWS — `[confirmation individual]`. Confirmed based on the team's existing expertise (avoids a ramp-up cost the one-quarter MVP timeline can't absorb).
