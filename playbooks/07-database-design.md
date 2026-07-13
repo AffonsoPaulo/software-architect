@@ -32,6 +32,13 @@ Skippable only alongside Domain Model, for projects with no persistence layer at
 - Primary/foreign keys, uniqueness constraints, expected indexes (grounded in known access patterns, not speculative)?
 - Migration and schema versioning strategy — `[confirmation individual]`
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- For columns whose meaning isn't obvious from name/type alone: what does this column actually mean to the business?
+- Is this table's shape normalized, or deliberately denormalized for a stated reason?
+- How long is this data retained, and what happens after (archived, deleted, anonymized)?
+- What are the backup frequency and recovery point/time objectives this schema needs to support?
+- Does this project need seed/sample data for development and testing? What, and where will it live?
+
 ## Optional questions
 
 - Partitioning/sharding strategy, only if the project's scale (from Calibration) makes it relevant now rather than a later optimization.
@@ -49,7 +56,7 @@ Standard loop (`rules/confirmation-protocol.md`). Database type and migration st
 
 ## How to document answers
 
-Each confirmed table/collection becomes a `TBL-XXX` entry, `traces_to` set to the Domain Model entity (or entities) it persists. Columns, constraints, and indexes are recorded per the confirmed answers — never inferred beyond what was actually asked and confirmed. The `erDiagram` (`rules/diagram-conventions.md`) is built from this confirmed data.
+Each confirmed table/collection becomes a `TBL-XXX` entry, `traces_to` set to the Domain Model entity (or entities) it persists. Columns, constraints, and indexes are recorded per the confirmed answers — never inferred beyond what was actually asked and confirmed. The `erDiagram` (`rules/diagram-conventions.md`) is built from this confirmed data. At Fully Dressed depth, the additional answers map to `templates/database.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

@@ -32,6 +32,13 @@ Skippable when Calibration determined the project context is already clear enoug
 - Known constraints (deadline, budget, mandated technology, regulatory) — `[confirmation individual]`
 - How will success be measured?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What's the broader business opportunity beyond just solving the problem (new revenue, market position, competitive parity)?
+- Who are the distinct stakeholder groups (not just end users), and what does each care about?
+- What assumptions is this Vision resting on, and what external dependencies does it have?
+- What business-level risks threaten this project's success (not technical risk — that's phase 11)?
+- For each success criterion: what's the current baseline, and how/when will it actually be measured?
+
 ## Optional questions
 
 - Market context.
@@ -53,7 +60,7 @@ Standard loop, per `rules/confirmation-protocol.md`. No phase-specific nuance be
 
 ## How to document answers
 
-Each confirmed answer maps directly to its `templates/vision.md` section. If an answer touches multiple sections (common for business objective / success criteria), split it across them rather than forcing one section to carry everything.
+Each confirmed answer maps directly to its `templates/vision.md` section. If an answer touches multiple sections (common for business objective / success criteria), split it across them rather than forcing one section to carry everything. At Fully Dressed depth, the additional answers map to `templates/vision.md`'s "Fully Dressed additions" section — asked and documented the same way, just more of them.
 
 ## How to validate answers
 

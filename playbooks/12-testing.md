@@ -32,6 +32,13 @@ Skippable only for genuinely disposable prototypes explicitly confirmed as such 
 - Test data strategy (fixtures, mocks, dedicated environment)?
 - Which requirements need manual/exploratory testing vs. which are automatable?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What must be true before testing for a given level/milestone can start (entry criteria), and what makes it done (exit criteria)?
+- What environment(s) do tests actually run against, and how is it kept representative of production?
+- How is a found defect tracked, triaged, and prioritized?
+- Which areas get the most testing investment, and why — tied to actual risk, not "test everything equally"?
+- For each `TEST-XXX` covering an NFR: what's the actual threshold being tested, and how?
+
 ## Optional questions
 
 - Whether specific Use Cases warrant their own end-to-end test scenario beyond the requirement-level coverage.
@@ -50,7 +57,7 @@ Standard loop (`rules/confirmation-protocol.md`). Test levels/tooling is individ
 
 ## How to document answers
 
-Each confirmed test plan becomes a `TEST-XXX` entry, `traces_to` set to its source `REQ-XXX`. `kind` (automated/manual) is recorded exactly as confirmed — never assumed to be automated by default.
+Each confirmed test plan becomes a `TEST-XXX` entry, `traces_to` set to its source `REQ-XXX`. `Kind` (automated/manual) is recorded exactly as confirmed — never assumed to be automated by default. At Fully Dressed depth, the additional answers map to `templates/testing.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

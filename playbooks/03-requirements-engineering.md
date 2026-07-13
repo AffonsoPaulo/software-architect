@@ -32,6 +32,13 @@ Never. Even a small or incremental cycle still runs this phase, though the numbe
 - Edge cases and error scenarios for each functional requirement.
 - Priority of each requirement (must/should/could, MoSCoW, or an equivalent scheme confirmed with the user).
 
+**Fully Dressed only** (`rules/documentation-depth.md`), per requirement:
+- Why does this requirement exist — what's the rationale behind it, beyond the business rule it may trace to?
+- What's the source — a named stakeholder, a regulation, a prior incident, an existing system's behavior being preserved?
+- What concretely goes wrong if this requirement isn't met, and how severe is that?
+- How will this requirement actually be verified — automated test, manual review, external audit?
+- Does this requirement depend on or conflict with any other requirement?
+
 ## Optional questions
 
 - Whether the user wants acceptance criteria in Gherkin (Given/When/Then) format or plain prose — either is fine, but ask once and stay consistent for the rest of this document.
@@ -48,7 +55,7 @@ Standard loop (`rules/confirmation-protocol.md`). Non-functional requirements ar
 
 ## How to document answers
 
-Each confirmed requirement becomes a `REQ-XXX` heading in `templates/requirements.md`, in the order it was confirmed, per `rules/document-format.md`. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`.
+Each confirmed requirement becomes a `REQ-XXX` heading in `templates/requirements.md`, in the order it was confirmed, per `rules/document-format.md`. `REQ-XXX` numbers come from `project-state.md`'s `id_sequences.REQ`. At Fully Dressed depth, the additional answers map to that template's "Fully Dressed additions" subsections (Rationale, Source, Risk if not met, Verification method, Dependencies) and `Status` starts at `Approved` once confirmed.
 
 ## How to validate answers
 

@@ -39,6 +39,13 @@ Never skippable.
 - Core technologies (language, framework, infrastructure) — `[confirmation individual]`
 - Interaction style this architecture uses — not limited to REST/GraphQL/RPC: could be server-rendered MVC, a CLI command surface, an event/message handler, a library/SDK interface, or something else entirely; name what the project actually is rather than defaulting to the most common answer — a high-level decision phase 09 will detail, not redecide
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What does the system boundary look like — every external actor/system it talks to, as a single "box" view?
+- For each critical scenario (checkout, authentication, anything consequential): how do the components actually collaborate at runtime?
+- What patterns apply consistently across every component — logging, error handling, configuration, caching?
+- Which NFRs matter most relative to each other, and how were conflicts between them resolved?
+- What architectural risks or deliberately accepted technical debt exist right now?
+
 ## Optional questions
 
 - Whether a separate data-flow `flowchart` is needed in addition to the component diagram, if the component diagram alone doesn't make data flow clear.
@@ -59,7 +66,7 @@ Standard loop (`rules/confirmation-protocol.md`). Architectural style and core t
 
 ## How to document answers
 
-Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFRs it addresses. Every consequential decision (style, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 6 of the interview — never inferred after the fact.
+Each confirmed component becomes an `ARCH-XXX` entry, `traces_to` set to the NFRs it addresses. Every consequential decision (style, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 6 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
 
 ## How to validate answers
 

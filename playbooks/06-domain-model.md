@@ -32,6 +32,12 @@ Skippable only for projects with no meaningful data model (e.g. a stateless util
 - What invariants must each entity/aggregate always guarantee?
 - What are the relationships between entities (cardinality)?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What terms should everyone (user, AI, later readers) use consistently for this domain's concepts — a short glossary?
+- Does this project have more than one bounded context? If so, where are the boundaries?
+- Are there meaningful domain events worth naming explicitly (e.g. "OrderRefunded")?
+- Walk one concrete example scenario end to end, showing the entities and invariants actually working together.
+
 ## Optional questions
 
 - Whether a `classDiagram` should split into multiple diagrams if the model is large enough that one diagram would be unreadable.
@@ -48,7 +54,7 @@ Standard loop (`rules/confirmation-protocol.md`). Aggregate boundary decisions a
 
 ## How to document answers
 
-Each confirmed entity/value object becomes an `ENT-XXX` entry, `traces_to` set to the Use Case(s) it appears in. Relationships are recorded with cardinality and a plain-language description. The `classDiagram` (`rules/diagram-conventions.md`) is built from the same confirmed data — never drawn first and reverse-documented.
+Each confirmed entity/value object becomes an `ENT-XXX` entry, `traces_to` set to the Use Case(s) it appears in. Relationships are recorded with cardinality and a plain-language description. The `classDiagram` (`rules/diagram-conventions.md`) is built from the same confirmed data — never drawn first and reverse-documented. At Fully Dressed depth, the additional answers map to `templates/domain-model.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

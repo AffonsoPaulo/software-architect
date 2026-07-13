@@ -31,6 +31,12 @@ Skippable for a project so small that "everything ships as one milestone" is the
 - Dependencies between milestones (what blocks what)?
 - "Done" criterion per milestone?
 
+**Fully Dressed only** (`rules/documentation-depth.md`), per milestone:
+- Does this milestone depend on anything outside the team's own control (a partner's API, a legal review, a third-party credential)?
+- What business-level metric tells you this milestone actually worked once shipped?
+- Are there risks specific to delivering this milestone, beyond the project-wide risk register?
+- Who needs to know about progress/delays on this roadmap, how often, and through what channel?
+
 ## Optional questions
 
 - Whether specific milestones warrant their own more detailed breakdown diagram, if the dependency graph is large enough that one diagram would be unreadable.
@@ -49,12 +55,12 @@ Standard loop (`rules/confirmation-protocol.md`). No question here is individual
 
 ## How to document answers
 
-Each confirmed milestone gets a stable slug (no formal ID prefix reserved for milestones), its `delivers` list of `US-XXX`/`UC-XXX`, dependencies on other milestones, and a done criterion. Anything confirmed as deferred goes in the `deferred` list with its stated reason — never silently dropped from the document.
+Each confirmed milestone gets a stable name (no formal ID prefix reserved for milestones, per `rules/document-format.md`), its `Delivers` list of `US-XXX`/`UC-XXX`, dependencies on other milestones, and a done criterion. Anything confirmed as deferred goes in the "Deferred" section with its stated reason — never silently dropped from the document. At Fully Dressed depth, the additional answers map to `templates/roadmap.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 
-- `has_real_dates` is set explicitly and accurately — `gantt` diagrams only appear if it's true.
-- Every approved `US-XXX`/`UC-XXX` appears in exactly one milestone's `delivers` list, or in `deferred` with a reason — never in neither.
+- "Has real dates" is set explicitly and accurately — `gantt` diagrams only appear if it's true.
+- Every approved `US-XXX`/`UC-XXX` appears in exactly one milestone's `Delivers` list, or in "Deferred" with a reason — never in neither.
 - Every milestone has a concrete, checkable done criterion.
 - Milestone dependencies form a valid order (no cycles).
 
@@ -66,7 +72,7 @@ Each confirmed milestone gets a stable slug (no formal ID prefix reserved for mi
 
 ## Common ambiguities
 
-- The user gives a date that's actually a hope ("we'd like this by Q2") rather than a firm deadline — ask which it is; a soft target and a real constraint should be recorded differently, and `has_real_dates` should reflect an actual commitment, not an aspiration.
+- The user gives a date that's actually a hope ("we'd like this by Q2") rather than a firm deadline — ask which it is; a soft target and a real constraint should be recorded differently, and "Has real dates" should reflect an actual commitment, not an aspiration.
 - A milestone described only by feature names rather than by the actual `US-XXX`/`UC-XXX` it delivers — always resolve to the underlying approved IDs, not a restated feature list that could drift from what was actually approved.
 
 ## Frequent errors
@@ -95,4 +101,4 @@ See `rules/ai-invariants.md`. In particular: never assign a calendar date the us
 
 ## Approval criteria
 
-This phase is done when every milestone has a done criterion and its `delivers`/dependencies, every approved User Story/Use Case is accounted for (delivered or deferred), `has_real_dates` accurately reflects what the user confirmed, and the user has explicitly confirmed the full roadmap.
+This phase is done when every milestone has a done criterion and its `Delivers`/dependencies, every approved User Story/Use Case is accounted for (delivered or deferred), "Has real dates" accurately reflects what the user confirmed, and the user has explicitly confirmed the full roadmap.

@@ -31,6 +31,14 @@ Skippable for trivial stories where the main flow has no realistic alternative/e
 - Main flow, step by step?
 - Alternative and exception flows — what can go wrong at each step? — `[confirmation individual]` when it involves critical error handling (payment, sensitive data)
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What's the actor's goal in context, stated in business terms — not the mechanics, the purpose?
+- What specific event triggers this use case?
+- What's guaranteed no matter how the use case ends (minimal guarantees), beyond what's guaranteed only on success?
+- Does this use case have special requirements (NFRs) beyond the project's general ones?
+- Does this use case vary by technology or data source (e.g. mobile vs. desktop)?
+- Roughly how often does this use case occur?
+
 ## Optional questions
 
 - Whether a `stateDiagram` is warranted in addition to the `sequenceDiagram`, for use cases centered on an entity with meaningful state transitions.
@@ -48,7 +56,7 @@ Standard loop (`rules/confirmation-protocol.md`). Any alternative/exception flow
 
 ## How to document answers
 
-Each confirmed use case becomes a `UC-XXX` entry, `traces_to` set to its source `US-XXX` (or multiple, if consolidating related stories). Main flow and alternative flows are numbered/linked per step. Diagrams follow `rules/diagram-conventions.md`: `sequenceDiagram` for multi-actor main flows, `stateDiagram` added when the use case concerns a stateful entity.
+Each confirmed use case becomes a `UC-XXX` entry, `traces_to` set to its source `US-XXX` (or multiple, if consolidating related stories). Main flow and alternative flows are numbered/linked per step. Diagrams follow `rules/diagram-conventions.md`: `sequenceDiagram` for multi-actor main flows, `stateDiagram` added when the use case concerns a stateful entity. At Fully Dressed depth, the additional answers map to `templates/use-cases.md`'s "Fully Dressed additions" subsections — including "Success guarantees," which is the same content as Casual's "Postconditions," renamed to match Cockburn's convention.
 
 ## How to validate answers
 

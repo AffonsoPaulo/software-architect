@@ -33,6 +33,13 @@ Skippable for projects with no interface at all — a pure API, a CLI, a backgro
 - Design system/UI kit to use (existing or to be created) — `[confirmation individual]`
 - Responsiveness/target platforms (web, mobile, or both)?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What accessibility conformance level is the target (e.g. WCAG 2.1 AA), and are there specific requirements beyond the baseline?
+- Are there content/copy/tone guidelines screens should follow?
+- Per screen: what does the user see in the loading, empty, and error states?
+- What are the actual responsive breakpoint values used project-wide?
+- Per screen: which user actions are tracked, and under what event name?
+
 ## Optional questions
 
 - Whether specific screens warrant their own sub-navigation diagram if the overall flow is large enough that one diagram would be unreadable.
@@ -50,7 +57,7 @@ Standard loop (`rules/confirmation-protocol.md`). State management and design sy
 
 ## How to document answers
 
-Each confirmed screen gets a stable slug (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `traces_to` pointing to its source Use Case(s), plus which interaction units from `docs/09-api-design/api.md` it uses — real calls for a client-server style, or the same route for a server-rendered style (see "Special cases"). The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it.
+Each confirmed screen gets a stable name (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `Traces to` pointing to its source Use Case(s), plus which interaction units from `docs/09-api-design/api.md` it uses — real calls for a client-server style, or the same route for a server-rendered style (see "Special cases"). The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it. At Fully Dressed depth, the additional answers map to `templates/frontend.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

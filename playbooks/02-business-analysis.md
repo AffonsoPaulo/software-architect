@@ -31,6 +31,13 @@ Skippable for projects with no meaningful business-process dimension — e.g. an
 - What high-level business rules are already known (policies, legal/regulatory constraints)? — `[confirmation individual]`
 - What's the value/justification (ROI, cost reduction, new market)?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- Does the to-be process differ from as-is? If so, how, step by step?
+- What metric/KPI measures each process, and what's its current value?
+- Per process step: who's Responsible, Accountable, Consulted, Informed (RACI)?
+- What are the quantified pain points in the current process (time, cost, error rate)?
+- Who beyond the actors already listed is organizationally affected by this project?
+
 ## Optional questions
 
 - Future/to-be process, if it differs meaningfully from the current one.
@@ -52,6 +59,7 @@ Standard loop (`rules/confirmation-protocol.md`). Business rules are always indi
 - Each process becomes its own subsection with a numbered step list and a Mermaid `flowchart` (`rules/diagram-conventions.md`).
 - Each business rule gets a new `BR-XXX` (next value from `project-state.md`'s `id_sequences.BR`), declared as its own heading with a full sentence statement underneath, per `rules/document-format.md`.
 - Actors are listed once, cross-referenced from whichever processes they participate in.
+- At Fully Dressed depth, the additional answers map to `templates/business-analysis.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

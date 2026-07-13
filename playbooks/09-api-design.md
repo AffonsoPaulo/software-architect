@@ -38,6 +38,13 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 - Authentication/authorization strategy at this level (fine detail belongs to phase 11-Security; here, only the mechanism decision) — `[confirmation individual]`
 - Versioning strategy (if applicable to this style) and standard failure format?
 
+**Fully Dressed only** (`rules/documentation-depth.md`), per interaction unit:
+- What does one concrete, filled-in example request/invocation and its successful response look like?
+- Is this unit rate-limited? If so, how, and what's the failure behavior when the limit is hit?
+- For list-returning units: what pagination convention is used?
+- How would this unit be deprecated if it ever needs to be?
+- Is calling this unit twice with the same input safe (idempotent)? If so, how is that achieved?
+
 ## Optional questions
 
 - Whether specific flows warrant a dedicated `sequenceDiagram` beyond the critical-flow ones that always get one, or whether a `flowchart` fits better for a single-process/CLI-style project (`rules/diagram-conventions.md`).
@@ -56,7 +63,7 @@ Standard loop (`rules/confirmation-protocol.md`). Authentication/authorization m
 
 ## How to document answers
 
-Each confirmed interaction unit becomes an `API-XXX` entry with `traces_to` set to both its source `UC-XXX` and its hosting `ARCH-XXX`. Input/output fields reference `TBL-XXX` columns where a field maps directly to stored data. Failure modes follow the single confirmed format — never a one-off shape for a specific unit. For server-rendered/MVC projects, document each unit once here rather than duplicating it as a separate "screen" in `docs/10-frontend-planning/frontend.md` — see that phase's notes on referencing rather than restating.
+Each confirmed interaction unit becomes an `API-XXX` entry with `traces_to` set to both its source `UC-XXX` and its hosting `ARCH-XXX`. Input/output fields reference `TBL-XXX` columns where a field maps directly to stored data. Failure modes follow the single confirmed format — never a one-off shape for a specific unit. For server-rendered/MVC projects, document each unit once here rather than duplicating it as a separate "screen" in `docs/10-frontend-planning/frontend.md` — see that phase's notes on referencing rather than restating. At Fully Dressed depth, the additional answers map to `templates/api.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 

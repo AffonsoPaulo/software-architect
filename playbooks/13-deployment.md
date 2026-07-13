@@ -33,6 +33,13 @@ Skippable for projects with no deployment target at all (a local CLI tool, a lib
 - Rollback strategy and observability (logs, metrics, alerts)?
 - Secrets management in production (must be consistent with phase 11)?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- What's the expected load, and what are the concrete triggers for scaling?
+- What are the Recovery Time Objective and Recovery Point Objective for disaster recovery — and are they consistent with Database Design's backup/recovery expectations?
+- What's the rough expected infrastructure cost?
+- How does a production change actually get approved before it ships?
+- Where does infrastructure-as-code live, and how is it kept in sync with what's deployed?
+
 ## Optional questions
 
 - Partitioning/multi-region strategy, only if the project's scale actually warrants it now rather than as a later optimization.
@@ -53,7 +60,7 @@ Standard loop (`rules/confirmation-protocol.md`). Environments and provider/infr
 
 ## How to document answers
 
-Each confirmed infrastructure need becomes an entry under its environment, referencing the `ARCH-XXX` it serves. Secrets management is recorded as confirmed only after being checked against `docs/11-security/security.md` — if the user's answer here diverges from that document, that divergence is flagged and resolved before documenting either.
+Each confirmed infrastructure need becomes an entry under its environment, referencing the `ARCH-XXX` it serves. Secrets management is recorded as confirmed only after being checked against `docs/11-security/security.md` — if the user's answer here diverges from that document, that divergence is flagged and resolved before documenting either. At Fully Dressed depth, the additional answers map to `templates/deployment.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 

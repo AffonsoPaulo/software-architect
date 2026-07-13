@@ -30,6 +30,12 @@ Skippable only in the degenerate case where every requirement in this cycle is p
 - What are the story's acceptance criteria (can inherit from the REQ, or be more granular)?
 - Is the story independent and testable on its own (INVEST)?
 
+**Fully Dressed only** (`rules/documentation-depth.md`), per story:
+- What's the business-value reasoning behind this story's priority?
+- Does this story have any non-functional consideration beyond the project's general NFRs?
+- Is anything a reader might assume this story covers explicitly out of scope for it?
+- Are there open questions about this story that don't block moving forward but should be tracked?
+
 ## Optional questions
 
 - Preferred acceptance-criteria format (plain prose vs. Gherkin Given/When/Then) — ask once, at the start of this phase if not already settled during Calibration, and stay consistent for the rest of the document.
@@ -46,7 +52,7 @@ Standard loop (`rules/confirmation-protocol.md`). No question here is individual
 
 ## How to document answers
 
-Each confirmed story becomes a `US-XXX` entry, `traces_to` set to its source `REQ-XXX` (or multiple, if it consolidates more than one requirement — rare, but valid). IDs come from `project-state.md`'s `id_sequences.US`.
+Each confirmed story becomes a `US-XXX` entry, `traces_to` set to its source `REQ-XXX` (or multiple, if it consolidates more than one requirement — rare, but valid). IDs come from `project-state.md`'s `id_sequences.US`. At Fully Dressed depth, the additional answers map to `templates/user-stories.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 

@@ -37,6 +37,13 @@ All high-impact — most are `[confirmation individual]`:
 - Compliance requirements (LGPD, GDPR, PCI-DSS, HIPAA, none) — `[confirmation individual]`
 - Secrets/credentials strategy (vault, env vars, KMS)
 
+**Fully Dressed only** (`rules/documentation-depth.md`), all `[confirmation individual]` given Security's always-strict status:
+- For each critical component: a full STRIDE pass — all six threat categories considered explicitly, not just an illustrative example.
+- Where does data cross a trust boundary (public internet, third party, internal network)? A data flow diagram marking those boundaries.
+- What's the incident response plan — who's notified, what happens, when a security incident is detected?
+- How do the controls above actually get verified before release — static analysis, dependency scanning, penetration testing?
+- For each compliance regime that applies: which specific articles/controls must be satisfied, and what addresses each?
+
 ## Optional questions
 
 - Deeper threat modeling for non-critical components, if the user wants more coverage than the mandatory pass over critical ones.
@@ -56,7 +63,7 @@ Standard loop (`rules/confirmation-protocol.md`). Nearly everything in this phas
 
 ## How to document answers
 
-Each confirmed control becomes a `SEC-XXX` entry, `traces_to` set to the component and/or interaction unit it protects. Every threat gets recorded with its mitigation or a cross-reference to a `RISK-XXX` entry in the risk register — never just noted in passing without one of the two.
+Each confirmed control becomes a `SEC-XXX` entry, `traces_to` set to the component and/or interaction unit it protects. Every threat gets recorded with its mitigation or a cross-reference to a `RISK-XXX` entry in the risk register — never just noted in passing without one of the two. At Fully Dressed depth, the additional answers map to `templates/security.md`'s "Fully Dressed additions" section (full STRIDE pass, data flow diagram, incident response, security testing plan, compliance control mapping).
 
 ## How to validate answers
 

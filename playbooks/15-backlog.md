@@ -30,6 +30,11 @@ Skippable only alongside Roadmap, for a project too small to benefit from either
 - Relative priority within the milestone?
 - "Ready for development" criterion (Definition of Ready) per item — `[confirmation individual]` the first time it's defined, then reused as the project's standing standard afterward.
 
+**Fully Dressed only** (`rules/documentation-depth.md`), per item:
+- What's the estimate (points or time), if one exists yet?
+- Does this item depend on any other backlog item for planning purposes?
+- What concrete scenario(s) confirm this item is actually done?
+
 ## Optional questions
 
 - Whether specific items warrant splitting further at this stage, or whether that's better left to phase 16's sequencing.
@@ -47,7 +52,7 @@ Standard loop (`rules/confirmation-protocol.md`). Definition of Ready is individ
 
 ## How to document answers
 
-Each confirmed item becomes a `TASK-XXX` entry, `traces_to` set to its source `US-XXX`/`UC-XXX`, tagged with its milestone and priority, status starting at `not_started`. IDs come from `project-state.md`'s `id_sequences.TASK`.
+Each confirmed item becomes a `TASK-XXX` heading grouped under its milestone, `Traces to` set to its source `US-XXX`/`UC-XXX`, tagged with its priority, status starting at `Not started`, per `rules/document-format.md`. IDs come from `project-state.md`'s `id_sequences.TASK`. At Fully Dressed depth, the additional answers map to `templates/backlog.md`'s "Fully Dressed additions" subsections.
 
 ## How to validate answers
 

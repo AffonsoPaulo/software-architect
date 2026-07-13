@@ -31,6 +31,11 @@ Skippable only alongside Backlog, for a project too small to benefit from either
 - Definition of Done per task (tests passing, code review, documentation updated) — `[confirmation individual]` the first time it's defined.
 - Which tasks can be parallelized vs. must be sequential?
 
+**Fully Dressed only** (`rules/documentation-depth.md`):
+- Who owns each task, and what's its estimate?
+- For tasks with a real execution risk: what could go wrong during implementation, and how is it mitigated?
+- Which sequence of tasks forms the critical path — the chain where any delay directly delays the whole plan?
+
 ## Optional questions
 
 - Whether specific tasks warrant splitting further at this stage if their technical dependencies turn out to be more granular than the Backlog captured.
@@ -48,7 +53,7 @@ Standard loop (`rules/confirmation-protocol.md`). Definition of Done is individu
 
 ## How to document answers
 
-Each task's entry in `sequence` gets its `depends_on` and, where relevant, `parallelizable_with` — derived from the already-approved technical documents, not invented. Definition of Done is recorded once at the top level.
+Each task's row in the "## Sequence" table (`rules/document-format.md`) gets its `Depends on` and, where relevant, `Parallelizable with` — derived from the already-approved technical documents, not invented. `TASK-XXX` is never repeated as a heading here — it's already declared once in `docs/15-backlog/backlog.md` (see `templates/implementation-plan.md`'s notes). Definition of Done is recorded once at the top level. At Fully Dressed depth, the additional answers map to `templates/implementation-plan.md`'s "Fully Dressed additions" section (Owner/Estimate columns, Risk mitigation, Critical path).
 
 ## How to validate answers
 
