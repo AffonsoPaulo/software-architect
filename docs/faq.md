@@ -1,0 +1,29 @@
+# FAQ
+
+## Can I skip phases?
+
+Yes, except four: Requirements Engineering (03), Architecture (08), Security (11), and Architecture Review (17) — those are always mandatory, regardless of project size. Every other phase can be skipped, but only during `playbooks/00-project-calibration.md`, and only with a specific, real reason recorded in `docs/project-state.md`'s `skip_reason` field — never silently and never decided by the AI alone. See `examples/small-cli-tool/docs/project-state.md` for a real project that skips Business Analysis, Domain Model, Database Design, and Frontend Planning, each with its own stated reason.
+
+## How do I switch from Strict to Agile mode (or back) mid-project?
+
+Ask, explicitly. `rules/confirmation-protocol.md` allows changing `confirmation_mode` at any point in the project, but only via the user's own explicit request — the AI never switches modes on its own initiative. The change is logged in `project-state.md` with a timestamp and applies going forward; it doesn't retroactively affect answers already confirmed under the old mode.
+
+## What happens if I correct an answer from a phase that's already approved?
+
+It doesn't get silently edited. Correcting an approved answer triggers a formal Change Request (`rules/change-management.md`): the affected artifact's downstream impact is computed from `rules/traceability-rules.md`'s table, every document that depends on it (directly or transitively) is reopened for a fresh confirmation pass on the affected part, and the CR only closes once every one of those re-approvals is done. This is what keeps a "quick fix" from silently leaving five other documents stale.
+
+## Does the Skill work for a project that already has code (brownfield)?
+
+Yes. During Calibration, if the project type is "feature on existing product" or "legacy migration," the Skill can delegate a read-only research pass to a subagent (`rules/delegation-policy.md`) that explores the existing repository and reports facts — stack in use, folder structure, apparent conventions — back to the main thread. Those facts inform later questions (Database Design, Architecture, API Design all check for this explicitly) rather than replacing them; the AI still confirms everything with you, and if the subagent's findings ever contradict what you say, the Skill surfaces the discrepancy and asks rather than picking a side.
+
+## Are the validation scripts required, or just supporting tooling?
+
+Supporting, but load-bearing at the final gate. `scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` are what phase 17's Review gate actually runs (via a delegated subagent) to check structural consistency before it will let a project reach `ready_for_implementation: true`. Earlier phases' gates reference them too, for the criteria that are mechanically checkable — but every gate also has judgment criteria no script can evaluate, which the AI (and ultimately you) still has to confirm by hand. See `rules/quality-gate-structure.md` for the split.
+
+## What if I don't know how to answer a mandatory question?
+
+This is expected, not a dead end. Per `rules/confirmation-protocol.md`: the AI may offer a suggestion, explicitly labeled as a suggestion and not a decision; if you accept it, it goes through the normal confirmation loop like any other answer. If you're still unsure, the question becomes an open item in `docs/11-security/risk-register.md` and that phase's gate is marked "conditionally approved, pending item registered" instead of blocking outright — unless the question belongs to an always-strict category (architecture, security, sensitive data), in which case there's no conditional path and it has to be genuinely resolved before moving on. `examples/saas-multi-tenant/docs/11-security/risk-register.md` shows a real one of these (which SSO providers to support, deferred as an accepted risk).
+
+## How do I add a new feature to a project the Skill already took to `ready_for_implementation`?
+
+Just ask — `SKILL.md` recognizes this as its third entry state. It won't restart from scratch or treat it as generic brownfield discovery (the Skill already has the full documentation). It opens `playbooks/00-project-calibration.md` in **incremental mode**, which creates a new `cycle` in `project-state.md`, scoped only to the increment, and treats every existing document and artifact ID as an already-confirmed baseline — nothing gets re-litigated unless you explicitly ask to change it, which routes through a Change Request. `examples/small-cli-tool/` demonstrates this end to end: cycle 1 ships CSV/JSON conversion, cycle 2 adds YAML support without re-asking project type, confirmation mode, or language, and without resetting any ID sequence.
