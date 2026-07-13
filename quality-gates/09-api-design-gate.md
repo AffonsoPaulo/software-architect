@@ -3,7 +3,7 @@
 ## Scriptable criteria
 - [ ] Every `API-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 - [ ] Every `API-XXX` has `traces_to` pointing to both an existing `UC-XXX` and an existing `ARCH-XXX` — checked by `scripts/validate-traceability.mjs`
-- [ ] Every `UC-XXX` from `docs/05-use-cases/use-cases.md` with a real interaction surface is referenced by at least one `API-XXX`, unless explicitly documented as frontend-only — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `UC-XXX` (`docs/05-use-cases/`) with a real interaction surface is referenced by at least one `API-XXX`, unless explicitly documented as frontend-only — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] `failure_format` is used consistently across every interaction unit, no ad hoc exceptions

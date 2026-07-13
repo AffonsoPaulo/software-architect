@@ -1,7 +1,7 @@
 # Implementation Plan Gate
 
 ## Scriptable criteria
-- [ ] Every `task` referenced in `sequence` exists as a `TASK-XXX` in `docs/15-backlog/backlog.md` — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `task` referenced in `sequence` exists as a `TASK-XXX` in `docs/15-backlog/` — checked by `scripts/validate-traceability.mjs`
 - [ ] Every `depends_on` entry references a task that exists in this same `sequence` — checked by `scripts/validate-gate.mjs`
 - [ ] **No dependency cycle exists in the `sequence` graph, direct or transitive** — checked by `scripts/validate-gate.mjs`
 - [ ] Every task has a `definition_of_done` (inherited from the top-level standard, or an explicit task-specific addition) — checked by `scripts/validate-gate.mjs`

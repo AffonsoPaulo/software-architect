@@ -3,7 +3,7 @@
 ## Scriptable criteria
 - [ ] Every `SEC-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 - [ ] Every `SEC-XXX` has a non-empty `traces_to` pointing to an existing `ARCH-XXX` and/or `API-XXX` — checked by `scripts/validate-traceability.mjs`
-- [ ] Every `API-XXX` from `docs/09-api-design/api.md` has an explicit authentication/authorization statement recorded (including "public, no auth") — checked by `scripts/validate-gate.mjs`
+- [ ] Every `API-XXX` (`docs/09-api-design/`) has an explicit authentication/authorization statement recorded (including "public, no auth") — checked by `scripts/validate-gate.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] Every data category classified as sensitive has an associated control

@@ -3,7 +3,7 @@
 ## Scriptable criteria
 - [ ] Every `US-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 - [ ] Every `US-XXX` has a non-empty `traces_to` pointing to a `REQ-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
-- [ ] Every functional `REQ-XXX` from `docs/03-requirements/requirements.md` is referenced by at least one `US-XXX`, unless it's a documented non-functional exception — checked by `scripts/validate-traceability.mjs`
+- [ ] Every functional `REQ-XXX` (`docs/03-requirements/`) is referenced by at least one `US-XXX`, unless it's a documented non-functional exception — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] Each story is phrased as a capability from the actor's perspective, not restated implementation detail

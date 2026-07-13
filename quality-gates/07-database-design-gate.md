@@ -3,7 +3,7 @@
 ## Scriptable criteria
 - [ ] Every `TBL-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 - [ ] Every `TBL-XXX` has a non-empty `traces_to` pointing to an `ENT-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
-- [ ] Every `ENT-XXX` in `docs/06-domain-model/domain-model.md` is referenced by at least one `TBL-XXX`, unless explicitly documented as embedded/exception — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `ENT-XXX` (`docs/06-domain-model/`) is referenced by at least one `TBL-XXX`, unless explicitly documented as embedded/exception — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] `database_type` was explicitly confirmed by the user, never defaulted — `[confirmation individual]`

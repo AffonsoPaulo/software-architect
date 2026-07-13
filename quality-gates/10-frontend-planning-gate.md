@@ -2,7 +2,7 @@
 
 ## Scriptable criteria
 - [ ] Every screen entry has a non-empty `traces_to` pointing to a `UC-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
-- [ ] Every `UC-XXX` from `docs/05-use-cases/use-cases.md` with a real user-facing interaction is referenced by at least one screen, unless explicitly documented as backend-only — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `UC-XXX` (`docs/05-use-cases/`) with a real user-facing interaction is referenced by at least one screen, unless explicitly documented as backend-only — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] State management approach was individually confirmed, not defaulted

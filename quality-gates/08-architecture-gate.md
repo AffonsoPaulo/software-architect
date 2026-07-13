@@ -2,7 +2,7 @@
 
 ## Scriptable criteria
 - [ ] Every `ARCH-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
-- [ ] Every non-functional `REQ-XXX` from `docs/03-requirements/requirements.md` is referenced by at least one `ARCH-XXX`'s `traces_to` — checked by `scripts/validate-traceability.mjs`
+- [ ] Every non-functional `REQ-XXX` (`docs/03-requirements/`) is referenced by at least one `ARCH-XXX`'s `traces_to` — checked by `scripts/validate-traceability.mjs`
 - [ ] Every `ARCH-XXX` with an `adr` field points to an `ADR-XXX` that actually exists under `docs/08-architecture/adr/` — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)

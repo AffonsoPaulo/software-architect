@@ -1,7 +1,7 @@
 # Deployment Gate
 
 ## Scriptable criteria
-- [ ] Every `ARCH-XXX` from `docs/08-architecture/architecture.md` that needs its own infrastructure has at least one corresponding resource entry in `docs/13-deployment/deployment.md` — checked by `scripts/validate-traceability.mjs`
+- [ ] Every `ARCH-XXX` (`docs/08-architecture/`) that needs its own infrastructure has at least one corresponding resource entry in `docs/13-deployment/deployment.md` — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
 - [ ] A rollback strategy is recorded and is specific enough to actually execute, not just named in the abstract
