@@ -33,7 +33,7 @@ Never skippable.
 All high-impact — most are `[confirmation individual]`:
 
 - Threat modeling per critical component (STRIDE or an equivalent simplified approach) — `[confirmation individual]`
-- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model (RBAC, ABAC), in detail — `[confirmation individual]`. Start from every role/permission constraint already noted in phase 10's screens, if that phase ran, and fold each one into this model explicitly rather than letting the model be designed from scratch as if those constraints hadn't already come up.
+- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model, in detail — `[confirmation individual]`. RBAC/ABAC are examples, not the only valid answers: "every authenticated user has the same permissions, no formal roles" is a complete, valid answer when that's actually true for the project — don't lead with RBAC/ABAC vocabulary in a way that pressures a permission model into existence where none is real. Start from every role/permission constraint already noted in phase 10's screens, if that phase ran and any exist, and fold each one into this model explicitly rather than designing from scratch as if those constraints hadn't already come up.
 - Data classification (PII, financial, health) and required treatment — `[confirmation individual]`
 - Compliance requirements (LGPD, GDPR, PCI-DSS, HIPAA, none) — `[confirmation individual]`
 - Secrets/credentials strategy (vault, env vars, KMS)
@@ -82,6 +82,7 @@ Each confirmed control becomes its own `docs/11-security/sec-XXX.md` item file, 
 ## Common ambiguities
 
 - "We'll add proper auth later" — this phase doesn't accept deferred security as an answer to the mandatory questions; a genuinely public unit is a valid, explicit answer, but "later" is not.
+- Assuming a permission model needs to exist because the question mentions RBAC/ABAC — if every authenticated user genuinely has the same access, that's the complete answer; don't manufacture roles the project doesn't actually have just to have something to write in the field.
 - Data that seems sensitive but the user says isn't (or vice versa) — if the classification seems off given what the data actually is (e.g. an email address marked "not PII"), ask again rather than accepting a classification that doesn't hold up.
 
 ## Frequent errors
