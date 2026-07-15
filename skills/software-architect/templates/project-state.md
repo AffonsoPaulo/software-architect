@@ -1,6 +1,6 @@
 # project-state.md — Template
 
-This is the single file the Skill reads and writes on every interaction. It lives at `docs/project-state.md` in the target project (see `rules/document-locations.md`). Copy the YAML structure below into that path when a new project starts (`playbooks/00-project-calibration.md`), and update it after every confirmed answer — never let it fall behind what's actually been confirmed.
+This is the single file the Skill reads and writes on every interaction. It lives at `docs/project-state.md` in the target project (see `rules/document-locations.md`). Copy the YAML structure below into that path when a new project starts (`playbooks/00-project-calibration.md`), and update it after every confirmed answer — never let it fall behind what's actually been confirmed. The file is exactly this YAML, starting on line 1 — no `---`/`---` delimiters wrapping it, no markdown heading above it; `rules/document-format.md`'s "pure YAML" means the whole file, not a block inside a larger markdown document.
 
 Field names and structure stay in English (they're part of the Skill's schema, per `rules/language-policy.md`). Free-text values (`scope`, `reason`, question text, etc.) follow the project's confirmed `language` field.
 

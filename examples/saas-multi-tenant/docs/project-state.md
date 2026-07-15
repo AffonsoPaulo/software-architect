@@ -1,4 +1,3 @@
----
 skill_version: "0.1.0"
 
 docs_version: "1.17.0"
@@ -331,4 +330,3 @@ changelog:
     description: "Architecture review complete, ready for implementation"
     cycle_id: 1
     cr_id: null
----

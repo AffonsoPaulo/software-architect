@@ -85,7 +85,9 @@ Either way, a table row for an inapplicable field is written as `(none)` / `n/a`
 
 ## What changed from v1.0.0
 
-Earlier versions of this Skill put a YAML front-matter block at the top of every template, with the markdown body underneath restating the same data in prose. That block has been removed from every template except `project-state.md`. If you are updating a project that already has documents in the old format, they still parse under the old front-matter extraction for `project-state.md` only — phase documents need to be rewritten into this convention to work with current validation scripts. There is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
+Earlier versions of this Skill put a YAML front-matter block (`---`/`---` delimiters) at the top of every template, with the markdown body underneath restating the same data in prose. That block has been removed from every template except `project-state.md`. Phase documents in the old format need to be rewritten into this convention to work with current validation scripts — there is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
+
+`project-state.md` itself never needed the `---`/`---` delimiters in the first place — it's pure YAML end to end (see below), and `scripts/lib/docs.mjs`'s parser reads it the same way with or without them. A real project's `project-state.md` written without delimiters (the form `templates/project-state.md` actually shows) and one still carrying them from an older habit are both fully valid; nothing needs migrating on this specific point.
 
 ## `project-state.md` is exempt
 

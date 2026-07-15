@@ -1,4 +1,3 @@
----
 skill_version: "0.1.0"
 
 docs_version: "1.24.0"
@@ -436,4 +435,3 @@ changelog:
     description: "Cycle 2 review complete, ready for implementation"
     cycle_id: 2
     cr_id: null
----
