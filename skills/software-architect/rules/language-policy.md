@@ -10,7 +10,7 @@ Every file inside `software-architect/` — `SKILL.md`, every `playbooks/`, `rul
 
 Documents the Skill writes into the *user's* project (Vision, Requirements, Architecture, and so on — see `document-locations.md`) follow whatever language the user is conversing in during the interview. This is:
 
-- **Detected**, not assumed, during `playbooks/00-project-calibration.md` — the AI notices the language the user is writing in and proposes it, but confirms explicitly before locking it in (`[confirmation individual]`).
+- **Detected**, not assumed, during `playbooks/00-project-calibration.md` — the AI notices the language the user is writing in and proposes it, but confirms explicitly before locking it in (`[confirmation individual]`). These are two different things with two different timings: the AI's own conversational responses switch to match the language the user just used immediately, in that same turn — noticing the switch without actually speaking it back is not sufficient, and asking the confirmation question itself should already happen in the user's language. Only the `language` field that governs generated documents waits for the explicit `[confirmation individual]` answer before being locked in.
 - **Stored once**, in `project-state.md`'s `language` field, and reused for every subsequent phase — never re-asked per phase, never silently re-inferred.
 - **Project-wide**, not per-cycle — a language set in cycle 1 applies to cycle 2 unless explicitly changed (see below).
 

@@ -30,7 +30,8 @@ Skippable only for projects with no meaningful data model (e.g. a stateless util
 - What are value objects (no identity, immutable)?
 - Which entities form aggregates (transactional consistency boundaries)? — `[confirmation individual]`
 - What invariants must each entity/aggregate always guarantee?
-- What are the relationships between entities (cardinality)?
+- What are the relationships between entities (cardinality)? For any entity whose real-world volume isn't obvious from its name alone (e.g. a term that could mean one record per class or one per individual attempt), confirm the expected order of magnitude too, not just the 1:N/N:N shape — this is what phase 07's indexing and phase 09's pagination decisions actually need, and a term left ambiguous here tends to surface as a surprise only once someone does the volume math several phases later.
+- For any metadata attribute proposed on one entity that plausibly applies to others of a similar kind (e.g. "recorded by," "created at") — is this a project-wide convention that belongs on every entity of that kind, or specific to this one? Confirm explicitly rather than letting it apply inconsistently across entities and only surfacing as a gap when someone reviews the whole model later.
 
 **Fully Dressed only** (`rules/documentation-depth.md`):
 - What terms should everyone (user, AI, later readers) use consistently for this domain's concepts — a short glossary?
@@ -78,6 +79,8 @@ Each confirmed entity/value object becomes its own `docs/06-domain-model/ent-XXX
 - Letting database vocabulary (tables, foreign keys, indexes) creep into entity/relationship descriptions — this is the specific anti-pattern this playbook exists to prevent; see below.
 - Leaving an entity's invariants list empty instead of recording an explicit "no special rules beyond basic validity."
 - Deciding aggregate boundaries without individual confirmation because the rest of the phase is running in Agile mode.
+- Accepting a term's scope at face value across several phases without confirming its real-world volume, only discovering it was too coarse (or too fine) once a later phase's capacity/pagination math exposes it.
+- Applying a metadata attribute to some entities but not visibly-similar others without ever asking whether it's meant to be a project-wide convention.
 
 ## Examples
 
