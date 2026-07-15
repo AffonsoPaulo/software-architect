@@ -8,6 +8,15 @@ How the Skill handles a change to a document that has already been approved. Thi
 - The AI detects an inconsistency between an approved document and something confirmed later — this happens constantly in normal, non-Review phases, not just at the Review gate. Example: while confirming an entity's attributes in phase 06 (Domain Model), the user realizes a precondition recorded in `UC-003` (phase 05, already approved) was incomplete. The fix is not local to the `ENT-XXX` document being written right now — `UC-003` itself is out of date and must be corrected via a CR, with its own impact list recomputed (which may reach back further still, e.g. `US-XXX`), even though the discovery happened phases later. The AI only ever **proposes** a CR in this case — it never applies a change to an approved document on its own initiative, and it never silently limits the fix to whichever document it happens to be writing at the time.
 - Reopening a phase during the Review gate (phase 17) is a specific case of the above — per `plan-00-overview.md` decision #16, this always routes through a CR, never a standalone fix to the originating document, so downstream propagation actually happens.
 
+## Flagging the conflict out loud is not the same as opening the CR
+
+The single most common way this rule fails in practice isn't the AI missing the conflict — it's the AI noticing it, saying so, and then documenting the current phase's answer anyway, leaving the earlier document stale until the user separately, explicitly asks for the fix later. That is not "proposing a CR," it's mentioning one and not following through — indistinguishable in outcome from never having noticed at all.
+
+Once the AI has said out loud that a new answer contradicts an approved document, the current question's confirmation loop (`confirmation-protocol.md`) does not reach step 9 (document updated) until the CR has actually been opened (at minimum steps 1–3 below: created, artifact named, impact list computed) and put in front of the user as part of resolving *this* answer — never deferred as a remark the user has to chase down separately.
+
+- **Wrong**: "Good — noting that this also affects UC-003's routing assumption." *(then documents the new `API-XXX` and moves on to the next question; `UC-003` stays stale until the user separately asks about it.)*
+- **Right**: "This also changes `UC-003`'s routing assumption, which is already approved — opening CR-004 against `UC-003` now; impact list: `UC-003` and anything that traces to it. Let's resolve that first, then I'll come back and confirm this `API-XXX` answer." The current answer is not treated as confirmed while a self-detected conflict sits open.
+
 ## The CR process
 
 1. Create a new `CR-XXX` entry using `templates/change-request.md`, saved at `docs/change-requests/CR-XXX.md` in the target project.
