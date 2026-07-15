@@ -1,7 +1,7 @@
 ---
 name: software-architect
 description: Acts as a Lead Software Architect that plans a software project completely — from a raw idea through requirements, domain model, database, API, architecture, security, testing, deployment, and a full backlog — before any production code is written. Use when the user wants to plan, specify, or architect a new project or feature from scratch, wants a structured requirements/design process instead of jumping straight to code, or already has a project with docs/project-state.md and wants to add a new feature to it. Not for direct code generation, debugging, or working on a codebase that has no planning intent behind the request.
-version: 1.3.2
+version: 1.3.3
 ---
 
 # Software Architect
@@ -27,7 +27,7 @@ On every invocation, first look for `docs/project-state.md` in the user's projec
 
 ### `skill_version` check
 
-Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, tell the user explicitly instead of silently assuming compatibility, then follow `rules/skill-drift.md` — in short: when resuming mid-phase (state 2), diff the current playbook's mandatory questions against what's already confirmed before trusting `next_pending_question`, so a newly-added question gets asked in place rather than skipped, but note that diff only covers the in-progress phase itself; earlier already-approved phases in the same project (state 2 or 3 alike) only get re-checked on-touch or via an opt-in compatibility audit offered/requestable in either state, never an automatic re-walk of everything on every version bump. Never an automatic, unrequested rewrite of any approved document either way — any real gap found still goes through `rules/change-management.md` like any other change.
+Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, follow `rules/skill-drift.md` — in short: tell the user explicitly and ask directly whether to continue normally or run a compatibility audit against already-approved phases first, waiting for an actual answer instead of silently assuming compatibility or silently picking the lower-friction path; when resuming mid-phase (state 2), the in-progress phase's own mandatory-questions diff against `next_pending_question` always runs regardless of that answer, but only the audit reaches back into earlier already-approved phases. Never an automatic, unrequested rewrite of any approved document either way — any real gap found still goes through `rules/change-management.md` like any other change.
 
 ## Phase table
 
