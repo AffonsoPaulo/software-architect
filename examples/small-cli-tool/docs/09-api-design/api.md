@@ -1,7 +1,7 @@
 # API Design
 
 ## Interaction style
-CLI command surface, per Architecture's guidance — a single `convert` command with flags, no separate contract format needed since there's no network boundary.
+CLI command surface, per Architecture's guidance — a single `convert` command with flags, no separate contract format needed since there's no network boundary. Consistent with the confirmed pipe-and-filter pattern: the command doesn't expose parse/serialize as separate steps, it's one invocation over the same internal pipeline.
 
 ## Versioning strategy
 Semantic versioning on the package itself; no per-command versioning needed for a single-binary CLI.

@@ -3,6 +3,9 @@
 ## Architectural style
 Single-process CLI binary, no client-server split, no persistence layer — `[confirmation individual]`, confirmed given the project's small size and the constraint of "no runtime to install beyond what's already there."
 
+## Architectural pattern
+Pipe-and-filter — `[confirmation individual]`. Input is parsed into a shared internal representation (a stream of flat records), then serialized to the target format; format-specific adapters (CSV/JSON, and YAML in cycle 2) plug into that shared representation rather than converting directly between formats. Already implied by ADR-001's streaming decision and ARCH-002's description — no separate ADR needed for the pattern itself.
+
 ## Components
 
 | ID | Component | Traces to | ADR |

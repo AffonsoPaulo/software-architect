@@ -1,7 +1,7 @@
 # API Design
 
 ## Interaction style
-REST, per Architecture's guidance.
+REST, per Architecture's guidance. Every endpoint passes through the Tenant Context Middleware (ARCH-002), per the confirmed layered pattern — no endpoint bypasses tenant scoping.
 
 ## Versioning strategy
 URL path versioning (`/v1/...`); breaking changes get a new version prefix.

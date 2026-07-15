@@ -3,6 +3,9 @@
 ## Architectural style
 Modular monolith — `[confirmation individual]`. Confirmed given the team's size (small enough that microservices' operational overhead isn't justified yet) and the MVP timeline constraint from Vision. Modularity within the monolith keeps a later split to services possible without a full rewrite.
 
+## Architectural pattern
+Layered — `[confirmation individual]`. Every request passes through the API layer (ARCH-001), then the cross-cutting Tenant Context Middleware layer (ARCH-002), before reaching data access (ARCH-003); PostgreSQL row-level security sits beneath the application layer as a second, independent enforcement layer, not a bypass path. Already implied by ADR-001 (module boundaries within the monolith) and ADR-002 (middleware + RLS as two enforcement layers) — no separate ADR needed for the pattern itself.
+
 ## Components
 
 | ID | Component | Traces to | ADR |
