@@ -8,6 +8,7 @@
 ## Judgment criteria (AI/human)
 - [ ] `failure_format` is used consistently across every interaction unit, no ad hoc exceptions
 - [ ] `interaction_style` matches phase 08's `interaction_style_guidance`, or any divergence is explicitly justified and individually confirmed
+- [ ] Interaction units are shaped consistently with phase 08's confirmed architectural pattern (e.g. command/query separation under CQRS, event producers/consumers under event-driven), or any divergence is explicitly justified and individually confirmed
 - [ ] The vocabulary used actually fits the confirmed interaction style — no JSON-request/response framing forced onto a server-rendered, CLI, or event-driven project
 - [ ] Authentication/authorization mechanism was individually confirmed
 - [ ] In brownfield mode, style/versioning/failure format reflect what's actually in production

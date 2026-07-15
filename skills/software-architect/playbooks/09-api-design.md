@@ -20,7 +20,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 
 - `docs/05-use-cases/use-cases.md` — approved.
 - `docs/07-database-design/database.md` — approved.
-- `docs/08-architecture/architecture.md` — approved, specifically its `interaction_style_guidance`.
+- `docs/08-architecture/architecture.md` — approved, specifically its `interaction_style_guidance` and its confirmed architectural pattern (CQRS, event-driven, hexagonal, etc. — shapes how interaction units are categorized, e.g. commands vs. queries, or events vs. requests).
 - `docs/00-calibration/calibration.md` — project type and, if brownfield, subagent research.
 
 ## Outputs
@@ -34,6 +34,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 ## Mandatory questions
 
 - Confirm the interaction style already oriented in Architecture (phase 08), and detail it in whatever vocabulary actually fits — REST/GraphQL/RPC, server-rendered MVC routes, CLI commands, event handlers, a library's public functions — `[confirmation individual]` only if it diverges from phase 08's orientation (in which case it's a new, consequential decision); if brownfield, confirm new units follow the convention already in production
+- Confirm interaction units are shaped consistently with the architectural pattern already confirmed in phase 08 (e.g. under CQRS, commands and queries are modeled as distinct unit categories rather than mixed; under event-driven, units are event producers/consumers, not synchronous request/response) — a straightforward consequence of phase 08's decision, not a new question to the user, unless the shape genuinely doesn't fit and needs to diverge
 - For each Use Case: which interaction unit(s) implement the flow?
 - Authentication/authorization strategy at this level (fine detail belongs to phase 11-Security; here, only the mechanism decision) — `[confirmation individual]`
 - Versioning strategy (if applicable to this style) and standard failure format?
@@ -51,7 +52,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 
 ## Interview flow
 
-1. Confirm interaction style against Architecture's guidance first — this is usually a quick confirmation, not a fresh decision; only escalate to a full individually-confirmed decision if the user wants to diverge. If Architecture's guidance was vague, ask openly what the project actually is before offering REST as an example — offering it first biases the answer.
+1. Confirm interaction style against Architecture's guidance first — this is usually a quick confirmation, not a fresh decision; only escalate to a full individually-confirmed decision if the user wants to diverge. If Architecture's guidance was vague, ask openly what the project actually is before offering REST as an example — offering it first biases the answer. Keep the confirmed architectural pattern in mind at the same time — it constrains what "consistent" looks like for every unit derived later in this phase (e.g. a CQRS pattern means command/query separation is expected by default, not something to rediscover per Use Case).
 2. Versioning strategy and failure format next — these apply globally, so settling them before individual units keeps every one of them consistent from the start rather than retrofitted later.
 3. Authentication/authorization mechanism — `[confirmation individual]`.
 4. Walk the Use Cases one at a time, deriving interaction unit(s) for each, with input, effect/output, and failure modes in whatever shape this style actually takes.
@@ -59,7 +60,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 
 ## How to confirm answers
 
-Standard loop (`rules/confirmation-protocol.md`). Authentication/authorization mechanism is always individually confirmed. Interaction style is individually confirmed only if it diverges from Architecture's guidance — a straightforward confirmation of what Architecture already decided doesn't need the full individual treatment, but any new divergent decision does.
+Standard loop (`rules/confirmation-protocol.md`). Authentication/authorization mechanism is always individually confirmed. Interaction style is individually confirmed only if it diverges from Architecture's guidance — a straightforward confirmation of what Architecture already decided doesn't need the full individual treatment, but any new divergent decision does. Same treatment for the architectural pattern: shaping units to fit it (e.g. separating commands from queries under CQRS) is just applying an already-confirmed decision, but a unit that genuinely can't fit the confirmed pattern is a divergence and gets the full individual loop, same as an interaction-style divergence.
 
 ## How to document answers
 
@@ -71,6 +72,7 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 - Every Use Case with a real interaction surface has at least one corresponding unit, or an explicit note that it's frontend-only with no backend involvement.
 - Failure format is consistent across every unit — no ad hoc exceptions.
 - No unexplained divergence from phase 08's interaction style guidance.
+- No unexplained divergence from phase 08's confirmed architectural pattern (e.g. a unit that both reads and mutates state under a confirmed CQRS pattern, or a synchronous request/response unit where the confirmed pattern is event-driven).
 - The vocabulary used actually fits the confirmed style — a CLI project's units aren't awkwardly described as HTTP routes, a server-rendered project's units aren't described as if they return JSON.
 
 ## Special cases
@@ -79,6 +81,7 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 - **Server-rendered / MVC style**: a "screen" (phase 10) and an interaction unit (this phase) are frequently the same route. Document the route once, here, and have phase 10 reference it rather than re-describing it.
 - **Use Case with no natural interaction unit**: valid when the flow is entirely client-side (e.g. a purely local UI interaction with no backend call) — record this explicitly rather than leaving the Use Case silently uncovered.
 - **Interaction style diverges from Architecture's guidance**: treat as a new consequential decision — individually confirmed, and probably warrants its own ADR back in `docs/08-architecture/adr/` if it's significant enough (via `rules/change-management.md` if Architecture was already approved).
+- **A Use Case doesn't fit the confirmed architectural pattern**: same treatment as a style divergence — individually confirmed, and routed through `rules/change-management.md` if it means the pattern itself needs revisiting rather than just this one unit being an accepted, documented exception.
 
 ## Common ambiguities
 
@@ -91,6 +94,7 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 
 - An interaction unit with a Use Case link but no Architecture component link, or vice versa.
 - Silently redesigning the interaction style instead of confirming Architecture's guidance or flagging a genuine divergence.
+- Ignoring the confirmed architectural pattern when shaping units — e.g. mixing reads and writes in one unit under a confirmed CQRS pattern, or modeling an event-driven system's handlers as if they were synchronous REST endpoints.
 - Forcing a server-rendered route, CLI command, or event handler into REST-shaped request/response vocabulary because the template's fields default-read that way — the fields are meant to hold whatever shape actually fits, not to imply JSON.
 - Skipping the flow diagram for a genuinely critical flow because it feels obvious.
 
@@ -104,7 +108,7 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 
 ## Anti-patterns
 
-See `rules/ai-invariants.md`. In particular: never invent an interaction unit without a Use Case behind it, never redesign the interaction style Architecture already oriented without treating it as the new, individually-confirmed decision it actually is, and never default to REST/JSON vocabulary without confirming that's actually what this project is — this Skill must work equally well for a Laravel Blade CRUD, a Python CLI, or a Node REST API.
+See `rules/ai-invariants.md`. In particular: never invent an interaction unit without a Use Case behind it, never redesign the interaction style Architecture already oriented without treating it as the new, individually-confirmed decision it actually is, never default to REST/JSON vocabulary without confirming that's actually what this project is, and never shape units in a way that ignores the confirmed architectural pattern without flagging it as a divergence — this Skill must work equally well for a Laravel Blade CRUD, a Python CLI, or a Node REST API.
 
 ## Checklist
 
@@ -112,8 +116,8 @@ See `rules/ai-invariants.md`. In particular: never invent an interaction unit wi
 
 ## Quality Gate
 
-`quality-gates/09-api-design-gate.md`. Summary: every interaction unit traces to a Use Case and an Architecture component; no relevant Use Case left without one (or justification); failure format consistent; no unjustified divergence from phase 08's interaction style.
+`quality-gates/09-api-design-gate.md`. Summary: every interaction unit traces to a Use Case and an Architecture component; no relevant Use Case left without one (or justification); failure format consistent; no unjustified divergence from phase 08's interaction style or architectural pattern.
 
 ## Approval criteria
 
-This phase is done when every interaction unit has both required `traces_to` links, every Use Case with an interaction surface is covered, failure format and versioning are confirmed, authentication/authorization mechanism is individually confirmed, and the user has explicitly confirmed the full design in vocabulary that actually matches the project's real interaction style.
+This phase is done when every interaction unit has both required `traces_to` links, every Use Case with an interaction surface is covered, failure format and versioning are confirmed, authentication/authorization mechanism is individually confirmed, units are shaped consistently with phase 08's confirmed architectural pattern (or divergences are explicitly confirmed), and the user has explicitly confirmed the full design in vocabulary that actually matches the project's real interaction style.

@@ -6,9 +6,9 @@
 - [ ] Every `ARCH-XXX` with an `adr` field points to an `ADR-XXX` that actually exists under `docs/08-architecture/adr/` — checked by `scripts/validate-traceability.mjs`
 
 ## Judgment criteria (AI/human)
-- [ ] Every consequential decision (style, core technology, any high-reversal-cost choice) has an associated ADR
+- [ ] Every consequential decision (style, architectural pattern, core technology, any high-reversal-cost choice) has an associated ADR
 - [ ] Every component has a single, clear responsibility — not overlapping or vague
-- [ ] Architectural style and core technologies were individually confirmed, regardless of confirmation mode
+- [ ] Architectural style, architectural pattern, and core technologies were individually confirmed, regardless of confirmation mode, and pattern was not silently inferred from style
 - [ ] In brownfield mode, the architecture described reflects the actual existing system, not an assumed one
 - [ ] `interaction_style_guidance` is specific enough for phase 09 to consume without re-asking the high-level question, and names what the project actually is rather than defaulting to REST
 

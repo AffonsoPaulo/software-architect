@@ -27,12 +27,13 @@ Never skippable.
 
 ## Documents produced
 
-- `docs/08-architecture/architecture.md` (index: style, core tech, NFR coverage, diagram) plus one `docs/08-architecture/arch-XXX.md` per component, via `templates/architecture.md` (`rules/document-locations.md`).
+- `docs/08-architecture/architecture.md` (index: style, pattern, core tech, NFR coverage, diagram) plus one `docs/08-architecture/arch-XXX.md` per component, via `templates/architecture.md` (`rules/document-locations.md`).
 - `docs/08-architecture/adr/*.md` via `templates/adr.md` — already one file per decision, unaffected by this convention.
 
 ## Mandatory questions
 
 - Architectural style (monolith, modular monolith, microservices, serverless) and why — `[confirmation individual]`; if brownfield, confirm that new work respects the existing style (or record a conscious ADR if the user chooses to diverge)
+- Architectural pattern (layered, hexagonal/ports-and-adapters, event-driven, CQRS, microkernel/plugin, pipe-and-filter, MVC/MVVM for the system's internal structure, etc.) and why — `[confirmation individual]`, distinct from style: style is the deployment/topology shape, pattern is how the system (or each component) is organized internally. If brownfield, confirm the existing pattern the same way as style — conform by default, diverge only via a conscious ADR.
 - Main components and their responsibilities?
 - External integration points (third-party services, queues, cache)?
 - How does each non-functional requirement (`REQ-XXX` NFR) get addressed by the chosen architecture — explicit traceability?
@@ -42,7 +43,7 @@ Never skippable.
 **Fully Dressed only** (`rules/documentation-depth.md`):
 - What does the system boundary look like — every external actor/system it talks to, as a single "box" view?
 - For each critical scenario (checkout, authentication, anything consequential): how do the components actually collaborate at runtime?
-- What patterns apply consistently across every component — logging, error handling, configuration, caching?
+- What patterns apply consistently across every component — both infrastructure conventions (logging, error handling, configuration, caching) and recurring design patterns (e.g. Repository for data access, Strategy for pluggable behavior, Adapter for third-party integrations, Circuit Breaker for external calls) the project commits to as a convention, not a one-off choice inside a single component?
 - Which NFRs matter most relative to each other, and how were conflicts between them resolved?
 - What architectural risks or deliberately accepted technical debt exist right now?
 
@@ -54,22 +55,24 @@ Never skippable.
 
 1. Check project type in `project-state.md` and Calibration's subagent findings first. If brownfield, this phase's first question changes shape — see "Special cases."
 2. Architectural style — `[confirmation individual]`.
-3. Components and responsibilities, one at a time.
-4. Integration points.
-5. Core technologies — `[confirmation individual]`.
-6. NFR coverage — walk every non-functional `REQ-XXX` from phase 03 and confirm which component/decision addresses it; any NFR with no answer here is a gap to resolve before this phase closes, not something to leave implicit.
-7. Interaction style guidance — last, since it depends on everything above. Ask openly ("how is this system actually invoked/used?") before offering REST/GraphQL/RPC as examples — offering those first biases the answer toward them even when the project is something else entirely (a CLI tool, a server-rendered monolith, an event consumer).
+3. Architectural pattern — `[confirmation individual]`, right after style since the two are easy to conflate; confirm it as its own decision even when the style answer made it feel implied.
+4. Components and responsibilities, one at a time.
+5. Integration points.
+6. Core technologies — `[confirmation individual]`.
+7. NFR coverage — walk every non-functional `REQ-XXX` from phase 03 and confirm which component/decision addresses it; any NFR with no answer here is a gap to resolve before this phase closes, not something to leave implicit.
+8. Interaction style guidance — last, since it depends on everything above. Ask openly ("how is this system actually invoked/used?") before offering REST/GraphQL/RPC as examples — offering those first biases the answer toward them even when the project is something else entirely (a CLI tool, a server-rendered monolith, an event consumer).
 
 ## How to confirm answers
 
-Standard loop (`rules/confirmation-protocol.md`). Architectural style and core technologies are always individually confirmed — Architecture is itself an always-strict category per `rules/confirmation-protocol.md`, so in practice every consequential decision in this phase gets individual confirmation, not just the two explicitly tagged questions.
+Standard loop (`rules/confirmation-protocol.md`). Architectural style, architectural pattern, and core technologies are always individually confirmed — Architecture is itself an always-strict category per `rules/confirmation-protocol.md`, so in practice every consequential decision in this phase gets individual confirmation, not just the three explicitly tagged questions.
 
 ## How to document answers
 
-Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item file, `Traces to` set to the NFRs it addresses, with a matching row added to `architecture.md`'s index table. Every consequential decision (style, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 6 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
+Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item file, `Traces to` set to the NFRs it addresses, with a matching row added to `architecture.md`'s index table. Every consequential decision (style, architectural pattern, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 7 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
 
 ## How to validate answers
 
+- Architectural style and architectural pattern are recorded as two distinct, individually confirmed decisions — never inferred from one another.
 - Every consequential architectural decision has an associated ADR.
 - Every non-functional requirement has a component/decision that addresses it — 100%, not "the obvious ones."
 - No component has an unclear or overlapping responsibility.
@@ -82,6 +85,7 @@ Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item
 
 ## Common ambiguities
 
+- Style and pattern collapsed into one answer — e.g. the user says "modular monolith" and treats that as also settling the internal organization. Style (monolith/microservices/serverless) and pattern (layered, hexagonal, event-driven, CQRS, ...) are orthogonal: a modular monolith can be layered or hexagonal; microservices can each be layered internally or event-driven between them. Ask pattern explicitly even when style felt like it implied one.
 - "Microservices" chosen because it sounds modern rather than because the project's actual scale/team structure warrants it — if the reasoning given doesn't hold up against the project's size (from Calibration), ask again rather than accepting a style mismatched to the project's actual needs.
 - A component described by its technology ("the Redis component") rather than its responsibility ("the session cache") — ask for the responsibility; the technology choice belongs in "core technologies," not the component's identity.
 - Assuming "API" means a JSON REST API by default — this Skill covers any system in any language, and a server-rendered monolith (Laravel Blade, Rails views, Django templates), a CLI tool, or an embedded system are equally valid, common answers. Ask what the project actually is rather than presenting REST/GraphQL/RPC as the only options.
@@ -90,6 +94,8 @@ Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item
 
 - Leaving a non-functional requirement without a component/decision that addresses it.
 - Deciding architectural style without individual confirmation because "it's an obvious choice for this kind of project."
+- Skipping the architectural pattern question because the style answer felt like it already covered it, or defaulting to layered/MVC without asking because it's the most common answer.
+- Turning the "patterns across every component" question into a class-by-class design-pattern inventory — this phase records only patterns that are a project-wide convention (e.g. "Repository for all data access"), never a per-component or per-class choice; that level of detail belongs to actual implementation, not this phase.
 - Letting this phase drift into designing actual API endpoints — that's phase 09's job; this phase only sets the high-level style guidance.
 
 ## Examples
@@ -100,7 +106,7 @@ Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item
 
 ## Anti-patterns
 
-See `rules/ai-invariants.md`. In particular: never assume an architectural style or core technology because it's common for this kind of project — never let this phase quietly start designing API contracts, which belongs entirely to phase 09 — and never default interaction style guidance to REST/GraphQL/RPC without asking; this Skill must work for any system in any language, including server-rendered monoliths, CLI tools, and everything that isn't a JSON API.
+See `rules/ai-invariants.md`. In particular: never assume an architectural style, architectural pattern, or core technology because it's common for this kind of project — never let this phase quietly start designing API contracts, which belongs entirely to phase 09 — and never default interaction style guidance to REST/GraphQL/RPC without asking; this Skill must work for any system in any language, including server-rendered monoliths, CLI tools, and everything that isn't a JSON API.
 
 ## Checklist
 
@@ -112,4 +118,4 @@ See `rules/ai-invariants.md`. In particular: never assume an architectural style
 
 ## Approval criteria
 
-This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style and core technologies have been individually confirmed, and the user has explicitly confirmed the full architecture including interaction style guidance.
+This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style, architectural pattern, and core technologies have been individually confirmed, and the user has explicitly confirmed the full architecture including interaction style guidance.

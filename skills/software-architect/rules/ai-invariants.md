@@ -9,6 +9,7 @@ The canonical, single-source list of rules the AI must follow in every phase, at
 - **Document before advancing.** No phase is considered complete with confirmed-but-undocumented answers.
 - **Log before advancing.** A phase's gate passing with genuinely new content, or a Change Request closing, produces a `docs/CHANGELOG.md` entry (and a `docs_version` bump) before that phase/CR is considered done — never batched up for "later," never skipped because the change felt small (`rules/versioning.md`).
 - **Validate before approving.** A phase's Quality Gate (`quality-gate-structure.md`) is checked before the Skill moves on — never skipped, never assumed to pass.
+- **Check upstream before editing downstream.** Before documenting any confirmed answer, check whether it implies a change to a document already marked `approved` in `project-state.md` (per the graph in `traceability-rules.md`) — not just at the phase 17 Review gate, but in any phase, at any point. If it does, never edit that earlier document directly: route it through `change-management.md` as a Change Request, with its own impact list, even when the discovery happens several phases downstream from where the affected document lives.
 
 ## Never
 

@@ -15,7 +15,10 @@ This category splits into an **index file** (`api.md`) and one **item file** per
 <Confirmed style, referencing the Architecture guidance it follows — or,
 if it diverges, the ADR that documents why. Name it plainly: "server-
 rendered MVC," "CLI command surface," etc. — never force-fit into REST
-vocabulary if that's not what this project is.>
+vocabulary if that's not what this project is. Also note how units are
+shaped to fit Architecture's confirmed pattern where relevant, e.g.
+"commands and queries modeled as separate unit categories, per the
+confirmed CQRS pattern.">
 
 ## Versioning strategy
 <How this interaction surface is versioned, if it is at all.>
