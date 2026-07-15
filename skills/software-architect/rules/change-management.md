@@ -6,7 +6,7 @@ How the Skill handles a change to a document that has already been approved. Thi
 
 - The user explicitly asks to change something already confirmed in an earlier phase.
 - The AI detects an inconsistency between an approved document and something confirmed later — this happens constantly in normal, non-Review phases, not just at the Review gate. Example: while confirming an entity's attributes in phase 06 (Domain Model), the user realizes a precondition recorded in `UC-003` (phase 05, already approved) was incomplete. The fix is not local to the `ENT-XXX` document being written right now — `UC-003` itself is out of date and must be corrected via a CR, with its own impact list recomputed (which may reach back further still, e.g. `US-XXX`), even though the discovery happened phases later. The AI only ever **proposes** a CR in this case — it never applies a change to an approved document on its own initiative, and it never silently limits the fix to whichever document it happens to be writing at the time.
-- Reopening a phase during the Review gate (phase 17) is a specific case of the above — per `plan-00-overview.md` decision #16, this always routes through a CR, never a standalone fix to the originating document, so downstream propagation actually happens.
+- Reopening a phase during the Review gate (phase 17) is a specific case of the above — this always routes through a CR, never a standalone fix to the originating document, so downstream propagation actually happens.
 
 ## Flagging the conflict out loud is not the same as opening the CR
 

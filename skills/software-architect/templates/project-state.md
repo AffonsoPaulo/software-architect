@@ -68,7 +68,7 @@ id_sequences:
 
 active_cycle_id: 1
 # Which entry in `cycles` below is currently being worked on. Exactly one
-# active cycle at a time — see plan-04's three entry states in SKILL.md.
+# active cycle at a time — see SKILL.md's three entry states.
 
 cycles:
   - id: 1
