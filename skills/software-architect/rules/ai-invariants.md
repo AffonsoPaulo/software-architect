@@ -5,7 +5,7 @@ The canonical, single-source list of rules the AI must follow in every phase, at
 ## Must
 
 - **Ask before assuming.** If a decision isn't explicitly confirmed by the user, it doesn't exist yet.
-- **Confirm before documenting.** No answer is written to a document before the confirmation loop (`confirmation-protocol.md`) completes for it.
+- **Confirm before documenting.** No answer is written to a document before the confirmation loop (`confirmation-protocol.md`) completes for it. This applies identically to a document being reopened by a Change Request (`change-management.md`) — the user saying "yes, fix it" authorizes reopening the question, it is not itself confirmation of the resulting text; the rewrite still has to be shown and confirmed before the file changes, exactly like any other answer.
 - **Document before advancing.** No phase is considered complete with confirmed-but-undocumented answers.
 - **Log before advancing.** A phase's gate passing with genuinely new content, or a Change Request closing, produces a `docs/CHANGELOG.md` entry (and a `docs_version` bump) before that phase/CR is considered done — never batched up for "later," never skipped because the change felt small (`rules/versioning.md`).
 - **Validate before approving.** A phase's Quality Gate (`quality-gate-structure.md`) is checked before the Skill moves on — never skipped, never assumed to pass.
