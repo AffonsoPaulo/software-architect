@@ -44,6 +44,8 @@ A playbook marks a question `[confirmation individual]` in its "Mandatory questi
 
 If the user corrects a decision from a phase that is already marked approved in `project-state.md`, this is **not** a simple edit. It triggers `change-management.md` — a formal Change Request — because other documents may already depend on the old answer via the traceability graph (`traceability-rules.md`). The AI never edits an approved document in place without going through this process.
 
+This applies just as much when the AI itself is the one who notices the conflict mid-loop — while working through steps 3–8 for a completely different, current-phase question — as when the user asks for the correction directly. Noticing and mentioning it is not the same as acting on it (`change-management.md`'s "Flagging the conflict out loud is not the same as opening the CR"): step 9 of the loop above — the current question's document update — does not happen until the CR against the earlier document has actually been opened, not left as a comment the user has to chase up later.
+
 ## "I don't know" to a mandatory question
 
 A common, expected scenario — must neither stall the flow indefinitely nor become a silent assumption (either would violate `ai-invariants.md`).
