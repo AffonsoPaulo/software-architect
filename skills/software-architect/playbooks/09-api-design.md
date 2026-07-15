@@ -35,7 +35,8 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 
 - Confirm the interaction style already oriented in Architecture (phase 08), and detail it in whatever vocabulary actually fits — REST/GraphQL/RPC, server-rendered MVC routes, CLI commands, event handlers, a library's public functions — `[confirmation individual]` only if it diverges from phase 08's orientation (in which case it's a new, consequential decision); if brownfield, confirm new units follow the convention already in production
 - Confirm interaction units are shaped consistently with the architectural pattern already confirmed in phase 08 (e.g. under CQRS, commands and queries are modeled as distinct unit categories rather than mixed; under event-driven, units are event producers/consumers, not synchronous request/response) — a straightforward consequence of phase 08's decision, not a new question to the user, unless the shape genuinely doesn't fit and needs to diverge
-- For each Use Case: which interaction unit(s) implement the flow?
+- For each Use Case: which interaction unit(s) implement it — covering the main flow **and** every alternative/exception flow with a real interaction surface, not just the main flow. Phase 05's use cases almost always document more than one flow; a Use Case whose only interaction units cover its main flow is an easy, common gap, not a complete answer.
+- For each resource/entity a Use Case's interaction units touch: has the full lifecycle actually been considered — create, read/list, update, delete (where applicable), and any state transition named in the Use Case or Domain Model (status changes, lifecycle events, "what happens when this ends/changes state") — or does the design stop at creation? Thoroughly designing the creation path and then under-covering the rest is a recurring bias this question exists to catch, not a one-off risk.
 - Authentication/authorization strategy at this level (fine detail belongs to phase 11-Security; here, only the mechanism decision) — `[confirmation individual]`
 - Versioning strategy (if applicable to this style) and standard failure format?
 
@@ -55,7 +56,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 1. Confirm interaction style against Architecture's guidance first — this is usually a quick confirmation, not a fresh decision; only escalate to a full individually-confirmed decision if the user wants to diverge. If Architecture's guidance was vague, ask openly what the project actually is before offering REST as an example — offering it first biases the answer. Keep the confirmed architectural pattern in mind at the same time — it constrains what "consistent" looks like for every unit derived later in this phase (e.g. a CQRS pattern means command/query separation is expected by default, not something to rediscover per Use Case).
 2. Versioning strategy and failure format next — these apply globally, so settling them before individual units keeps every one of them consistent from the start rather than retrofitted later.
 3. Authentication/authorization mechanism — `[confirmation individual]`.
-4. Walk the Use Cases one at a time, deriving interaction unit(s) for each, with input, effect/output, and failure modes in whatever shape this style actually takes.
+4. Walk the Use Cases one at a time, deriving interaction unit(s) for each, with input, effect/output, and failure modes in whatever shape this style actually takes — main flow first, then each alternative/exception flow with a real interaction surface, then a deliberate check of the rest of that resource's lifecycle (read/list, update, delete, state transitions) before moving to the next Use Case. If the framework/language confirmed in phase 08 has its own idiomatic convention for this (e.g. Laravel's resource routing, Rails' RESTful routes), default to it and confirm that default with the user, rather than proposing a generic shape and only reconciling it with the stack's own convention when asked.
 5. Identify critical flows (checkout, authentication, anything consequential) and build their diagrams once the relevant units are settled.
 
 ## How to confirm answers
@@ -70,6 +71,8 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 
 - Every interaction unit has both `traces_to` targets (Use Case and Architecture component) — never just one.
 - Every Use Case with a real interaction surface has at least one corresponding unit, or an explicit note that it's frontend-only with no backend involvement.
+- Every flow in that Use Case with a real interaction surface — not just the main one — has a corresponding unit, or an explicit note that a specific alternative/exception flow is client-side only.
+- Every resource touched has been checked against its full lifecycle (create, read/list, update, delete, state transitions), not just its creation path.
 - Failure format is consistent across every unit — no ad hoc exceptions.
 - No unexplained divergence from phase 08's interaction style guidance.
 - No unexplained divergence from phase 08's confirmed architectural pattern (e.g. a unit that both reads and mutates state under a confirmed CQRS pattern, or a synchronous request/response unit where the confirmed pattern is event-driven).
@@ -95,6 +98,9 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 - An interaction unit with a Use Case link but no Architecture component link, or vice versa.
 - Silently redesigning the interaction style instead of confirming Architecture's guidance or flagging a genuine divergence.
 - Ignoring the confirmed architectural pattern when shaping units — e.g. mixing reads and writes in one unit under a confirmed CQRS pattern, or modeling an event-driven system's handlers as if they were synchronous REST endpoints.
+- Covering a Use Case's main flow with a unit but skipping its alternative/exception flows — these were already documented in phase 05; skipping them here means re-discovering them later, usually when a downstream phase's math or a direct question forces the gap into view.
+- Designing the "create" interaction thoroughly and stopping there — listing, updating, deleting, and state-transition units for the same resource get proposed only reactively, after the user asks, instead of being checked systematically for every resource up front.
+- Proposing routes/units in a generic shape that ignores the confirmed framework's own idiomatic convention (e.g. non-resourceful routes for a confirmed Laravel/Rails project), fixed only after the user asks whether it follows the stack's own convention.
 - Forcing a server-rendered route, CLI command, or event handler into REST-shaped request/response vocabulary because the template's fields default-read that way — the fields are meant to hold whatever shape actually fits, not to imply JSON.
 - Skipping the flow diagram for a genuinely critical flow because it feels obvious.
 

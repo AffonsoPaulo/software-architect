@@ -16,6 +16,7 @@ Never skippable.
 
 - `docs/08-architecture/architecture.md` — approved.
 - `docs/09-api-design/api.md` — approved, specifically every `API-XXX` interaction unit.
+- `docs/10-frontend-planning/frontend.md` — approved, if this phase ran, specifically any role/permission gating noted per screen or action. These are explicit input to the authorization model below, collected up front rather than improvised per screen if one happens to come up in conversation.
 
 ## Outputs
 
@@ -32,7 +33,7 @@ Never skippable.
 All high-impact — most are `[confirmation individual]`:
 
 - Threat modeling per critical component (STRIDE or an equivalent simplified approach) — `[confirmation individual]`
-- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model (RBAC, ABAC), in detail — `[confirmation individual]`
+- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model (RBAC, ABAC), in detail — `[confirmation individual]`. Start from every role/permission constraint already noted in phase 10's screens, if that phase ran, and fold each one into this model explicitly rather than letting the model be designed from scratch as if those constraints hadn't already come up.
 - Data classification (PII, financial, health) and required treatment — `[confirmation individual]`
 - Compliance requirements (LGPD, GDPR, PCI-DSS, HIPAA, none) — `[confirmation individual]`
 - Secrets/credentials strategy (vault, env vars, KMS)

@@ -32,6 +32,7 @@ Skippable for projects with no interface at all — a pure API, a CLI, a backgro
 - State management approach — `[confirmation individual]`. For a server-rendered/MVC project with no client-side framework (see phase 09's interaction style), this question usually resolves to "not applicable — no client-side state, every action is a full page load or redirect." That's a valid, complete answer — confirm it explicitly as such rather than treating the question as if it assumes a SPA architecture.
 - Design system/UI kit to use (existing or to be created) — `[confirmation individual]`
 - Responsiveness/target platforms (web, mobile, or both)?
+- Per screen or action: is visibility/access gated by role or permission ("only X can see/do this")? Note it explicitly the moment it comes up here — this phase records *that* the constraint exists and roughly what it is, as input for phase 11's authorization model, not the full rule itself (that's phase 11's job). Don't let a permission constraint surface only as an offhand remark that has to be tracked down and formalized retroactively later.
 
 **Fully Dressed only** (`rules/documentation-depth.md`):
 - What accessibility conformance level is the target (e.g. WCAG 2.1 AA), and are there specific requirements beyond the baseline?
@@ -57,7 +58,7 @@ Standard loop (`rules/confirmation-protocol.md`). State management and design sy
 
 ## How to document answers
 
-Each confirmed screen gets a stable name (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `Traces to` pointing to its source Use Case(s), plus which interaction units from `docs/09-api-design/api.md` it uses — real calls for a client-server style, or the same route for a server-rendered style (see "Special cases"). The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it. At Fully Dressed depth, the additional answers map to `templates/frontend.md`'s "Fully Dressed additions" section.
+Each confirmed screen gets a stable name (no formal ID prefix is reserved for screens in `rules/id-conventions.md`) and a `Traces to` pointing to its source Use Case(s), plus which interaction units from `docs/09-api-design/api.md` it uses — real calls for a client-server style, or the same route for a server-rendered style (see "Special cases"). The navigation `flowchart` (`rules/diagram-conventions.md`) is built from the confirmed screen list and flow, not sketched ahead of it. Any role/permission gating noted for a screen or action is recorded in that screen's own notes as a plain statement of the constraint — phase 11 is what turns it into a formal `SEC-XXX` control. At Fully Dressed depth, the additional answers map to `templates/frontend.md`'s "Fully Dressed additions" section.
 
 ## How to validate answers
 
