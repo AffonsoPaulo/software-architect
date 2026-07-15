@@ -98,4 +98,4 @@ The rule of thumb: split when the category's items are the whole point and the c
 
 ## Out of scope (v1)
 
-A single `docs/` root assumes one product per repository root. Monorepos with multiple products needing independent planning cycles are explicitly out of scope for v1 (see `plan-00-overview.md` decision #17) — not an oversight.
+A single `docs/` root assumes one product per repository root. Monorepos with multiple products needing independent planning cycles, and multiple concurrent users writing to the same `project-state.md` at once, are explicitly out of scope for v1 — a conscious scope decision, not an oversight; either could become a v2 concern if actually needed.

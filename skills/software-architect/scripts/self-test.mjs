@@ -32,7 +32,7 @@ function testExample(name) {
   // "pass" trivially (zero artifacts, zero violations), which is false
   // confidence, not a real clean bill of health.
   if (!existsSync(join(projectRoot, 'docs', 'project-state.md'))) {
-    return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — example not populated yet (see plan-24)` };
+    return { name, skipped: true, reason: `${projectRoot}/docs/project-state.md not found — example not populated yet` };
   }
   // Zero artifacts found is the same false-positive-clean risk as an
   // empty docs/ tree — most commonly means the example's documents
@@ -77,7 +77,7 @@ function main() {
     process.exit(1);
   }
   if (anySkipped) {
-    console.log('self-test: INCOMPLETE — one or more examples not yet populated. Not a failure by itself, but self-test cannot fully vouch for the package until plan-24 is done.');
+    console.log('self-test: INCOMPLETE — one or more examples not yet populated. Not a failure by itself, but self-test cannot fully vouch for the package until both are.');
     process.exit(0);
   }
   console.log('self-test: OK — both examples clean.');

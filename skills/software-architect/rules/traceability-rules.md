@@ -41,4 +41,4 @@ Every `traces_to` in the table below is written as the `Traces to` key of an art
 
 ## What this file does not cover
 
-Semantic conflicts between documents (e.g. two requirements that contradict each other) are a distinct concern from traceability — see `plan-00-overview.md` decision #12 and `playbooks/17-review.md`. A document can be perfectly traceable and still be internally contradictory; this file only catches the former.
+Semantic conflicts between documents (e.g. two requirements that contradict each other) are a distinct concern from traceability, deliberately not handled here: this file's checks (via `scripts/validate-traceability.mjs`) only catch orphans and broken references — semantic conflict detection is explicitly the AI's judgment, done once, at the phase 17 Review gate (`playbooks/17-review.md`), never scattered into earlier phases in isolation. A document can be perfectly traceable and still be internally contradictory; this file only catches the former.
