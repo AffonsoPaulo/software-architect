@@ -2,7 +2,7 @@
 
 ## Objective
 
-Formalize functional and non-functional requirements, testable acceptance criteria, business rule links, priorities, and edge cases. This is the phase most directly named in the Skill's founding brief, with a specific Quality Gate example that this playbook's gate reproduces literally, not as a paraphrase. Requirements is the first document in the formal traceability graph — everything from User Stories onward ultimately traces back to a `REQ-XXX` here.
+Formalize functional and non-functional requirements, testable acceptance criteria, business rule links, priorities, and edge cases. This phase's Quality Gate (`quality-gates/03-requirements-engineering-gate.md`) uses five fixed judgment criteria, never reworded per requirement the way other phases' gates are — see that file for why. Requirements is the first document in the formal traceability graph — everything from User Stories onward ultimately traces back to a `REQ-XXX` here.
 
 ## When to run
 
@@ -59,7 +59,7 @@ Each confirmed requirement becomes its own `docs/03-requirements/req-XXX.md` ite
 
 ## How to validate answers
 
-Per requirement, exactly the five checks from this Skill's founding brief — not a paraphrase:
+Per requirement, exactly these five fixed checks — not a paraphrase:
 
 1. **Complete** — the requirement statement is a full, self-contained capability, not a fragment.
 2. **Acceptance criteria** — at least one, and each is genuinely testable (pass/fail determinable), not aspirational.

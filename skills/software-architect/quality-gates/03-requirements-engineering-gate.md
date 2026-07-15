@@ -1,13 +1,13 @@
 # Requirements Engineering Gate
 
-The five criteria below are the Skill's founding brief's own example, reproduced literally — this is the one gate in the whole Skill required to match a specific external example rather than being derived generically from `rules/quality-gate-structure.md`'s format.
+The five criteria below are fixed, not derived generically from `rules/quality-gate-structure.md`'s format the way every other gate's judgment criteria are — Requirements is the one phase where these specific five checks (Complete, Acceptance criteria, Business rules, Edge cases, Ambiguities) are canonical and never reworded per requirement.
 
 ## Scriptable criteria
 - [ ] Every `REQ-XXX` ID is unique and correctly formatted per `rules/id-conventions.md` — checked by `scripts/validate-ids.mjs`
 - [ ] Every `REQ-XXX`'s `traces_to` entry, if set, points to a `BR-XXX` that actually exists — checked by `scripts/validate-traceability.mjs`
 - [ ] Every functional `REQ-XXX` has at least one entry in `acceptance_criteria` and at least one entry in `edge_cases` (non-empty lists) — checked by `scripts/validate-gate.mjs`
 
-## Judgment criteria (AI/human) — the five founding-brief checks, per requirement
+## Judgment criteria (AI/human) — the five fixed checks, per requirement
 - [ ] **Complete**: the requirement is a full, self-contained capability statement, not a fragment
 - [ ] **Acceptance criteria**: each listed criterion is genuinely testable (pass/fail determinable), not aspirational
 - [ ] **Business rules**: linked to a `BR-XXX` where one applies, or explicitly confirmed as "no applicable rule" — never silently blank

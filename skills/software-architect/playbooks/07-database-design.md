@@ -79,7 +79,7 @@ Each confirmed table/collection becomes its own `docs/07-database-design/tbl-XXX
 ## Frequent errors
 
 - Leaving a Domain Model entity without a table and without a stated reason.
-- Assuming the database type instead of asking — this is explicitly called out as never-default in this Skill's founding brief, and remains true here even when a type seems "obviously" appropriate for the project.
+- Assuming the database type instead of asking — never-default here even when a type seems "obviously" appropriate for the project, the same invariant `rules/ai-invariants.md` states generally, applied to the one decision this phase is most tempted to skip confirming.
 - Diverging from the Domain Model's relationships without flagging it as an inconsistency requiring resolution.
 
 ## Examples

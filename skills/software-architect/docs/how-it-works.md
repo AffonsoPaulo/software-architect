@@ -27,7 +27,7 @@ Every project the Skill helps plan goes through up to 18 phases, in order, befor
 | 16 | Implementation Plan | `playbooks/16-implementation-plan.md` |
 | 17 | Architecture Review | `playbooks/17-review.md` |
 
-Four phases — 03, 08, 11, 17 — are always mandatory, regardless of project size. Every other phase can be skipped, but only with an explicit reason recorded during phase 00, never silently. Architecture (08) intentionally runs before API Design (09): the architectural style decided there shapes the API contracts designed here, not the other way around — see `playbooks/08-architecture.md`'s and `playbooks/09-api-design.md`'s opening notes if you're wondering why the numbering isn't in the order you might expect from the original brief.
+Four phases — 03, 08, 11, 17 — are always mandatory, regardless of project size. Every other phase can be skipped, but only with an explicit reason recorded during phase 00, never silently. Architecture (08) intentionally runs before API Design (09): the architectural style decided there shapes the API contracts designed here, not the other way around — see `playbooks/08-architecture.md`'s and `playbooks/09-api-design.md`'s opening notes if you're wondering why the numbering might look reordered from a first guess.
 
 ## SKILL.md as orchestrator
 
