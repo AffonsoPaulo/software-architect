@@ -14,10 +14,10 @@ Fixing a typo, rewording for clarity with no meaning change, or any edit that do
 ## Deciding Major, Minor, or Patch
 
 - **Minor** (`x.Y.x`): triggered by (1) above — new content added during normal forward phase progress. The common case for most of a project's life.
-- **Patch** (`x.x.Z`): triggered by (2) — a CR whose impact list touches one document/category and doesn't reverse or supersede a previously-approved decision. A correction or clarification.
-- **Major** (`X.x.x`): triggered by (2) — a CR whose impact list spans more than one phase/category, OR that reverses/supersedes a previously-approved decision (an ADR marked `Superseded`, a changed Vision `Business objective`, a reversed architecture choice).
+- **Patch** (`x.x.Z`): triggered by (2) — a CR that doesn't reverse or supersede a previously-approved decision. A correction, clarification, or propagated consistency fix — regardless of how many documents or phases are on its impact list. Traceability propagation (e.g. a wording fix in `UC-003` that also touches `US-002` and `ENT-004` for consistency) is exactly what Patch exists for; breadth alone never bumps this to Major.
+- **Major** (`X.x.x`): triggered by (2) — a CR that reverses or supersedes a previously-approved decision (an ADR marked `Superseded`, a changed Vision `Business objective`, a reversed architecture choice, a requirement whose meaning — not just wording — changed). The test is semantic: did something already agreed upon get overturned, not how many documents needed re-confirming.
 
-When a CR's impact could be read either way, prefer Major — the cost of under-signaling a real reversal is higher than the cost of an extra Major bump.
+When it's genuinely unclear whether a CR reverses a decision or merely clarifies/propagates one, the AI does not default silently either way — it asks the user directly, per `confirmation-protocol.md`, and records the answer in the CR itself.
 
 ## Where it lives, and how it starts
 

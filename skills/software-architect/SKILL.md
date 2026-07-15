@@ -1,7 +1,7 @@
 ---
 name: software-architect
 description: Acts as a Lead Software Architect that plans a software project completely — from a raw idea through requirements, domain model, database, API, architecture, security, testing, deployment, and a full backlog — before any production code is written. Use when the user wants to plan, specify, or architect a new project or feature from scratch, wants a structured requirements/design process instead of jumping straight to code, or already has a project with docs/project-state.md and wants to add a new feature to it. Not for direct code generation, debugging, or working on a codebase that has no planning intent behind the request.
-version: 1.1.0
+version: 1.2.0
 ---
 
 # Software Architect
@@ -27,7 +27,7 @@ On every invocation, first look for `docs/project-state.md` in the user's projec
 
 ### `skill_version` check
 
-Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, tell the user explicitly — e.g. "This project was started with an earlier version of the Skill; the structure of `project-state.md` may have changed since" — instead of silently assuming compatibility. No automatic migration in this version; the warning is enough.
+Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, tell the user explicitly instead of silently assuming compatibility, then follow `rules/skill-drift.md` — in short: when resuming mid-phase (state 2), diff the current playbook's mandatory questions against what's already confirmed before trusting `next_pending_question`, so a newly-added question gets asked in place rather than skipped; when the project is already implemented (state 3), offer an opt-in compatibility audit rather than silently re-walking every phase. Never an automatic, unrequested rewrite of any approved document either way — any real gap found still goes through `rules/change-management.md` like any other change.
 
 ## Phase table
 

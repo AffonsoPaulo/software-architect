@@ -15,6 +15,15 @@ This category splits into an **index file** (`architecture.md`) and one **item f
 and whether this cycle's work conforms to it or consciously diverges
 (the latter needs its own ADR).>
 
+## Architectural pattern
+<Layered, hexagonal/ports-and-adapters, event-driven, CQRS,
+microkernel/plugin, pipe-and-filter, MVC/MVVM for the internal
+structure, etc., and why — `[confirmation individual]`. Distinct from
+style above: style is the deployment/topology shape, this is how the
+system (or each component) is organized internally. In brownfield
+mode: the existing pattern, and whether this cycle conforms or
+consciously diverges (the latter needs its own ADR).>
+
 | ID | Component | Traces to | ADR |
 |---|---|---|---|
 | [ARCH-001](arch-001.md) | <name> | REQ-012 | ADR-003 |
@@ -84,10 +93,15 @@ sequenceDiagram
 
 ## Crosscutting concepts
 <Patterns applied consistently across every component, stated once
-here instead of repeated per component: logging approach, error-
-handling convention, configuration management, caching strategy.
-"Standard framework defaults, no project-specific convention" is valid
-if actually true.>
+here instead of repeated per component: infrastructure conventions
+(logging approach, error-handling convention, configuration
+management, caching strategy) and recurring design patterns adopted
+as a project-wide convention (e.g. Repository for data access,
+Strategy for pluggable behavior, Adapter for third-party integrations,
+Circuit Breaker for external calls) — not a per-component or per-class
+design-pattern inventory, which belongs to implementation, not this
+document. "Standard framework defaults, no project-specific
+convention" is valid if actually true.>
 
 ## Quality tree
 <Which specific NFRs matter most and how they were prioritized relative
