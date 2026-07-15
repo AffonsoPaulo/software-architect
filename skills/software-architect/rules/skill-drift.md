@@ -6,30 +6,34 @@ How the Skill handles its own `skill_version` (`project-state.md`, sourced from 
 
 Once per invocation, per `SKILL.md`'s entry logic, in states 2 and 3 only (never state 1 — a brand-new project always starts on the current version, nothing can have drifted yet).
 
+## The first thing that happens, in either state
+
+The moment `skill_version` is found older than the current version — before doing anything else in this file — the Skill tells the user explicitly that its rules changed since this project (or cycle) was last touched, and asks directly: continue normally, or run the compatibility audit against the phases already approved first? This is a real, explicit question, not a remark folded into a longer message, and the Skill waits for an answer before proceeding down either path. It never defaults to "continue normally" on the assumption that's what the user would want — picking the lower-friction path unasked is exactly what `ai-invariants.md`'s "Ask before assuming" forbids, applied to the Skill's own drift instead of a document's content.
+
+- **"Continue normally"** — proceed exactly as State 2 or State 3 below describes. In State 2, the in-progress phase's own diff (step 1 below) still always runs regardless of this answer — that part is cheap, safety-net-only, and not something the user opts out of; the question is only about the *other*, already-approved phases.
+- **"Run the audit"** — run the compatibility audit (below) before anything else, scoped to whichever phases are already approved at this point in the project.
+
 ## State 2 — project in progress, resuming mid-phase
 
-If `skill_version` is older and the active cycle has a phase with `status: in_progress`:
+If `skill_version` is older and the active cycle has a phase with `status: in_progress`, once the question above has been asked and answered:
 
-1. Tell the user explicitly that the Skill's rules changed since this phase was last touched (`SKILL.md`'s existing warning).
-2. Before jumping straight to `next_pending_question`, re-read the **current** playbook for that in-progress phase and diff its "Mandatory questions" against what has already been confirmed and documented so far in this phase.
-3. Any mandatory question with no corresponding confirmed answer yet — because it didn't exist, or wasn't mandatory, last time this phase was touched — gets asked now, inserted at the point the current playbook's Interview flow would put it, not tacked on at the end or silently deferred to the gate.
-4. `next_pending_question` is only authoritative for what to ask next among questions the diff didn't flag. Where the two disagree, the diff wins.
-5. This is a safety net layered on top of the phase's Quality Gate, not a replacement for it — the gate (`rules/quality-gate-structure.md`) still runs at phase close regardless, since a gate file is always read fresh from disk, never cached from when the phase started. Catching the gap here just means it's asked in the right place in the conversation instead of being caught late and out of order at the gate.
-6. **This diff only covers the current in-progress phase.** Earlier phases in the same cycle that are already `approved` do not get retroactively re-checked just because the Skill's version advanced — see "On-touch checking" and the compatibility audit below, both of which apply here too, not only to already-implemented projects. If several Skill versions have gone by, it is worth proactively offering (or the user explicitly asking for) the same compatibility audit described in State 3, scoped to the phases already approved in this cycle — mid-project is exactly when a gap found is cheapest to fix, not a reason to wait until the project is finished.
+1. Before jumping straight to `next_pending_question`, re-read the **current** playbook for that in-progress phase and diff its "Mandatory questions" against what has already been confirmed and documented so far in this phase.
+2. Any mandatory question with no corresponding confirmed answer yet — because it didn't exist, or wasn't mandatory, last time this phase was touched — gets asked now, inserted at the point the current playbook's Interview flow would put it, not tacked on at the end or silently deferred to the gate.
+3. `next_pending_question` is only authoritative for what to ask next among questions the diff didn't flag. Where the two disagree, the diff wins.
+4. This is a safety net layered on top of the phase's Quality Gate, not a replacement for it — the gate (`rules/quality-gate-structure.md`) still runs at phase close regardless, since a gate file is always read fresh from disk, never cached from when the phase started. Catching the gap here just means it's asked in the right place in the conversation instead of being caught late and out of order at the gate.
+5. **This diff only covers the current in-progress phase.** Earlier phases in the same cycle that are already `approved` are covered by the audit above, if the user asked for it — not by this step, which never reaches back further than the phase currently open.
 
 ## State 3 — already implemented (`ready_for_implementation: true`), new request
 
-Do not automatically re-walk every phase — see "Why not automatic" below. Instead:
+Once the question above has been asked and answered:
 
-1. Warn the user once that the Skill's version has advanced since this project's active cycle reached `ready_for_implementation: true`.
-2. If the new request's scope (per `playbooks/00-project-calibration.md`'s incremental mode) touches a given phase, that phase is checked against the **current** Quality Gate as part of reopening it normally — see "On-touch checking" below. No extra step needed here beyond what incremental mode already does.
-3. If the user asks specifically whether anything is now missing project-wide — or simply wants to know before deciding what to work on next — offer an explicit, opt-in **compatibility audit**: a read-only pass, structured like phase 17's structural check (`rules/delegation-policy.md`'s mechanical-audit use), that re-runs every phase's current Quality Gate against the project's existing confirmed content and reports gaps, without modifying anything.
-4. The audit never auto-applies a fix. Any gap the user decides is worth addressing routes through a normal Change Request (`rules/change-management.md`), scoped to just that gap's own impact list, like any other CR.
-5. If the user declines the audit, or leaves a reported gap open, nothing blocks the project — this Skill has no authority over already-implemented code, and the project's existing `ready_for_implementation: true` stands.
+1. If the new request's scope (per `playbooks/00-project-calibration.md`'s incremental mode) touches a given phase, that phase is checked against the **current** Quality Gate as part of reopening it normally — see "On-touch checking" below. No extra step needed here beyond what incremental mode already does.
+2. If the user asked for the audit above, run it now, before scoping the new request — its findings may be relevant context for what the new request should actually cover.
+3. If the user declines the audit, or leaves a reported gap open, nothing blocks the project — this Skill has no authority over already-implemented code, and the project's existing `ready_for_implementation: true` stands.
 
-## The compatibility audit is available in any state, not just State 3
+## The compatibility audit
 
-Everything in State 3 steps 3–4 above — the opt-in, read-only audit against every phase's current Quality Gate, gaps routed through a normal CR, never auto-applied — is written from the "already implemented" case because that's the most obvious moment to want it, not because it's restricted to that case. A mid-project (State 2) user can ask for the same audit at any point, scoped to whichever already-`approved` phases they care about (not the in-progress one, which State 2's own diff already covers). There is exactly one audit mechanism; State 3 just happens to be where "nothing else will catch this" is truest, since on-touch checking has no future trigger to rely on once a phase is done for good this cycle. Mid-project, on-touch checking will eventually catch a drifted phase if it's reopened for any other reason — the audit is for finding out sooner, deliberately, rather than waiting for that.
+A read-only pass, structured like phase 17's structural check (`rules/delegation-policy.md`'s mechanical-audit use): re-runs every already-`approved` phase's current Quality Gate against the project's existing confirmed content and reports gaps, without modifying anything. One mechanism, asked about upfront in either state (see above) rather than something the user has to think to request — State 3 is simply where it was first written up, not where it's restricted to. It never auto-applies a fix: any gap the user decides is worth addressing routes through a normal Change Request (`rules/change-management.md`), scoped to just that gap's own impact list, like any other CR. Declining it, or leaving a reported gap open, blocks nothing — see "Why not automatic" for why running it is the user's call, not a forced re-walk.
 
 ## Why not automatic
 
