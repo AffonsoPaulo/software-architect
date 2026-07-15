@@ -12,13 +12,20 @@ import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parseYamlLite } from './yaml-lite.mjs';
 
-const FRONT_MATTER_RE = /^---\n([\s\S]*?)\n---/;
-
+// project-state.md is pure YAML end to end (rules/document-format.md,
+// templates/project-state.md) — it never needs `---`/`---` delimiters,
+// unlike the legacy front-matter-block convention this function is
+// named after. A conforming file is just the YAML directly, and
+// parseYamlLite already treats a bare `---` line as unparseable
+// key:value content and silently skips it (it's not a comment, block
+// scalar, or mapping/sequence entry), so a file that *does* still carry
+// delimiters — as both worked examples used to, until that was corrected
+// — parses identically either way. There is deliberately no branching
+// here on whether delimiters are present; the same parse handles both,
+// so no file needs to declare which form it's in.
 export function extractFrontMatter(fileContent) {
-  const m = fileContent.match(FRONT_MATTER_RE);
-  if (!m) return {};
   try {
-    return parseYamlLite(m[1]) || {};
+    return parseYamlLite(fileContent) || {};
   } catch (err) {
     return { __parse_error__: String(err && err.message ? err.message : err) };
   }
