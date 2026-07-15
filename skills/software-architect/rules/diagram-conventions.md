@@ -19,9 +19,9 @@ Every Mermaid diagram used by any playbook comes from this table. No playbook ch
 | 14 — Roadmap (relative, dependency-only) | `flowchart` |
 | 16 — Implementation Plan (task dependencies) | `flowchart` or `gantt` |
 
-## The original brief's 9 diagram types, mapped
+## The 9 standard diagram types, mapped
 
-The original specification calls for 9 diagram categories: Flowchart, ERD, Sequence, Activity, State, Component, Deployment, Class, Package. Mermaid has no native **Activity** or **Package** diagram type — rather than silently dropping these two, they map explicitly:
+This Skill's diagram vocabulary is built from 9 standard categories: Flowchart, ERD, Sequence, Activity, State, Component, Deployment, Class, Package. Mermaid has no native **Activity** or **Package** diagram type — rather than silently dropping these two, they map explicitly:
 
 - **Activity** → `flowchart` (decision/activity-oriented layout) or `stateDiagram`, whichever fits the specific flow being described.
 - **Package** → `classDiagram` using `namespace` blocks, or `graph` using `subgraph` per module/package.
