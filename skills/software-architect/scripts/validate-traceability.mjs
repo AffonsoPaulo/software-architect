@@ -3,9 +3,9 @@
 // against a target project's docs/ tree: required links present, no
 // broken references, and the key coverage checks (every functional REQ
 // has a US and a TEST, every NFR REQ has ARCH/SEC coverage, etc.).
-// Respects phases marked "skipped" in docs/project-state.md — an elo
-// that legitimately has no artifacts because its origin phase was
-// skipped is not reported as a violation.
+// Respects phases marked "skipped" in docs/project-state.md — a prefix
+// category that legitimately has no artifacts because its origin phase
+// was skipped is not reported as a violation.
 //
 // Usage: node validate-traceability.mjs [project-root]
 // Can also be imported: `import { validateTraceability } from './validate-traceability.mjs'`
@@ -88,7 +88,7 @@ export function validateTraceability(projectRoot) {
         });
       }
     }
-    report.push({ elo: rule.prefix, checked: artifactsOfPrefix.length, orphans: orphanCount });
+    report.push({ prefix: rule.prefix, checked: artifactsOfPrefix.length, orphans: orphanCount });
     if (artifactsOfPrefix.length === 0 && producingPhase && skipped.has(producingPhase)) {
       report[report.length - 1].note = `phase ${producingPhase} skipped — zero artifacts expected`;
     }
@@ -213,10 +213,10 @@ function main() {
   const projectRoot = process.argv[2] || process.cwd();
   const { violations, report } = validateTraceability(projectRoot);
 
-  console.log('validate-traceability: per-elo summary');
+  console.log('validate-traceability: per-prefix summary');
   for (const r of report) {
     const note = r.note ? ` (${r.note})` : '';
-    console.log(`  ${r.elo}: ${r.checked} checked, ${r.orphans} orphan(s)${note}`);
+    console.log(`  ${r.prefix}: ${r.checked} checked, ${r.orphans} orphan(s)${note}`);
   }
   console.log('');
 
