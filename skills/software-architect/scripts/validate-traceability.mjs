@@ -11,6 +11,7 @@
 // Can also be imported: `import { validateTraceability } from './validate-traceability.mjs'`
 
 import { buildProjectIndex, prefixOf, loadProjectState } from './lib/docs.mjs';
+import { isMainModule } from './lib/cli.mjs';
 
 // The definitive per-artifact table from rules/traceability-rules.md.
 // mode: 'all' = must have >=1 target of every listed prefix
@@ -248,6 +249,6 @@ function main() {
   process.exit(1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   main();
 }

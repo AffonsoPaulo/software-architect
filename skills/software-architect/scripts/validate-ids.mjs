@@ -7,6 +7,7 @@
 // Can also be imported: `import { validateIds } from './validate-ids.mjs'`.
 
 import { buildProjectIndex, prefixOf } from './lib/docs.mjs';
+import { isMainModule } from './lib/cli.mjs';
 
 // Must stay in sync with rules/id-conventions.md's prefix table.
 const VALID_PREFIXES = new Set([
@@ -66,6 +67,6 @@ function main() {
   process.exit(1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   main();
 }

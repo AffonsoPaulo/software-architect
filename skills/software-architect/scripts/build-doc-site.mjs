@@ -18,6 +18,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname, basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderMarkdown, escapeHtml } from './lib/markdown-lite.mjs';
+import { isMainModule } from './lib/cli.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MERMAID_JS = readFileSync(join(__dirname, 'lib', 'vendor', 'mermaid.min.js'), 'utf8');
@@ -537,6 +538,6 @@ function main() {
   console.log('Fully self-contained — Mermaid is inlined, no internet connection needed to view it.');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   main();
 }

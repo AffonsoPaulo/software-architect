@@ -19,6 +19,7 @@ import { validateIds } from './validate-ids.mjs';
 import { validateTraceability } from './validate-traceability.mjs';
 import { validateAuthorPresence, validateVersioning } from './validate-versioning.mjs';
 import { buildProjectIndex } from './lib/docs.mjs';
+import { isMainModule } from './lib/cli.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const SKILL_ROOT = dirname(SCRIPT_DIR);
@@ -227,6 +228,6 @@ function main() {
   console.log('\nThis script never declares the gate itself passed or failed when judgment criteria exist — see rules/quality-gate-structure.md.');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   main();
 }
