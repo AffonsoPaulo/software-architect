@@ -26,6 +26,8 @@ Set once, during `playbooks/00-project-calibration.md`, and stored in `project-s
 - **Strict**: every single question goes through the full loop above, individually, one at a time.
 - **Agile**: answers may be gathered and confirmed in batches (e.g. "here's what I understood from your last 3 answers — confirm all?") — **except** for any question tagged `[confirmation individual]`, which always uses the full one-at-a-time loop regardless of mode.
 
+**A batch confirmation covers the full content, not a summary of it.** If the target template has N fields per item (e.g. Backlog's Estimate, Dependencies, Definition of Ready, Acceptance test scenarios), the batch shown to the user has to reflect all N — or explicitly name which ones are being left at a stated default — not just the one or two fields that fit neatly in a summary table (a title and a priority, say). Confirming a summary table and then writing the full multi-field record afterward, without showing that expanded content for its own confirmation, is not a batch confirmation of that item — it's an unconfirmed one. This applies even when the summary itself was genuinely, individually confirmed: agreeing to a title and a priority is not the same as agreeing to an estimate, a dependency list, and acceptance criteria that were never shown.
+
 The user chooses the mode explicitly during Calibration, after the AI explains the difference. The mode can be changed at any point in the project, but only via explicit user request — the AI never switches modes on its own initiative. A mode change is logged in `project-state.md` with a timestamp; it does not retroactively affect already-confirmed answers.
 
 ## Always-strict categories

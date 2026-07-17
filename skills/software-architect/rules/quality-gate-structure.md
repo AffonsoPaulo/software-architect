@@ -26,6 +26,10 @@ The gate passes only when every scriptable criterion returns clean AND every jud
 
 A gate file must clearly separate the two lists — never mix them into one, since scriptable failures can be re-checked automatically after a fix, while judgment failures need a fresh confirmation round.
 
+## "Scriptable" means actually run, in full
+
+A criterion marked scriptable is checked by actually executing the named script (`node scripts/validate-ids.mjs`, `scripts/validate-traceability.mjs`, `scripts/validate-gate.mjs <phase>`, or `scripts/audit-compatibility.mjs`) and reading its real output — never by mentally approximating what it would probably say. This matters most for `validate-gate.mjs` and `validate-versioning.mjs`, which each report several independent categories of violation (IDs, traceability, and — easy to forget because it's not the first thing either script prints — Author presence and `docs_version`/changelog consistency): reading only part of a script's output and treating the gate as scriptable-clean is the same failure as not running it at all. If a script was actually run, say so and show what it reported; if its output wasn't fully checked, the gate has not actually passed that criterion yet, regardless of how confident the assessment feels.
+
 ## On failure
 
 The Skill never advances past a failed gate. It reports precisely which criteria failed and, for each, which question/document needs to be revisited. This reopens the specific question — not a full restart of the phase's interview.
