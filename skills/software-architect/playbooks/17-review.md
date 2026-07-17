@@ -65,6 +65,7 @@ None. If the audit surfaces something ambiguous enough to need a genuine questio
 5. If there are gaps or conflicts: **do not patch the originating document in isolation** — open a formal Change Request (`rules/change-management.md`) from the problematic artifact, so downstream propagation happens automatically via `rules/traceability-rules.md`, instead of fixing the one spot found and leaving everything else potentially stale.
 6. If everything passes: ask for explicit final approval — `[confirmation individual]`, always, without exception.
 7. Only after that explicit approval, set the active cycle's `ready_for_implementation: true` in `project-state.md`, with a timestamp. This is what `SKILL.md` checks before permitting any code generation.
+8. Offer the two export scripts now that there's a complete, approved documentation set to export — `scripts/build-doc-site.mjs` (one browsable HTML page) and `scripts/build-doc-word.mjs` (one `.rtf`, opens in Word/LibreOffice/Pages/Google Docs). Optional, and the user may already have run one earlier — offering it here is just the natural moment, not the only one (`SKILL.md`'s "Exporting the documentation set" covers asking for either at any point in any phase).
 
 ## How to confirm answers
 
