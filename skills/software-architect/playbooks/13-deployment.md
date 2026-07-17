@@ -83,6 +83,7 @@ Each confirmed infrastructure need becomes an entry under its environment, refer
 - An Architecture component silently missing from the infrastructure plan.
 - Accepting a deployment-time secrets approach that contradicts what Security already decided, without flagging it.
 - Treating environments or infrastructure provider as a default/obvious choice instead of individually confirming them.
+- Recommending a provider, tier, or configuration as cheaper/better based on an unresearched impression rather than actually checking current pricing/specs (`rules/ai-invariants.md`'s "Verify before framing") — and defaulting to the first tier a provider surfaces (e.g. a "high frequency"/premium instance class) without confirming the project's actual load, from Calibration or the NFRs, justifies it over a cheaper one.
 
 ## Examples
 

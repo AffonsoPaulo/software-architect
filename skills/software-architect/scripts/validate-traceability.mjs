@@ -183,6 +183,23 @@ export function validateTraceability(projectRoot) {
     }
   }
 
+  // Every API-XXX needs at least one SEC-XXX covering it — including an
+  // explicit "public, no auth required" control, which still gets its own
+  // SEC-XXX per templates/security.md; there's no such thing as an
+  // interaction unit with no stated auth treatment. Security (phase 11) is
+  // never skippable, so no skip guard is needed here — if API-XXX exists,
+  // it needs auth coverage, full stop.
+  const apiUnits = index.artifacts.filter((a) => prefixOf(a.id) === 'API');
+  for (const api of apiUnits) {
+    if (!referencedByAnyPrefix(api.id, ['SEC'])) {
+      violations.push({
+        type: 'coverage-gap',
+        path: api.path,
+        message: `${api.id} has no SEC-XXX covering it — every interaction unit needs a stated auth treatment, including an explicit "public, no auth required" control`,
+      });
+    }
+  }
+
   // 5. Roadmap coverage: every US/UC delivered by a milestone needs at
   // least one TASK-XXX, mirroring the Backlog gate's "every US in a
   // currently-included milestone has a backlog item."

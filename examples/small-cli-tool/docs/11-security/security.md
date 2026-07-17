@@ -25,4 +25,4 @@ Not applicable — the tool has no secrets or credentials.
 
 | ID | Title | Traces to |
 |---|---|---|
-| [SEC-001](sec-001.md) | File access restricted to explicit CLI arguments | ARCH-001, API-001 |
+| [SEC-001](sec-001.md) | File access restricted to explicit CLI arguments | ARCH-001, API-001, API-002 |
