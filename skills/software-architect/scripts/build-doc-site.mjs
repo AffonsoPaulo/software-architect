@@ -14,11 +14,12 @@
 //   project-root defaults to the current working directory.
 //   output-path defaults to <project-root>/docs/project-overview.html
 
-import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname, basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderMarkdown, escapeHtml } from './lib/markdown-lite.mjs';
 import { isMainModule } from './lib/cli.mjs';
+import { PHASES, collectPhaseFiles, collectChangeRequestFiles, readChangelogFile } from './lib/doc-tree.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MERMAID_JS = readFileSync(join(__dirname, 'lib', 'vendor', 'mermaid.min.js'), 'utf8');
@@ -34,42 +35,6 @@ const CHECK_ICON = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" 
 function wrapArtifactBlock(html, rawContent) {
   const b64 = Buffer.from(rawContent, 'utf8').toString('base64');
   return `<div class="artifact-block">${html}<button type="button" class="copy-btn" data-md="${b64}" title="Copy markdown" aria-label="Copy markdown">${COPY_ICON}</button></div>`;
-}
-
-// Mirrors rules/document-locations.md exactly: which phases exist, in
-// what order, and — for categories that split into an index + item
-// files (rules/document-locations.md's hybrid layout) — the index
-// filename and the item-file prefix(es) that belong under it.
-const PHASES = [
-  { dir: '00-calibration', title: '00 · Project Calibration', kind: 'single', file: 'calibration.md' },
-  { dir: '01-discovery', title: '01 · Discovery', kind: 'single', file: 'vision.md' },
-  { dir: '02-business-analysis', title: '02 · Business Analysis', kind: 'single', file: 'business-analysis.md' },
-  { dir: '03-requirements', title: '03 · Requirements Engineering', kind: 'split', groups: [{ index: 'requirements.md', prefix: 'req' }] },
-  { dir: '04-user-stories', title: '04 · User Stories', kind: 'split', groups: [{ index: 'user-stories.md', prefix: 'us' }] },
-  { dir: '05-use-cases', title: '05 · Use Cases', kind: 'split', groups: [{ index: 'use-cases.md', prefix: 'uc' }] },
-  { dir: '06-domain-model', title: '06 · Domain Model', kind: 'split', groups: [{ index: 'domain-model.md', prefix: 'ent' }] },
-  { dir: '07-database-design', title: '07 · Database Design', kind: 'split', groups: [{ index: 'database.md', prefix: 'tbl' }] },
-  { dir: '08-architecture', title: '08 · Architecture', kind: 'split', groups: [{ index: 'architecture.md', prefix: 'arch' }], extraDir: 'adr' },
-  { dir: '09-api-design', title: '09 · API Design', kind: 'split', groups: [{ index: 'api.md', prefix: 'api' }] },
-  { dir: '10-frontend-planning', title: '10 · Frontend Planning', kind: 'single', file: 'frontend.md' },
-  { dir: '11-security', title: '11 · Security', kind: 'split', groups: [{ index: 'security.md', prefix: 'sec' }, { index: 'risk-register.md', prefix: 'risk' }] },
-  { dir: '12-testing', title: '12 · Testing', kind: 'split', groups: [{ index: 'testing.md', prefix: 'test' }] },
-  { dir: '13-deployment', title: '13 · Deployment', kind: 'single', file: 'deployment.md' },
-  { dir: '14-roadmap', title: '14 · Roadmap', kind: 'single', file: 'roadmap.md' },
-  { dir: '15-backlog', title: '15 · Backlog', kind: 'split', groups: [{ index: 'backlog.md', prefix: 'task' }] },
-  { dir: '16-implementation-plan', title: '16 · Implementation Plan', kind: 'single', file: 'implementation-plan.md' },
-  { dir: '17-review', title: '17 · Architecture Review', kind: 'single', file: 'review-report.md' }
-];
-
-function readIfExists(path) {
-  return existsSync(path) ? readFileSync(path, 'utf8') : null;
-}
-
-function listItemFiles(dir, prefix) {
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.toLowerCase().startsWith(`${prefix}-`) && f.endsWith('.md'))
-    .sort();
 }
 
 function rewriteMdLink(href) {
@@ -94,19 +59,17 @@ function rewriteMdLink(href) {
 // falling back to English (see buildNav's fallback for when a phase
 // genuinely has no such heading yet, e.g. an empty draft).
 function renderPhase(projectRoot, phase) {
-  const dir = join(projectRoot, 'docs', phase.dir);
-  if (!existsSync(dir)) return null;
+  const files = collectPhaseFiles(projectRoot, phase);
+  if (!files) return null;
 
   const sections = [];
   const navItems = [];
   let mainTitle = null;
-  let sawFirstFile = false;
 
-  function renderFile(content, namespace) {
-    const { html, headings } = renderMarkdown(content, { namespace, rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, content));
-    if (!sawFirstFile) {
-      sawFirstFile = true;
+  for (const f of files) {
+    const { html, headings } = renderMarkdown(f.content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
+    sections.push(wrapArtifactBlock(html, f.content));
+    if (f.isMain) {
       const titleHeading = headings.find((h) => !h.isArtifact);
       if (titleHeading) mainTitle = titleHeading.text;
     }
@@ -115,58 +78,25 @@ function renderPhase(projectRoot, phase) {
     }
   }
 
-  if (phase.kind === 'single') {
-    const content = readIfExists(join(dir, phase.file));
-    if (content === null) return null;
-    renderFile(content, phase.dir);
-  } else {
-    let foundAny = false;
-    for (const group of phase.groups) {
-      const indexContent = readIfExists(join(dir, group.index));
-      if (indexContent === null) continue;
-      foundAny = true;
-      renderFile(indexContent, `${phase.dir}-${group.prefix}`);
-      for (const itemFile of listItemFiles(dir, group.prefix)) {
-        const itemContent = readIfExists(join(dir, itemFile));
-        if (itemContent !== null) renderFile(itemContent, phase.dir);
-      }
-    }
-    if (phase.extraDir) {
-      const extraPath = join(dir, phase.extraDir);
-      if (existsSync(extraPath)) {
-        const extraFiles = readdirSync(extraPath).filter((f) => f.endsWith('.md')).sort();
-        for (const f of extraFiles) {
-          foundAny = true;
-          renderFile(readFileSync(join(extraPath, f), 'utf8'), phase.dir);
-        }
-      }
-    }
-    if (!foundAny) return null;
-  }
-
   return { html: sections.join('\n'), navItems, mainTitle };
 }
 
 function renderChangelog(projectRoot) {
-  const path = join(projectRoot, 'docs', 'CHANGELOG.md');
-  if (!existsSync(path)) return null;
-  const content = readFileSync(path, 'utf8');
-  const { html, headings } = renderMarkdown(content, { namespace: 'changelog', rewriteLink: rewriteMdLink });
+  const file = readChangelogFile(projectRoot);
+  if (!file) return null;
+  const { html, headings } = renderMarkdown(file.content, { namespace: file.namespace, rewriteLink: rewriteMdLink });
   const titleHeading = headings.find((h) => !h.isArtifact);
-  return { html: wrapArtifactBlock(html, content), mainTitle: titleHeading ? titleHeading.text : null };
+  return { html: wrapArtifactBlock(html, file.content), mainTitle: titleHeading ? titleHeading.text : null };
 }
 
 function renderChangeRequests(projectRoot) {
-  const dir = join(projectRoot, 'docs', 'change-requests');
-  if (!existsSync(dir)) return null;
-  const files = readdirSync(dir).filter((f) => f.endsWith('.md')).sort();
-  if (files.length === 0) return null;
+  const files = collectChangeRequestFiles(projectRoot);
+  if (!files) return null;
   const sections = [];
   const navItems = [];
   for (const f of files) {
-    const content = readFileSync(join(dir, f), 'utf8');
-    const { html, headings } = renderMarkdown(content, { namespace: 'change-requests', rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, content));
+    const { html, headings } = renderMarkdown(f.content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
+    sections.push(wrapArtifactBlock(html, f.content));
     for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
   }
   return { html: sections.join('\n'), navItems };
