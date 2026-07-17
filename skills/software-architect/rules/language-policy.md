@@ -14,6 +14,12 @@ Documents the Skill writes into the *user's* project (Vision, Requirements, Arch
 - **Stored once**, in `project-state.md`'s `language` field, and reused for every subsequent phase — never re-asked per phase, never silently re-inferred.
 - **Project-wide**, not per-cycle — a language set in cycle 1 applies to cycle 2 unless explicitly changed (see below).
 
+**"The document follows the confirmed language" means the whole document — its structural headings and section labels included, not only the user's own free-text answers.** A template's `# Vision`, `## Business processes`, `## Actors`, and so on are the Skill's own English reference structure (rule 1 above) — the AI writes the *actual* document with those same sections, in the same order, but phrased in the project's confirmed language (`# Visão`, `## Processos de Negócio`, `## Atores`, for a `language: "pt"` project). A document that's entirely in Portuguese except for an English `# Vision` at the top fails `rules/document-format.md`'s "reads like a native document, pasteable into Word" bar just as much as a document with untranslated prose would.
+
+This applies only to prose a stakeholder actually reads. It never extends to:
+- **Folder and file paths** (`docs/00-calibration/`, `calibration.md`, `req-001.md`) — these are addressing, not content, and stay exactly as `rules/document-locations.md` defines them regardless of project language. Scripts (`scripts/build-doc-site.mjs`'s phase table, every `validate-*.mjs`) hardcode these paths; translating them would require the whole toolchain to special-case every language a project might use, for a part of the file no stakeholder ever reads as prose.
+- **`project-state.md` itself** — it stays English, full stop, per its own exemption in `rules/document-format.md`: it's the Skill's operational state, never stakeholder-facing, so field names *and* values (`name: "project-calibration"`, `status: "completed"`) are fixed regardless of the project's `language`.
+
 ## Changing language mid-project
 
 If the user switches language mid-project, this is treated as a normal correction via `confirmation-protocol.md` — not a formal Change Request (`change-management.md`). It does not retroactively translate or affect the content of already-approved documents; it only applies to documents written from that point forward.
