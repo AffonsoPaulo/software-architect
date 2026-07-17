@@ -81,20 +81,35 @@ function rewriteMdLink(href) {
   return href;
 }
 
-// Renders one phase directory into { html, navItems }. navItems is a
-// flat list of { id, text, isArtifact } for headings worth surfacing
-// in the sidebar (the phase's own top-level artifacts) — not every
-// subheading, to keep the nav usable at 100+ artifacts.
+// Renders one phase directory into { html, navItems, mainTitle }.
+// navItems is a flat list of { id, text, isArtifact } for headings
+// worth surfacing in the sidebar (the phase's own top-level artifacts)
+// — not every subheading, to keep the nav usable at 100+ artifacts.
+// mainTitle is the category's own translated name — its first
+// document's top-level, non-artifact heading (`# Vision`, or `# Visão`
+// for a language: "pt" project) — read from the file rather than
+// hardcoded, since rules/language-policy.md has the actual document
+// follow the project's confirmed language, headings included; this is
+// what lets the sidebar reflect that translation instead of silently
+// falling back to English (see buildNav's fallback for when a phase
+// genuinely has no such heading yet, e.g. an empty draft).
 function renderPhase(projectRoot, phase) {
   const dir = join(projectRoot, 'docs', phase.dir);
   if (!existsSync(dir)) return null;
 
   const sections = [];
   const navItems = [];
+  let mainTitle = null;
+  let sawFirstFile = false;
 
   function renderFile(content, namespace) {
     const { html, headings } = renderMarkdown(content, { namespace, rewriteLink: rewriteMdLink });
     sections.push(wrapArtifactBlock(html, content));
+    if (!sawFirstFile) {
+      sawFirstFile = true;
+      const titleHeading = headings.find((h) => !h.isArtifact);
+      if (titleHeading) mainTitle = titleHeading.text;
+    }
     for (const h of headings) {
       if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
     }
@@ -129,15 +144,16 @@ function renderPhase(projectRoot, phase) {
     if (!foundAny) return null;
   }
 
-  return { html: sections.join('\n'), navItems };
+  return { html: sections.join('\n'), navItems, mainTitle };
 }
 
 function renderChangelog(projectRoot) {
   const path = join(projectRoot, 'docs', 'CHANGELOG.md');
   if (!existsSync(path)) return null;
   const content = readFileSync(path, 'utf8');
-  const { html } = renderMarkdown(content, { namespace: 'changelog', rewriteLink: rewriteMdLink });
-  return { html: wrapArtifactBlock(html, content) };
+  const { html, headings } = renderMarkdown(content, { namespace: 'changelog', rewriteLink: rewriteMdLink });
+  const titleHeading = headings.find((h) => !h.isArtifact);
+  return { html: wrapArtifactBlock(html, content), mainTitle: titleHeading ? titleHeading.text : null };
 }
 
 function renderChangeRequests(projectRoot) {
@@ -486,6 +502,17 @@ ${mermaidJs}
 </html>
 `;
 
+// PHASES' own `title` is a fallback only (used verbatim if a phase's
+// main document has no title heading to read yet, or none at all) —
+// the real label is `mainTitle`, read from the actual document, so a
+// translated project's sidebar reads in that same language instead of
+// silently reverting to this table's English text.
+function resolveNavTitle(phase, mainTitle) {
+  if (!mainTitle) return phase.title;
+  const numPrefix = phase.title.match(/^(\d+\s*·)\s*/);
+  return numPrefix ? `${numPrefix[1]} ${mainTitle}` : mainTitle;
+}
+
 export function buildDocSite(projectRoot, outputPath) {
   const navParts = [];
   const contentParts = [];
@@ -494,7 +521,7 @@ export function buildDocSite(projectRoot, outputPath) {
     const rendered = renderPhase(projectRoot, phase);
     if (!rendered) continue;
     const phaseId = phase.dir;
-    navParts.push(buildNav(phaseId, phase.title, rendered.navItems));
+    navParts.push(buildNav(phaseId, resolveNavTitle(phase, rendered.mainTitle), rendered.navItems));
     contentParts.push(`<section id="${phaseId}">${rendered.html}</section>`);
   }
 
@@ -513,7 +540,7 @@ export function buildDocSite(projectRoot, outputPath) {
 
   const changelogRendered = renderChangelog(projectRoot);
   if (changelogRendered) {
-    navParts.push(buildNav('changelog', `${trailingNum} · Changelog`, []));
+    navParts.push(buildNav('changelog', `${trailingNum} · ${changelogRendered.mainTitle || 'Changelog'}`, []));
     contentParts.push(`<section id="changelog">${changelogRendered.html}</section>`);
     trailingNum++;
   }
