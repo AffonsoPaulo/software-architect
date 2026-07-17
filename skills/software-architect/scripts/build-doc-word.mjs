@@ -84,6 +84,18 @@ const STYLESHEET =
   '{\\s4\\outlinelevel3\\b\\f2\\fs24\\sb140\\sa120\\sbasedon0\\snext0 heading 4;}' +
   '{\\s5\\outlinelevel4\\b\\f2\\fs22\\sb120\\sa120\\sbasedon0\\snext0 heading 5;}' +
   '{\\s6\\outlinelevel5\\b\\f2\\fs22\\sb120\\sa120\\sbasedon0\\snext0 heading 6;}' +
+  // Word only matches these by *name* ("toc 1", "toc 2") when it
+  // generates the TOC field's entries on F9/Update Field — without
+  // them, it falls back to some built-in default that doesn't
+  // distinguish a phase-level entry from an individual artifact one,
+  // which is exactly what made a large project's summary run to 11
+  // printed pages: every entry at the same size, none of them compact.
+  // toc 2 (each artifact) is deliberately much smaller and tighter than
+  // toc 1 (each phase) — \tqr\tldot\tx9350 is the right-aligned,
+  // dot-leader tab Word always uses for a TOC's page-number column,
+  // \tx9350 matching PAGE_SETUP's margins (12240 - 1440*2).
+  '{\\s10\\li0\\sb120\\sa60\\tqr\\tldot\\tx9350\\b\\f2\\fs22\\sbasedon0\\snext10 toc 1;}' +
+  '{\\s11\\li360\\sb0\\sa20\\tqr\\tldot\\tx9350\\f0\\fs16\\sbasedon0\\snext11 toc 2;}' +
   '}';
 
 export function buildDocWord(projectRoot, outputPath) {
