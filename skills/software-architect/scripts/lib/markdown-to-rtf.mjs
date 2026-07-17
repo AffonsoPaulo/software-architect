@@ -111,11 +111,21 @@ function tableRowRtf(cells, colWidths, resolveLink, isHeader) {
  * @param {object} [options]
  * @param {string} [options.namespace] - prefix for slugified (non-ID) heading bookmarks, to avoid collisions across documents
  * @param {(href: string) => {bookmark:string}|{url:string}|null} [options.resolveLink]
+ * @param {number} [options.headingLevelOffset] - added to every heading's
+ *   level before rendering. Each source file's own `#` is always level 1
+ *   in isolation (rules/document-format.md: an item file's heading is H1,
+ *   "the file *is* the artifact, not a subsection"), but a whole phase's
+ *   worth of item files assembled into one document needs its artifacts
+ *   nested *under* the phase's own title, not flattened alongside it —
+ *   the caller (build-doc-word.mjs) passes 1 for every file except a
+ *   phase's own main/index file, so REQ-001's `#` becomes an H2 under
+ *   Requirements' H1, not a second, unrelated H1.
  * @returns {{ rtf: string, headings: Array<{level:number, id:string, text:string, isArtifact:boolean}> }}
  */
 export function renderMarkdownToRtf(markdown, options = {}) {
   const namespace = options.namespace || '';
   const resolveLink = options.resolveLink || (() => null);
+  const levelOffset = options.headingLevelOffset || 0;
   const lines = markdown.replace(/\r\n/g, '\n').split('\n');
   const headings = [];
   const out = [];
@@ -158,7 +168,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
     // Heading
     const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
     if (headingMatch) {
-      const level = headingMatch[1].length;
+      const level = Math.min(headingMatch[1].length + levelOffset, 6);
       const text = headingMatch[2].trim();
       const idMatch = text.match(ID_HEADING_RE);
       let id, isArtifact = false, displayText;
