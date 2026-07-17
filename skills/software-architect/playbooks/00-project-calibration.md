@@ -72,6 +72,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 
 ## How to document answers
 
+- **Incremental mode's new cycle entry** → once scope and author are confirmed, run `node scripts/new-cycle.mjs <project-root> --scope "<scope>" --author "<author>"` rather than hand-editing `cycles[]` and `active_cycle_id` — it computes the next cycle id, initializes `ready_for_implementation`/`ready_for_implementation_at`/`phases` consistently, and never touches `id_sequences`, all mechanically. Follow with `scripts/validate-ids.mjs` and `scripts/validate-versioning.mjs` to confirm the file is still well-formed before continuing. Initial mode has no prior cycle to append to — `project-state.md` itself is created fresh from `templates/project-state.md` instead.
 - Project type, size, confirmation mode, documentation depth, language → `project-state.md` top-level fields, plus written out in prose in `calibration.md`.
 - Author → this cycle's entry in `project-state.md`'s `cycles[].author`, plus the `Author` row in `calibration.md`'s table (`rules/versioning.md`). Once this phase's gate passes, it also becomes the `Author` on every artifact this cycle goes on to create, and the first `docs/CHANGELOG.md` entry ("Initial calibration confirmed", or for incremental mode, the increment's own scope) is logged with it.
 - Phase inclusion/skip table → both the terse `status`/`skip_reason` per phase entry in `project-state.md`'s active cycle, and the full table with reasoning in `calibration.md`.
@@ -100,6 +101,7 @@ Governed entirely by `rules/confirmation-protocol.md`. This playbook's only loca
 - Re-asking project type, size, confirmation mode, documentation depth, or language in incremental mode — these are project-wide and already answered.
 - The opposite error for `author`: assuming it carries over from the previous cycle because it's "probably the same person," instead of asking fresh — this is the one question in this playbook that's deliberately re-asked every single cycle.
 - Treating brownfield subagent findings as settled fact without flagging contradictions with what the user said.
+- Hand-editing `cycles[]`/`active_cycle_id` for a new incremental cycle instead of running `scripts/new-cycle.mjs` — the same class of easy-to-miss mistake (wrong next id, a forgotten field, an accidentally reset `id_sequences`) as the front-matter/delimiter bug this package already hit once, this time on the write side instead of the read side.
 
 ## Examples
 
