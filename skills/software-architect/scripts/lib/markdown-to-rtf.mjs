@@ -17,7 +17,7 @@
 // Insert Table of Contents both work on this file for free — no
 // hand-rolled sidebar/TOC needed the way the HTML build has one.
 
-import { escapeRtfText, sanitizeBookmarkName, escapeRtfFieldInstruction } from './rtf.mjs';
+import { escapeRtfText, sanitizeBookmarkName, escapeRtfFieldInstruction, CF_ACCENT, CF_MUTED } from './rtf.mjs';
 
 const ID_HEADING_RE = /^([A-Z]+-[A-Za-z0-9]+)(?:\s+—\s+(.*))?\s*$/;
 const BOLD_LABEL_RE = /^\*\*[^*]+\*\*\s*$/;
@@ -73,9 +73,9 @@ function renderInlineRtf(text, resolveLink) {
       const resolved = resolveLink(token.href);
       const label = escapeRtfText(token.label);
       if (resolved && resolved.bookmark) {
-        out += `{\\field{\\*\\fldinst HYPERLINK \\\\l "${resolved.bookmark}"}{\\fldrslt {\\ul ${label}}}}`;
+        out += `{\\field{\\*\\fldinst HYPERLINK \\\\l "${resolved.bookmark}"}{\\fldrslt {\\ul\\cf${CF_ACCENT} ${label}}}}`;
       } else if (resolved && resolved.url) {
-        out += `{\\field{\\*\\fldinst HYPERLINK "${escapeRtfFieldInstruction(resolved.url)}"}{\\fldrslt {\\ul ${label}}}}`;
+        out += `{\\field{\\*\\fldinst HYPERLINK "${escapeRtfFieldInstruction(resolved.url)}"}{\\fldrslt {\\ul\\cf${CF_ACCENT} ${label}}}}`;
       } else {
         out += label;
       }
@@ -185,6 +185,13 @@ export function renderMarkdownToRtf(markdown, options = {}) {
       headings.push({ level, id, text, isArtifact });
       const size = HEADING_SIZE[level - 1];
       const before = HEADING_SPACE_BEFORE[level - 1];
+      // Headings stay plain black — unlike a link (blue/accent means
+      // "clickable" to any reader without explanation) or a muted
+      // metadata line (visually secondary, also self-evident), "this
+      // heading is colored because it happens to be an artifact ID"
+      // isn't a rule a reader can infer on sight, colored-by-level or
+      // colored-by-artifact alike (both were tried and looked arbitrary
+      // once rendered in a real document).
       // \sN references the stylesheet entry build-doc-word.mjs defines
       // for "heading N" (Word's own built-in style-handle convention —
       // style handle N is Heading N unless a stylesheet says otherwise,
@@ -284,7 +291,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
       const rendered = isMetadataLine
         ? renderInlineRtf(text.slice(1, -1), resolveLink)
         : renderInlineRtf(text, resolveLink);
-      if (isMetadataLine) out.push(`{\\pard\\sa160\\i\\fs20 ${rendered}\\i0\\par}`);
+      if (isMetadataLine) out.push(`{\\pard\\sa160\\i\\cf${CF_MUTED}\\fs20 ${rendered}\\i0\\par}`);
       else if (isLabelLine) out.push(`{\\pard\\sb160\\sa60\\b\\fs22 ${rendered}\\b0\\par}`);
       else out.push(`{\\pard\\sa160\\sl276\\slmult1\\fs22 ${rendered}\\par}`);
     } else {

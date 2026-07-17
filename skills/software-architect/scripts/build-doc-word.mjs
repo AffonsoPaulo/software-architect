@@ -25,7 +25,7 @@
 import { writeFileSync, existsSync } from 'node:fs';
 import { join, basename, resolve } from 'node:path';
 import { renderMarkdownToRtf } from './lib/markdown-to-rtf.mjs';
-import { escapeRtfText, sanitizeBookmarkName } from './lib/rtf.mjs';
+import { escapeRtfText, sanitizeBookmarkName, COLOR_TABLE } from './lib/rtf.mjs';
 import { isMainModule } from './lib/cli.mjs';
 import { PHASES, collectPhaseFiles, collectChangeRequestFiles, readChangelogFile } from './lib/doc-tree.mjs';
 
@@ -66,6 +66,15 @@ function renderFiles(files) {
 
 const FONT_TABLE = '{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fmodern\\fcharset0 Courier New;}{\\f2\\fswiss\\fcharset0 Arial;}}';
 const PAGE_SETUP = '\\paperw12240\\paperh15840\\margl1440\\margr1440\\margt1440\\margb1440';
+
+// A page break as its own bare \page token between two {\pard...} groups
+// is valid RTF, but empirically corrupts the very next paragraph's
+// character formatting in at least one real-world reader (macOS
+// textutil's RTF-to-docx conversion silently dropped a heading's \fs32
+// down to the 12pt default) — verified by isolating it in a minimal
+// repro. Giving the break its own paragraph group sidesteps whatever
+// state leaks across an ungrouped control word.
+const PAGE_BREAK = '{\\pard\\page\\par}';
 
 // Style handle N is "heading N" for every RTF/Word reader by default
 // convention — declaring it explicitly (name, outline level, and the
@@ -111,8 +120,8 @@ export function buildDocWord(projectRoot, outputPath) {
     // every subheading inside an artifact — the same scope
     // build-doc-site.mjs's sidebar already limits itself to ("not
     // every subheading, to keep the nav usable at 100+ artifacts").
-    '{\\field{\\*\\fldinst TOC \\\\o "1-2" \\\\h \\\\z \\\\u }{\\fldrslt {\\i Right-click here and choose "Update Field" (or press F9) to generate the table of contents.\\i0}}}\n' +
-    '\\par\\page'
+    '{\\field{\\*\\fldinst TOC \\\\o "1-2" \\\\h \\\\z \\\\u }{\\fldrslt {\\i Right-click here and choose "Update Field" (or press F9) to generate the table of contents.\\i0}}}\\par\n' +
+    PAGE_BREAK
   );
 
   let phasesRendered = 0;
@@ -120,7 +129,7 @@ export function buildDocWord(projectRoot, outputPath) {
   for (const phase of PHASES) {
     const files = collectPhaseFiles(projectRoot, phase);
     if (!files) continue;
-    if (!firstPhase) parts.push('\\page');
+    if (!firstPhase) parts.push(PAGE_BREAK);
     firstPhase = false;
     parts.push(renderFiles(files));
     phasesRendered++;
@@ -128,20 +137,20 @@ export function buildDocWord(projectRoot, outputPath) {
 
   const crFiles = collectChangeRequestFiles(projectRoot);
   if (crFiles) {
-    parts.push('\\page');
-    parts.push(`{\\pard\\keepn\\outlinelevel0\\sb280\\sa120\\b\\f2\\fs32 Change Requests\\b0\\par}`);
+    parts.push(PAGE_BREAK);
+    parts.push(`{\\pard\\s1\\keepn\\outlinelevel0\\sb280\\sa120\\b\\f2\\fs32 {\\*\\bkmkstart change_requests}Change Requests{\\*\\bkmkend change_requests}\\b0\\par}`);
     parts.push(renderFiles(crFiles));
     phasesRendered++;
   }
 
   const changelogFile = readChangelogFile(projectRoot);
   if (changelogFile) {
-    parts.push('\\page');
+    parts.push(PAGE_BREAK);
     parts.push(renderFiles([{ ...changelogFile, isMain: true }]));
     phasesRendered++;
   }
 
-  const rtf = `{\\rtf1\\ansi\\ansicpg1252\\uc1\\deff0\\deflang1033\n${FONT_TABLE}\n${STYLESHEET}\n${PAGE_SETUP}\n${parts.join('\n')}\n}`;
+  const rtf = `{\\rtf1\\ansi\\ansicpg1252\\uc1\\deff0\\deflang1033\n${FONT_TABLE}\n${COLOR_TABLE}\n${STYLESHEET}\n${PAGE_SETUP}\n${parts.join('\n')}\n}`;
   writeFileSync(outputPath, rtf, 'utf8');
   return { outputPath, phasesRendered };
 }

@@ -56,3 +56,15 @@ export function sanitizeBookmarkName(name) {
 export function escapeRtfFieldInstruction(text) {
   return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
+
+// Mirrors build-doc-site.mjs's light-mode --accent/--text-muted palette
+// (the HTML build has no light/dark toggle equivalent to hand to a
+// static .rtf, so this is always the light-mode pair), so the two
+// exports read as the same product rather than one looking like a
+// designed site and the other like unstyled default Word. \colortbl's
+// first entry (before the first `;`) is the implicit "auto" color at
+// index 0 — CF_ACCENT/CF_MUTED are 1-based indices into the entries
+// that follow it.
+export const COLOR_TABLE = '{\\colortbl;\\red138\\green90\\blue59;\\red107\\green107\\blue107;}';
+export const CF_ACCENT = 1; // --accent (#8a5a3b) — artifact-level (H2) headings and links
+export const CF_MUTED = 2; // --text-muted (#6b6b6b) — italic metadata/status lines
