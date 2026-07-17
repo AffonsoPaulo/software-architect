@@ -16,7 +16,7 @@ This mirrors the ADR/Change Request pattern already in place before this convent
 |---|---|
 | Requirements (`req-XXX.md`) | Calibration — no items |
 | User Stories (`us-XXX.md`) | Vision — no items |
-| Use Cases (`uc-XXX.md`) | Business Analysis — few `BR-XXX`, and processes/actors/justification aren't ID-bearing |
+| Use Cases (`uc-XXX.md`) | Business Analysis — `BR-XXX` *is* ID-bearing (it's not exempt the way screens/milestones/environments are), but it stays inline: a business rule is read together with the process it constrains, not consulted standalone the way a REQ/US/UC is. Projects tend to have few of them too, but that's supporting evidence for this being the right call, not the reason itself — it isn't a "split once you have enough" threshold. |
 | Domain Model (`ent-XXX.md`) | Frontend Planning — screens have no reserved ID prefix |
 | Database Design (`tbl-XXX.md`) | Deployment — environments aren't ID-bearing |
 | Architecture (`arch-XXX.md`), plus its existing `adr/` | Roadmap — milestones have no reserved ID prefix |
