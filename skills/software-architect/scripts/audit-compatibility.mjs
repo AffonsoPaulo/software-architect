@@ -25,6 +25,7 @@
 
 import { runGate } from './validate-gate.mjs';
 import { loadProjectState } from './lib/docs.mjs';
+import { isMainModule } from './lib/cli.mjs';
 
 // Later cycles can reopen an earlier phase (an incremental cycle whose
 // scope touches it again) — the phase's CURRENT status is whatever its
@@ -137,6 +138,6 @@ function main() {
   console.log('\nThis script never modifies anything and never declares a phase re-approved on its own — see rules/skill-drift.md.');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule(import.meta.url)) {
   main();
 }
