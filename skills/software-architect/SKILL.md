@@ -1,7 +1,7 @@
 ---
 name: software-architect
 description: Acts as a Lead Software Architect that plans a software project completely — from a raw idea through requirements, domain model, database, API, architecture, security, testing, deployment, and a full backlog — before any production code is written. Use when the user wants to plan, specify, or architect a new project or feature from scratch, wants a structured requirements/design process instead of jumping straight to code, or already has a project with docs/project-state.md and wants to add a new feature to it. Not for direct code generation, debugging, or working on a codebase that has no planning intent behind the request.
-version: 1.5.5
+version: 1.5.6
 ---
 
 # Software Architect
@@ -27,7 +27,7 @@ On every invocation, first look for `docs/project-state.md` in the user's projec
 
 ### `skill_version` check
 
-Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, follow `rules/skill-drift.md` — in short: a Patch-only gap (no new mandatory content) gets a brief mention and nothing more; a Minor-or-above gap gets an explicit, blocking question — continue normally, or run a compatibility audit against already-approved phases first — with the Skill waiting for an actual answer instead of silently assuming compatibility or silently picking the lower-friction path. When resuming mid-phase (state 2), the in-progress phase's own mandatory-questions diff against `next_pending_question` always runs regardless of that answer, but only the audit reaches back into earlier already-approved phases. Never an automatic, unrequested rewrite of any approved document either way — any real gap found still goes through `rules/change-management.md` like any other change.
+Before proceeding in states 2 or 3, compare `project-state.md`'s `skill_version` field to this file's own `version` (frontmatter, above). If the project's `skill_version` is older, follow `rules/skill-drift.md` — in short: a Patch-only gap (no new mandatory content) gets a brief mention and nothing more; a Minor-or-above gap gets an explicit, blocking question — continue normally, or run a compatibility audit against already-approved phases first — with the Skill waiting for an actual answer instead of silently assuming compatibility or silently picking the lower-friction path. When resuming mid-phase (state 2), the in-progress phase's own mandatory-questions diff against `next_pending_question` always runs regardless of that answer, but only the audit reaches back into earlier already-approved phases. Never an automatic, unrequested rewrite of any approved document either way — any real gap found still goes through `rules/change-management.md` like any other change. Once the check resolves either way, `skill_version` is updated to the current `version` above, so the same gap isn't re-surfaced on every future invocation.
 
 ## Phase table
 

@@ -25,6 +25,8 @@ The moment `skill_version` is found older than the current version — before do
   - **"Continue normally"** — proceed exactly as State 2 or State 3 below describes. In State 2, the in-progress phase's own diff (step 1 below) still always runs regardless of this answer — that part is cheap, safety-net-only, and not something the user opts out of; the question is only about the *other*, already-approved phases.
   - **"Run the audit"** — run the compatibility audit (below) before anything else, scoped to whichever phases are already approved at this point in the project.
 
+Once this check has resolved — the Patch-only mention shown, or the Minor-or-above question answered, either branch — update `project-state.md`'s `skill_version` to match `SKILL.md`'s current `version`, in the same step, before continuing into State 2 or State 3 below. Without this, the exact same gap resurfaces on every future invocation even after the user already saw it and decided: the same Patch-level mention repeated forever, or the same Minor-or-above question re-asked every session regardless of the answer already given — precisely the repetitive noise this file's own Patch-only case warns against. This is bookkeeping, not a new confirmed answer subject to `confirmation-protocol.md`, and it never implies more than what actually happened above — bumping it after "continue normally" records only that the user was told and chose to proceed, not that a compatibility audit ran.
+
 ## State 2 — project in progress, resuming mid-phase
 
 If `skill_version` is older and the active cycle has a phase with `status: in_progress`, once the check above has run (whether that meant a blocking question or just the brief Patch-only mention):

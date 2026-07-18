@@ -8,9 +8,13 @@ Field names and structure stay in English (they're part of the Skill's schema, p
 
 ```yaml
 skill_version: "1.0.0"
-# Version from SKILL.md's frontmatter at the time this project was initialized.
-# On resume, SKILL.md compares this to its own current version and warns
-# the user if they differ instead of silently assuming compatibility.
+# Version from SKILL.md's frontmatter, set at project init and re-synced
+# every time drift is checked and handled (rules/skill-drift.md) — not a
+# permanent birth-version. On resume, SKILL.md compares this to its own
+# current version and warns the user if they differ instead of silently
+# assuming compatibility; once that check resolves (mention or answered
+# question), this is updated to match, so the same gap isn't re-surfaced
+# on every future invocation.
 
 docs_version: "1.1.0"
 # Single semantic version for the WHOLE documentation set — Major.Minor.Patch,
