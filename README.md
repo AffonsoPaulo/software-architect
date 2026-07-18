@@ -61,7 +61,7 @@ A few cross-cutting rules apply in every phase, not just some:
 npx skills add AffonsoPaulo/software-architect
 ```
 
-Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, in any agent that supports the Agent Skills convention. It doesn't require a special command. Claude Code users who want an explicit one anyway can add the optional slash commands below.
+Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, in any agent that supports the Agent Skills convention. It doesn't require a special command. Claude Code additionally registers every installed Skill as a direct slash command named after its own directory — `npx skills add` installs this one at `~/.claude/skills/software-architect/`, so `/software-architect` already works immediately, no extra setup. Claude Code users who also want the doc-export convenience command can add the optional one below.
 
 ## How to use
 
@@ -77,7 +77,7 @@ Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confir
 
 ## Optional: Claude Code slash commands
 
-The Skill itself is agent-agnostic — automatic activation by intent (above) is what works the same way across Claude Code, Codex CLI, Cursor, Windsurf, and similar. `npx skills add` doesn't install slash commands (it only installs the Skill directory), and there's no shared slash-command format across agents to build one against. What's here is a Claude Code–specific convenience, not a cross-agent feature — and, unlike the Skill itself, `npx skills add` won't fetch it for you, since `commands/` sits outside the directory it installs. Get it by cloning this repo (or downloading just `commands/architect.md` and `commands/architect-docs.md`), then:
+`/software-architect` (above) already starts or resumes a planning cycle with zero setup, so there's no separate command needed just to trigger the Skill. The one thing it doesn't do on its own is open the exported doc site — for that, Claude Code users can add an optional `/architect-docs` command. Unlike the Skill itself, `npx skills add` won't fetch it for you, since `commands/` sits outside the directory it installs. Get it by cloning this repo (or downloading just `commands/architect-docs.md`), then:
 
 ```
 git clone https://github.com/AffonsoPaulo/software-architect
@@ -85,9 +85,8 @@ mkdir -p ~/.claude/commands
 cp -r software-architect/commands/. ~/.claude/commands/
 ```
 
-(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). The trailing `/.` on the source matters: if `~/.claude/commands/` already exists, a plain `cp -r software-architect/commands ~/.claude/commands/` copies the `commands` directory itself one level too deep (`~/.claude/commands/commands/architect.md`), and the commands register under the wrong name instead of `/architect`/`/architect-docs`. This adds:
+(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). The trailing `/.` on the source matters: if `~/.claude/commands/` already exists, a plain `cp -r software-architect/commands ~/.claude/commands/` copies the `commands` directory itself one level too deep (`~/.claude/commands/commands/architect-docs.md`), and the command registers under the wrong name instead of `/architect-docs`. This adds:
 
-- `/architect` — start or resume a planning cycle for the current project, equivalent to just asking for it in words.
 - `/architect-docs` — run `scripts/build-doc-site.mjs` against the current project and open the result, without having to remember the script's path.
 
 ## Directory structure
