@@ -24,7 +24,7 @@ step-by-step instructions.
 
 ### Standard keys
 
-Any key may appear in a metadata line; these are the ones the validation scripts (`scripts/lib/docs.mjs`) actually read, so every template uses this exact wording:
+Any key may appear in a metadata line; these are the ones the validation scripts (`scripts/lib/docs.mjs`) actually read, so every template uses this exact wording — in every project regardless of its confirmed language (`rules/language-policy.md`'s exemption list). Unlike the heading above it, or any other key, these specific key names never translate; only the value after the colon does.
 
 | Key | Meaning | Parsed as |
 |---|---|---|
