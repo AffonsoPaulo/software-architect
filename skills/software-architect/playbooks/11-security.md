@@ -77,6 +77,7 @@ Each confirmed control becomes its own `docs/11-security/sec-XXX.md` item file, 
 
 - **A threat with no available mitigation right now**: still gets recorded — as an accepted risk in the risk register, with an owner and status, per `rules/quality-gate-structure.md`'s escape valve. Security itself is always-strict, so this escape valve does not apply to skip the confirmation of the risk — it only means the *mitigation* can be deferred, not that the risk goes unrecorded or unconfirmed.
 - **Brownfield project**: if Calibration's subagent research surfaced existing auth mechanisms or secrets handling, present those as the starting point to confirm — new interaction units in this cycle should follow the existing mechanism unless the user consciously decides otherwise.
+- **Sibling-project reference**: unlike brownfield above, this is never "the mechanism to follow" by default — Security is always-strict (`rules/confirmation-protocol.md`), so a related project's auth mechanism or secrets handling is offered only as a starting suggestion to weigh on its own merits for this project's actual threat model, never adopted because a sibling project already made that call.
 - **Public interaction unit, genuinely no auth needed**: valid, but must be stated explicitly per unit — never silently assumed by omission.
 
 ## Common ambiguities

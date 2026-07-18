@@ -21,7 +21,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 - `docs/05-use-cases/use-cases.md` — approved.
 - `docs/07-database-design/database.md` — approved.
 - `docs/08-architecture/architecture.md` — approved, specifically its `interaction_style_guidance` and its confirmed architectural pattern (CQRS, event-driven, hexagonal, etc. — shapes how interaction units are categorized, e.g. commands vs. queries, or events vs. requests).
-- `docs/00-calibration/calibration.md` — project type and, if brownfield, subagent research.
+- `docs/00-calibration/calibration.md` — project type and, if brownfield, subagent research; and, if a sibling project was identified, its own separate research summary.
 
 ## Outputs
 
@@ -81,6 +81,7 @@ Each confirmed interaction unit becomes its own `docs/09-api-design/api-XXX.md` 
 ## Special cases
 
 - **Brownfield, existing interaction surface being extended**: style, versioning, and failure format are fact-gathering questions about what's already in production, not fresh design choices. Use Calibration's subagent findings; if the existing conventions aren't clear from that context, trigger a new read-only subagent here rather than asking the user something the code already answers.
+- **Sibling-project reference**: unlike brownfield above, these are still free design choices — if Calibration's subagent findings include a related project's API conventions (versioning scheme, failure format), offer them as a starting suggestion, not as production reality this project must match.
 - **Server-rendered / MVC style**: a "screen" (phase 10) and an interaction unit (this phase) are frequently the same route. Document the route once, here, and have phase 10 reference it rather than re-describing it.
 - **Use Case with no natural interaction unit**: valid when the flow is entirely client-side (e.g. a purely local UI interaction with no backend call) — record this explicitly rather than leaving the Use Case silently uncovered.
 - **Interaction style diverges from Architecture's guidance**: treat as a new consequential decision — individually confirmed, and probably warrants its own ADR back in `docs/08-architecture/adr/` if it's significant enough (via `rules/change-management.md` if Architecture was already approved).

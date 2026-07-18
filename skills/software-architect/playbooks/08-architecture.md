@@ -18,7 +18,7 @@ Never skippable.
 
 - `docs/03-requirements/requirements.md` — approved, specifically the non-functional requirements.
 - `docs/07-database-design/database.md` — approved.
-- `docs/00-calibration/calibration.md` — project type (brownfield/greenfield) and, if brownfield, subagent research summary.
+- `docs/00-calibration/calibration.md` — project type (brownfield/greenfield) and, if brownfield, subagent research summary; and, if a sibling project was identified, its own separate research summary.
 
 ## Outputs
 
@@ -81,6 +81,7 @@ Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item
 ## Special cases
 
 - **Brownfield**: the architectural style is usually already given by the existing system — this phase becomes "describe the relevant existing architecture and decide only what's new within it," not a fresh style choice. Use Calibration's subagent findings (`rules/delegation-policy.md`) as a starting point; if they're insufficient for a specific decision, trigger a new read-only subagent here rather than asking the user something the code already answers. If the user wants to diverge from the existing style, that's a conscious, individually-confirmed decision with its own ADR — never a silent drift.
+- **Sibling-project reference**: unlike brownfield above, style and pattern here are still a free choice, not a fact-gathering question — if Calibration's subagent findings include a related project's architecture decisions, offer them as a starting suggestion ("Project A chose microservices with an event-driven pattern for X reason; does that reasoning apply here too, or is this project different?"). If the user goes with it, it's still a fresh, individually-confirmed decision with its own ADR for *this* project — never a reference to the sibling project's ADR in place of one.
 - **NFR with no natural architectural answer**: does not mean the NFR is skipped — it means more discussion is needed until a component or decision genuinely addresses it. An NFR left uncovered blocks this phase's gate.
 
 ## Common ambiguities

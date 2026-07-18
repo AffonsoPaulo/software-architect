@@ -1,7 +1,7 @@
 ---
 name: software-architect
 description: Acts as a Lead Software Architect that plans a software project completely — from a raw idea through requirements, domain model, database, API, architecture, security, testing, deployment, and a full backlog — before any production code is written. Use when the user wants to plan, specify, or architect a new project or feature from scratch, wants a structured requirements/design process instead of jumping straight to code, or already has a project with docs/project-state.md and wants to add a new feature to it. Not for direct code generation, debugging, or working on a codebase that has no planning intent behind the request.
-version: 1.5.7
+version: 1.6.0
 ---
 
 # Software Architect
@@ -62,7 +62,7 @@ A phase only advances to the next one once its `quality-gates/<phase>-gate.md` p
 
 - **How questions are asked and confirmed**: entirely governed by `rules/confirmation-protocol.md` (Strict/Agile modes, always-strict categories, "I don't know" handling). Not restated here.
 - **Language**: this file and every file under `software-architect/` are always in English, fixed (`rules/language-policy.md`). Documents written into the user's project follow `project-state.md`'s `language` field — read it on resume, never redetect it.
-- **Subagents**: used only for the two cases defined in `rules/delegation-policy.md` (brownfield research, phase 17 audit). A subagent never runs the confirmation loop and never decides anything.
+- **Subagents**: used only for the two cases defined in `rules/delegation-policy.md` (read-only research — an existing codebase or a sibling project this Skill already planned — and phase 17 audit). A subagent never runs the confirmation loop and never decides anything.
 
 ## Exporting the documentation set
 

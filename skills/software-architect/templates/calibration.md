@@ -13,7 +13,7 @@ Saved at `docs/00-calibration/calibration.md` in the target project (see `rules/
 | Project type | <one of: new product / feature on existing product / prototype / internal script / legacy migration — as confirmed by the user, `[confirmation individual]`> |
 | Size | <small / medium / large, as confirmed by the user, `[confirmation individual]`, plus the one-line reasoning the user gave (this is not a self-assessment the AI makes — it's what the user said, rewritten for clarity and confirmed)> |
 | Stakeholders | <who beyond the current user needs to be consulted, if anyone> |
-| Prior artifacts | <PRD, legacy code, prototype — what exists already, and where> |
+| Prior artifacts | <PRD, legacy code, prototype, or another project this Skill already planned — what exists already, and where> |
 | Confirmation mode | <Strict or Agile, `[confirmation individual]` — project-wide, see rules/confirmation-protocol.md> |
 | Documentation depth | <Casual or Fully Dressed, `[confirmation individual]` — project-wide, see rules/documentation-depth.md> |
 | Language | <the language confirmed for generated documents, `[confirmation individual]`, see rules/language-policy.md> |
@@ -23,6 +23,17 @@ Saved at `docs/00-calibration/calibration.md` in the target project (see `rules/
 migration". Summarizes what the read-only subagent found (rules/delegation-
 policy.md) — stack in use, folder structure, apparent conventions. Marked
 clearly as findings to inform later questions, not decisions.>
+
+## Sibling-project research summary
+<Only present if prior artifacts named another project this Skill already
+planned. Summarizes what the read-only subagent found in that project's
+already-approved documents (rules/delegation-policy.md) — tech stack,
+domain entities, architecture pattern, security posture, whatever's
+relevant. Marked clearly as facts about the OTHER project, offered later
+as a starting suggestion in this project's own Domain Model, Database
+Design, Architecture, and Security phases — never copied in as this
+project's own answer, and kept separate from the brownfield section above
+even when both are present, since they answer different questions.>
 
 ## Phase inclusion
 | Phase | Status | Reason |
