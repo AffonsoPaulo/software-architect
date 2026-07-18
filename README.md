@@ -69,7 +69,7 @@ Just start describing what you want to build. Calibration asks how you want to b
 
 Every document it writes (except its own internal `project-state.md`) is plain markdown, meant to be opened and read as a real document — no YAML block holding "the real data" above a thin prose restatement. Open any generated file, select all, and paste it into Word; that's the bar it's held to. For categories that are really a list of artifacts (Requirements, Use Cases, Architecture components, and similar), that means a short index file plus one file per item, so a single requirement or endpoint is its own reviewable, linkable document — see `rules/document-locations.md`.
 
-To review the whole thing at once instead of file by file, `scripts/build-doc-site.mjs` (wherever `npx skills add` put it — typically `.claude/skills/software-architect/scripts/build-doc-site.mjs`) builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required. Claude Code users with the optional `/architect-docs` command (below) don't need to find the path themselves.
+To review the whole thing at once instead of file by file, `scripts/build-doc-site.mjs` (wherever `npx skills add` put it — typically `.claude/skills/software-architect/scripts/build-doc-site.mjs`) builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required. `scripts/build-doc-word.mjs` builds the same thing as one `.rtf` instead, opening directly in Word, LibreOffice, Pages, or Google Docs' importer — no conversion step, no npm dependency either. Claude Code users with the optional `/architect-docs` command (below) don't need to find the HTML script's path themselves; just ask for the Word version in words and the Skill runs `build-doc-word.mjs` directly (`SKILL.md`'s "Exporting the documentation set").
 
 If you come back to a project later, it resumes exactly where it left off — see `docs/project-state.md` in your project (created by the Skill, not part of this package). If a project is already fully planned and implemented and you want to add something new, just ask — the Skill recognizes this and opens a new incremental cycle rather than starting over.
 
@@ -105,7 +105,7 @@ software-architect/            (repo root)
       templates/                  # document templates produced by each phase
       quality-gates/               # one gate per phase
       checklists/                  # one checklist per phase
-      scripts/                     # Node.js: validation (IDs, traceability, gates) + build-doc-site.mjs — zero npm dependencies
+      scripts/                     # Node.js: validation (IDs, traceability, gates) + build-doc-site.mjs/build-doc-word.mjs — zero npm dependencies
       docs/                       # this skill's own usage documentation
 ```
 
