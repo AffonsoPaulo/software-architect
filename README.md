@@ -81,10 +81,11 @@ The Skill itself is agent-agnostic — automatic activation by intent (above) is
 
 ```
 git clone https://github.com/AffonsoPaulo/software-architect
-cp -r software-architect/commands ~/.claude/commands/
+mkdir -p ~/.claude/commands
+cp -r software-architect/commands/. ~/.claude/commands/
 ```
 
-(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). This adds:
+(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). The trailing `/.` on the source matters: if `~/.claude/commands/` already exists, a plain `cp -r software-architect/commands ~/.claude/commands/` copies the `commands` directory itself one level too deep (`~/.claude/commands/commands/architect.md`), and the commands register under the wrong name instead of `/architect`/`/architect-docs`. This adds:
 
 - `/architect` — start or resume a planning cycle for the current project, equivalent to just asking for it in words.
 - `/architect-docs` — run `scripts/build-doc-site.mjs` against the current project and open the result, without having to remember the script's path.
