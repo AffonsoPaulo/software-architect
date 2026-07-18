@@ -74,11 +74,18 @@ function findDoc(index, pathSuffix) {
 //   | Task | Depends on | Parallelizable with |
 //   |---|---|---|
 //   | TASK-001 | (none) | — |
+//
+// Scans the whole document for TASK-XXX-shaped rows instead of scoping to
+// a "## Sequence" heading match first — rules/language-policy.md requires
+// that heading to be translated for a non-English project ("## Sequência"
+// for pt), so matching literal English heading text here would silently
+// find nothing and skip the whole check, exactly like it did before this
+// fix. Task IDs never translate (rules/id-conventions.md), so the row
+// shape is a language-independent anchor and the template confirms no
+// other section in this document produces TASK-XXX-shaped table rows.
 function parseSequenceTable(content) {
-  const section = content.split(/^## Sequence\s*$/m)[1] || '';
-  const untilNextHeading = section.split(/^## /m)[0];
   const edges = new Map();
-  for (const line of untilNextHeading.split('\n')) {
+  for (const line of content.split('\n')) {
     const cells = line.split('|').map((c) => c.trim());
     // A row is `| TASK-XXX | ... | ... |`, which splits into
     // ['', 'TASK-XXX', ..., ''] — at least 3 cells with the first real
@@ -147,10 +154,17 @@ function checkRoadmapCoverage(projectRoot) {
   // doesn't reserve a metadata-line shape for this list, since a deferred
   // item is a plain fact, not a graph edge — parsed directly off the raw
   // content instead of the generic artifact/reference extraction.
-  const deferredSection = doc.content.split(/^## Deferred\s*$/m)[1] || '';
-  const deferredUntilNextHeading = deferredSection.split(/^## /m)[0];
+  //
+  // Scanned across the whole document rather than scoped to a "## Deferred"
+  // heading match — same reason as parseSequenceTable above: that heading
+  // translates for a non-English project, and matching literal English
+  // text would silently find zero deferred items, which here doesn't just
+  // skip the check, it produces a false "FAIL — unaddressed" for every
+  // genuinely-deferred story. Restricted to US-/UC- ids specifically (the
+  // only ids this check ever cares about) followed by an em dash, matching
+  // the template's exact bullet shape, to keep the match narrow.
   const deferred = new Set(
-    [...deferredUntilNextHeading.matchAll(/^-\s*([A-Z]+-[A-Za-z0-9]+)/gm)].map((m) => m[1])
+    [...doc.content.matchAll(/^-\s*((?:US|UC)-[A-Za-z0-9]+)\s+—/gm)].map((m) => m[1])
   );
   const stories = index.artifacts.filter((a) => /^(US|UC)-\d+$/.test(a.id));
   const uncovered = stories.filter((s) => !delivered.has(s.id) && !deferred.has(s.id));
