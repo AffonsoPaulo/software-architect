@@ -11,6 +11,7 @@
 - [ ] The phase-inclusion list was proposed by the AI and explicitly confirmed by the user as a whole, not silently finalized
 - [ ] Every `skip_reason` is a real, specific reason tied to this project — not a generic placeholder
 - [ ] If project type is "feature on existing product" or "legacy migration," brownfield subagent research ran and its findings are recorded in `calibration.md`, clearly labeled as findings rather than decisions
+- [ ] If prior artifacts named another project this Skill already planned, sibling-project subagent research ran and its findings are recorded in `calibration.md`'s own separate section, clearly labeled as facts about that other project, not this one's decisions
 - [ ] `docs/00-calibration/calibration.md` accurately reflects everything confirmed in this phase — no drift between the two documents
 - [ ] In incremental mode, project type, size, confirmation mode, documentation depth, and language were not re-asked — they were read from the existing `project-state.md`
 

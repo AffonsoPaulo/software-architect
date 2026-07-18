@@ -15,6 +15,7 @@ Skippable only for projects with no meaningful data model (e.g. a stateless util
 ## Inputs
 
 - `docs/05-use-cases/use-cases.md` — approved.
+- `docs/00-calibration/calibration.md` — if a sibling project was identified in Calibration, its research summary.
 
 ## Outputs
 
@@ -68,6 +69,7 @@ Each confirmed entity/value object becomes its own `docs/06-domain-model/ent-XXX
 
 - **Entity vs. value object ambiguity**: if the user isn't sure, ask whether two instances with identical attributes would be considered "the same thing" (value object) or "two different things that happen to look alike" (entity, e.g. two orders with identical line items are still different orders).
 - **An entity that seems to need no invariant**: still requires an explicit entry — "must always have a valid, non-empty identifier" or similar baseline is usually true even when nothing domain-specific applies. Confirm this explicitly rather than leaving the list empty.
+- **Sibling-project reference**: if Calibration's subagent findings include a related project's domain entities (`rules/delegation-policy.md`), offer the relevant ones as a starting point while scanning for entity candidates — "Project A modeled a similar 'Order' with these invariants; does this project's version match, or does it need something different?" — never presented as already decided, and this project's `ENT-XXX` still only traces to its own Use Cases, never to the sibling project's artifacts.
 
 ## Common ambiguities
 

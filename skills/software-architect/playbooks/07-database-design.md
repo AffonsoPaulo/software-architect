@@ -15,7 +15,7 @@ Skippable only alongside Domain Model, for projects with no persistence layer at
 ## Inputs
 
 - `docs/06-domain-model/domain-model.md` — approved.
-- `docs/00-calibration/calibration.md` — specifically the project type (greenfield vs. brownfield/migration) and, if brownfield, the subagent's research summary.
+- `docs/00-calibration/calibration.md` — specifically the project type (greenfield vs. brownfield/migration) and, if brownfield, the subagent's research summary; and, if a sibling project was identified, its own separate research summary.
 
 ## Outputs
 
@@ -68,6 +68,7 @@ Each confirmed table/collection becomes its own `docs/07-database-design/tbl-XXX
 ## Special cases
 
 - **Brownfield/migration**: database type is a fact-gathering question ("what's already there"), not a free design choice — use Calibration's subagent research if available (`rules/delegation-policy.md`) as a starting point, but still confirm explicitly with the user, especially for what is and isn't allowed to change. New tables for this increment still get proper `traces_to` links like any other phase.
+- **Sibling-project reference**: unlike brownfield above, this is never a fact-gathering question — if Calibration's subagent findings include a related project's database conventions, offer them as a starting suggestion ("Project A used a relational store with these conventions; same here, or does this project need something different?"), never as what's already decided. This project's own database type is still a free design choice unless it's also brownfield.
 - **Value object embedded in its parent's table**: a legitimate reason for an entity to have no standalone `TBL-XXX` — record this explicitly rather than leaving the entity unaddressed.
 - **Domain Model relationship with no matching FK, or vice versa**: a real inconsistency, not something to silently resolve in this phase by picking one side — flag it and, if the Domain Model itself needs to change, that goes through `rules/change-management.md` rather than being patched here.
 

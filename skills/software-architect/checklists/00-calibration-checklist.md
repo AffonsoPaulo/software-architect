@@ -10,5 +10,6 @@
 - [ ] The full phase-inclusion list was shown to the user and explicitly confirmed, not assumed
 - [ ] Every skip reason is specific to this project, not a generic placeholder
 - [ ] Brownfield subagent research ran and is recorded, if project type warrants it
+- [ ] Sibling-project subagent research ran and is recorded, if prior artifacts named another project this Skill already planned
 - [ ] `docs/00-calibration/calibration.md` matches what was actually confirmed, with no drift from `project-state.md`
 - [ ] (Incremental mode only) Project type, size, confirmation mode, documentation depth, and language were not re-asked
