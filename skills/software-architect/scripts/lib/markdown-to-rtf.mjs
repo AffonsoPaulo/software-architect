@@ -110,6 +110,9 @@ function tableRowRtf(cells, colWidths, resolveLink, isHeader) {
  * @param {string} markdown
  * @param {object} [options]
  * @param {string} [options.namespace] - prefix for slugified (non-ID) heading bookmarks, to avoid collisions across documents
+ * @param {string} [options.mermaidFallback] - the project's own translated
+ *   `export_labels.mermaid_fallback` (rules/language-policy.md) — falls
+ *   back to the English default for a project that predates that field.
  * @param {(href: string) => {bookmark:string}|{url:string}|null} [options.resolveLink]
  * @param {number} [options.headingLevelOffset] - added to every heading's
  *   level before rendering. Each source file's own `#` is always level 1
@@ -126,6 +129,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
   const namespace = options.namespace || '';
   const resolveLink = options.resolveLink || (() => null);
   const levelOffset = options.headingLevelOffset || 0;
+  const mermaidFallback = options.mermaidFallback || 'Diagram source below — paste it into mermaid.live to view it rendered.';
   const lines = markdown.replace(/\r\n/g, '\n').split('\n');
   const headings = [];
   const out = [];
@@ -159,7 +163,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
       i++;
       const escapedLines = codeLines.map((l) => escapeRtfText(l)).join('\\line\n');
       if (lang.toLowerCase() === 'mermaid') {
-        out.push(`{\\pard\\sb160\\i\\fs18 ${escapeRtfText('Diagram source below — paste it into mermaid.live to view it rendered.')}\\i0\\par}`);
+        out.push(`{\\pard\\sb160\\i\\fs18 ${escapeRtfText(mermaidFallback)}\\i0\\par}`);
       }
       out.push(`{\\pard\\box\\brdrs\\brdrw10\\brsp80\\li120\\ri120\\sb${lang.toLowerCase() === 'mermaid' ? '0' : '160'}\\sa160\\f1\\fs18 ${escapedLines}\\par}`);
       continue;
