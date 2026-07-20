@@ -73,7 +73,7 @@ Phase 17 (Review) is not an interview — it's an audit. It delegates the mechan
 
 ## Where to look next
 
-- `rules/` — the 12 cross-cutting rules every playbook references instead of restating.
+- `rules/` — the 16 cross-cutting rules every playbook references instead of restating.
 - `playbooks/` — one file per phase, all following the same 20-section structure defined in `rules/playbook-structure.md`.
-- `scripts/` — the Node.js validators, zero npm dependencies (see the module docstrings for why).
+- `scripts/` — the Node.js validators (IDs, traceability, versioning, tone, heading language, and the per-phase quality gates), zero npm dependencies (see the module docstrings for why).
 - `examples/` — two fully worked, validated projects; read these before reading any single playbook in isolation if you want to see the whole thing hang together.
