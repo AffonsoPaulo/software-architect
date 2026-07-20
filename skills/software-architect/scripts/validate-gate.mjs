@@ -20,6 +20,7 @@ import { validateTraceability } from './validate-traceability.mjs';
 import { validateAuthorPresence, validateVersioning } from './validate-versioning.mjs';
 import { validateTone } from './validate-tone.mjs';
 import { validateHeadingLanguage } from './validate-heading-language.mjs';
+import { validateExportLabels } from './validate-export-labels.mjs';
 import { buildProjectIndex, loadProjectState } from './lib/docs.mjs';
 import { isMainModule } from './lib/cli.mjs';
 
@@ -599,6 +600,7 @@ export function runGate(phase, projectRoot) {
   const versioningViolations = [...validateAuthorPresence(projectRoot), ...validateVersioning(projectRoot)];
   const toneViolations = validateTone(projectRoot);
   const headingLanguageViolations = validateHeadingLanguage(projectRoot);
+  const exportLabelsViolations = validateExportLabels(projectRoot);
   const extra = phaseSpecificChecks(phase, projectRoot);
 
   return {
@@ -611,6 +613,7 @@ export function runGate(phase, projectRoot) {
     versioningViolations,
     toneViolations,
     headingLanguageViolations,
+    exportLabelsViolations,
     extra,
   };
 }
@@ -626,8 +629,8 @@ function main() {
 
   console.log(`Gate: ${result.gatePath}`);
   console.log('');
-  console.log('Scriptable criteria (from validate-ids.mjs / validate-traceability.mjs / validate-versioning.mjs / validate-tone.mjs / validate-heading-language.mjs / phase-specific checks):');
-  const overallClean = result.idViolations.length === 0 && result.traceabilityViolations.length === 0 && result.versioningViolations.length === 0 && result.toneViolations.length === 0 && result.headingLanguageViolations.length === 0;
+  console.log('Scriptable criteria (from validate-ids.mjs / validate-traceability.mjs / validate-versioning.mjs / validate-tone.mjs / validate-heading-language.mjs / validate-export-labels.mjs / phase-specific checks):');
+  const overallClean = result.idViolations.length === 0 && result.traceabilityViolations.length === 0 && result.versioningViolations.length === 0 && result.toneViolations.length === 0 && result.headingLanguageViolations.length === 0 && result.exportLabelsViolations.length === 0;
   for (const c of result.scriptable) {
     console.log(`  [${overallClean ? 'no violations found project-wide' : 'SEE VIOLATIONS BELOW'}] ${c}`);
   }
@@ -650,6 +653,10 @@ function main() {
   if (result.headingLanguageViolations.length > 0) {
     console.log('\n  Heading-language violations:');
     for (const v of result.headingLanguageViolations) console.log(`    - ${v.path}: ${v.message}`);
+  }
+  if (result.exportLabelsViolations.length > 0) {
+    console.log('\n  Export-labels violations:');
+    for (const v of result.exportLabelsViolations) console.log(`    - ${v.message}`);
   }
   if (result.extra.length > 0) {
     console.log('\n  Phase-specific checks:');
