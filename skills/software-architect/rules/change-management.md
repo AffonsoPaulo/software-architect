@@ -31,7 +31,7 @@ Once the AI has said out loud that a new answer contradicts an approved document
      - **Right**: `REQ-003`'s body reads "...the professor sets it manually. A class can be edited and deleted..." as one continuous, current description — CR-008's own document (and the `CHANGELOG.md` entry it produced on closing) is where "this was added by CR-008, on this date, for this reason" actually lives.
 5. Each affected document's status in `project-state.md` moves from `approved` to `pending re-approval` until its owning phase confirms the update.
 6. Only once every item on the impact list is re-approved does the CR itself close.
-7. Closing always produces a `docs/CHANGELOG.md` entry — Major or Patch depending on whether the change reverses/supersedes a prior decision, not on how many documents the impact list touches, per `rules/versioning.md`. No exception for a CR that feels small or whose impact list is wide; that's exactly what Patch is for.
+7. Closing always produces a `docs/CHANGELOG.md` entry — Minor or Patch depending on whether the change reverses/supersedes a prior decision, not on how many documents the impact list touches, per `rules/versioning.md`. No exception for a CR that feels small or whose impact list is wide; that's exactly what Patch is for.
 
 ## What a CR does not do
 

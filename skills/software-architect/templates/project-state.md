@@ -21,7 +21,9 @@ docs_version: "1.1.0"
 # rules/versioning.md. Bumped once per docs/CHANGELOG.md entry; always matches
 # that file's newest row exactly (see `changelog` below — "1.1.0" here matches
 # its last entry). Not the same field as skill_version above (that's this
-# Skill package's own version; this is the target project's docs).
+# Skill package's own version; this is the target project's docs). Major always
+# equals the active cycle's own id below — it only changes when a new cycle
+# opens, which resets Minor/Patch to 0 (rules/versioning.md).
 
 language: "en"
 # The language confirmed with the user during phase 00 (Calibration).
@@ -110,6 +112,9 @@ cycles:
     # Cycle 1 is always the original end-to-end flow (phases 00-17).
     # Cycle 2+ are incremental additions opened by playbooks/00-project-calibration.md
     # in incremental mode, only once the prior cycle reached ready_for_implementation: true.
+    # This `id` is also docs_version's Major component from the moment this cycle's
+    # own Calibration gate passes onward (rules/versioning.md) — not a separate
+    # number to keep in sync, the exact same integer.
     author: "Alice"
     # Who confirmed this cycle's answers — asked once per cycle (initial AND every
     # incremental cycle, never re-inherited from a prior cycle) in
@@ -188,7 +193,9 @@ changelog:
   # to resume correctly without re-parsing a markdown table. Write both
   # together, in the same step, every time (rules/versioning.md). Exactly
   # one of cycle_id/cr_id is set per entry — cycle_id for a phase-completion
-  # entry (Minor), cr_id for a Change-Request-closure entry (Major/Patch).
+  # entry (Minor, or Major/reset if it's the first entry logged after a new
+  # cycle opened), cr_id for a Change-Request-closure entry (Minor if it
+  # reverses/supersedes an approved decision, Patch otherwise).
   # scripts/validate-versioning.mjs checks this array and the markdown file
   # never drift apart.
 ```
