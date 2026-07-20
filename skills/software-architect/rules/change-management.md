@@ -26,6 +26,9 @@ Once the AI has said out loud that a new answer contradicts an approved document
    - **Wrong**: User: "Yeah, go ahead and update UC-003." AI edits `UC-003` directly, then reports "Done — I updated UC-003 to match." *(The rewritten text was never actually shown for confirmation; only the fact that an edit happened was.)*
    - **Right**: User: "Yeah, go ahead and update UC-003." AI: "Here's the specific change to `UC-003`'s main flow: [shows the rewritten step]. Does this match what you meant?" User confirms. Only then is `UC-003` written and marked `pending re-approval` → `approved`.
    - This applies exactly the same way when the mechanism used to apply the edit is a script, a bulk find-replace, or any other programmatic/automated change instead of the AI typing the new text directly — a batch of files edited by a script the AI wrote and ran is still a set of confirmed answers, not a shortcut around them. The resulting text of each affected line still has to be shown and confirmed before the script runs, not summarized as "updated N lines across M files" after the fact.
+   - The rewritten text reads as if the artifact had always said this — never annotated inline with which CR touched it ("(Added by CR-008)", "(Redação atualizada pela CR-005 — ...)"). That history belongs in the CR's own document and in `docs/CHANGELOG.md` (`rules/versioning.md`), which already exist specifically to record it — duplicating it inside the artifact's own prose, permanently, is not an extra safety net, it's the Skill's edit history leaking into a document a stakeholder reads (`rules/document-format.md`'s "Never let the Skill's own process show through").
+     - **Wrong**: `REQ-003`'s body reads "...the professor sets it manually. *(Added by CR-008)*: a class can be edited and deleted..." — permanently visible to every future reader, long after the CR itself is closed and forgotten.
+     - **Right**: `REQ-003`'s body reads "...the professor sets it manually. A class can be edited and deleted..." as one continuous, current description — CR-008's own document (and the `CHANGELOG.md` entry it produced on closing) is where "this was added by CR-008, on this date, for this reason" actually lives.
 5. Each affected document's status in `project-state.md` moves from `approved` to `pending re-approval` until its owning phase confirms the update.
 6. Only once every item on the impact list is re-approved does the CR itself close.
 7. Closing always produces a `docs/CHANGELOG.md` entry — Major or Patch depending on whether the change reverses/supersedes a prior decision, not on how many documents the impact list touches, per `rules/versioning.md`. No exception for a CR that feels small or whose impact list is wide; that's exactly what Patch is for.
@@ -34,7 +37,7 @@ Once the AI has said out loud that a new answer contradicts an approved document
 
 - It does not touch documents outside the computed impact list — traceability is what defines blast radius, not guesswork.
 - It does not bypass the normal confirmation loop (`confirmation-protocol.md`) for any reopened document — a CR is not a shortcut, it's a scoped reopening.
-- It does not reset any artifact ID — see `id-conventions.md`. A changed requirement keeps its `REQ-XXX` ID; only its content changes, and the project's `docs_version` bumps once the CR closes (`rules/versioning.md`) — there is no separate per-document version counter anymore.
+- It does not reset any artifact ID — see `id-conventions.md`. A changed requirement keeps its `REQ-XXX` ID; only its content changes, and the project's `docs_version` bumps once the CR closes (`rules/versioning.md`) — there is no separate per-document version counter; the whole documentation set shares one.
 
 ## Logging
 
