@@ -121,8 +121,11 @@ export function validateTraceability(projectRoot) {
   }
 
   for (const req of requirements) {
-    // Written in the document as "Functional"/"Non-functional" (natural
-    // capitalization, rules/document-format.md) — normalize before comparing.
+    // Written in the document as "Functional"/"Non-functional" (fixed
+    // vocabulary, never translated even in a non-English project — same
+    // convention as a metadata-line key, rules/language-policy.md —
+    // since this exact comparison is what the coverage split below
+    // depends on). Normalize case before comparing either way.
     const type = req.raw && typeof req.raw.type === 'string' ? req.raw.type.toLowerCase() : undefined;
     if (type === 'functional') {
       if (!skipped.has('04') && !referencedByAnyPrefix(req.id, ['US'])) {
@@ -147,6 +150,16 @@ export function validateTraceability(projectRoot) {
           message: `${req.id} (non-functional) has no ARCH-XXX or SEC-XXX addressing it`,
         });
       }
+    } else {
+      // Neither recognized value — most likely a translated "Type"
+      // (e.g. "Funcional") slipping past the convention above, which
+      // would otherwise silently drop this requirement out of every
+      // coverage check below rather than fail loudly.
+      violations.push({
+        type: 'unrecognized-requirement-type',
+        path: req.path,
+        message: `${req.id}: Type is "${(req.raw && req.raw.type) || '(missing)'}", expected Functional or Non-functional`,
+      });
     }
   }
 
