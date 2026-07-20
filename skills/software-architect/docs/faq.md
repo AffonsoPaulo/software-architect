@@ -22,7 +22,7 @@ Yes — an incremental cycle (see the entry below) extends the *same* project: s
 
 ## Are the validation scripts required, or just supporting tooling?
 
-Supporting, but load-bearing at the final gate. `scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` are what phase 17's Review gate actually runs (via a delegated subagent) to check structural consistency before it will let a project reach `ready_for_implementation: true`. Earlier phases' gates reference them too, for the criteria that are mechanically checkable — but every gate also has judgment criteria no script can evaluate, which the AI (and ultimately you) still has to confirm by hand. See `rules/quality-gate-structure.md` for the split.
+Supporting, but load-bearing at the final gate. `scripts/validate-ids.mjs`, `scripts/validate-traceability.mjs`, `scripts/validate-tone.mjs`, and `scripts/validate-heading-language.mjs` are what phase 17's Review gate actually runs (via a delegated subagent) to check structural consistency before it will let a project reach `ready_for_implementation: true`. Earlier phases' gates reference them too, for the criteria that are mechanically checkable — but every gate also has judgment criteria no script can evaluate, which the AI (and ultimately you) still has to confirm by hand. See `rules/quality-gate-structure.md` for the split.
 
 ## What if I don't know how to answer a mandatory question?
 
@@ -30,11 +30,11 @@ This is expected, not a dead end. Per `rules/confirmation-protocol.md`: the AI m
 
 ## Why don't the generated documents have a YAML block at the top?
 
-They used to, in earlier revisions — that changed deliberately. The whole point of this Skill is documentation a human reads (and, secondarily, an AI implements from), not a data file with prose bolted on. Every document (except `project-state.md`, which is the Skill's own operational state) is plain markdown you can select-all, paste into Word or Confluence, and hand to someone else without cleanup. IDs and traceability links are still machine-parseable — just as a heading plus one italic metadata line (`### REQ-001 — ...` / `*Traces to: BR-002*`) instead of a front-matter block. See `rules/document-format.md`.
+Deliberately. The whole point of this Skill is documentation a human reads (and, secondarily, an AI implements from), not a data file with prose bolted on. Every document (except `project-state.md`, which is the Skill's own operational state) is plain markdown you can select-all, paste into Word or Confluence, and hand to someone else without cleanup. IDs and traceability links are still machine-parseable — just as a heading plus one italic metadata line (`### REQ-001 — ...` / `*Traces to: BR-002*`) instead of a front-matter block. See `rules/document-format.md`.
 
 ## Why is Requirements a folder full of files instead of one `requirements.md`?
 
-Because a category whose whole point is a list of independent artifacts — Requirements, Use Cases, Architecture components, Backlog items, and a few others — is easier to work with as one short index file (an intro plus a summary table linking to every item) plus one file per item, than as a single file that keeps growing. It's the same shape ADR and Change Request already used before this convention existed; it's now applied everywhere it fits. A category with no real per-item payload (Vision, Roadmap, Deployment...) stays a single file. See `rules/document-locations.md` for the definitive list, or `examples/` for it applied to two real projects.
+Because a category whose whole point is a list of independent artifacts — Requirements, Use Cases, Architecture components, Backlog items, and a few others — is easier to work with as one short index file (an intro plus a summary table linking to every item) plus one file per item, than as a single file that keeps growing. It's the same index-plus-item shape ADR and Change Request use, applied everywhere it fits. A category with no real per-item payload (Vision, Roadmap, Deployment...) stays a single file. See `rules/document-locations.md` for the definitive list, or `examples/` for it applied to two real projects.
 
 ## The Skill itself got updated while my project is mid-phase (or already finished) — what happens?
 
