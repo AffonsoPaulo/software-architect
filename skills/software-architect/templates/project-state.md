@@ -40,6 +40,8 @@ export_labels:
   project_documentation: "Project Documentation"
   copy_markdown: "Copy markdown"
   toc_instructions: "Right-click here and choose \"Update Field\" (or press F9) to generate the table of contents."
+  shell_table_field: "Field"
+  shell_table_value: "Value"
 # scripts/build-doc-site.mjs and scripts/build-doc-word.mjs's own fixed
 # chrome text — unlike every phase's mainTitle (read from that phase's
 # own already-translated document heading), these have no document
@@ -50,7 +52,14 @@ export_labels:
 # natively the way the HTML build does, and only the Word export has a
 # native TOC field needing this instruction); copy_markdown is
 # build-doc-site.mjs only (the HTML build's per-artifact copy button —
-# the Word export has no equivalent affordance). Same as `language` if
+# the Word export has no equivalent affordance). shell_table_field/
+# shell_table_value are different from the rest of this block: they
+# DO appear literally in a document's own source (every "Field | Value"
+# shell table a template produces, rules/document-format.md), so every
+# such table across the whole project must use this exact same
+# confirmed translated pair, not a freely retranslated one per
+# occurrence — that's what lets both exporters recognize the table and
+# render it without its header row. Same as `language` if
 # language is "en". A project that predates this field falls back to
 # this same English text.
 

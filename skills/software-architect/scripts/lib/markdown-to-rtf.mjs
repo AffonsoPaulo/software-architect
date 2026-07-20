@@ -89,7 +89,11 @@ function renderInlineRtf(text, resolveLink) {
 // 1440 twips/inch (standard Word default margins on an 8.5x11 page).
 const PAGE_WIDTH_TWIPS = 9360;
 
-function tableRowRtf(cells, colWidths, resolveLink, isHeader) {
+// `boldIndices`: a Set of column indices to render bold — every column
+// for an ordinary header row, just column 0 for a shell table's row
+// label (rules/document-format.md's "Field/Value shell tables render
+// without their header row"), or omit/null for an ordinary data row.
+function tableRowRtf(cells, colWidths, resolveLink, boldIndices) {
   let out = '\\trowd\\trgaph108\\trleft0';
   let x = 0;
   for (const w of colWidths) {
@@ -98,9 +102,8 @@ function tableRowRtf(cells, colWidths, resolveLink, isHeader) {
   }
   out += '\n';
   for (let i = 0; i < cells.length; i++) {
-    const bold = isHeader ? '\\b ' : '';
-    const boldEnd = isHeader ? '' : '';
-    out += `\\intbl{\\fs20 ${bold}${renderInlineRtf(cells[i] || '', resolveLink)}${boldEnd}}\\cell `;
+    const bold = boldIndices && boldIndices.has(i) ? '\\b ' : '';
+    out += `\\intbl{\\fs20 ${bold}${renderInlineRtf(cells[i] || '', resolveLink)}}\\cell `;
   }
   out += '\\row\n';
   return out;
@@ -113,6 +116,10 @@ function tableRowRtf(cells, colWidths, resolveLink, isHeader) {
  * @param {string} [options.mermaidFallback] - the project's own translated
  *   `export_labels.mermaid_fallback` (rules/language-policy.md) — falls
  *   back to the English default for a project that predates that field.
+ * @param {[string, string]} [options.shellTableHeader] - the project's own
+ *   translated `export_labels.shell_table_field`/`shell_table_value`
+ *   (rules/document-format.md's "Field/Value shell tables render without
+ *   their header row"). Defaults to the English ['Field', 'Value'].
  * @param {(href: string) => {bookmark:string}|{url:string}|null} [options.resolveLink]
  * @param {number} [options.headingLevelOffset] - added to every heading's
  *   level before rendering. Each source file's own `#` is always level 1
@@ -130,6 +137,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
   const resolveLink = options.resolveLink || (() => null);
   const levelOffset = options.headingLevelOffset || 0;
   const mermaidFallback = options.mermaidFallback || 'Diagram source below — paste it into mermaid.live to view it rendered.';
+  const shellTableHeader = options.shellTableHeader || ['Field', 'Value'];
   const lines = markdown.replace(/\r\n/g, '\n').split('\n');
   const headings = [];
   const out = [];
@@ -228,10 +236,19 @@ export function renderMarkdownToRtf(markdown, options = {}) {
         i++;
       }
       const colCount = headerCells.length;
-      const colWidth = Math.floor(PAGE_WIDTH_TWIPS / colCount);
-      const colWidths = new Array(colCount).fill(colWidth);
-      let tableRtf = tableRowRtf(headerCells, colWidths, resolveLink, true);
-      for (const row of rows) tableRtf += tableRowRtf(row, colWidths, resolveLink, false);
+      const isShellTable = colCount === 2 && headerCells[0] === shellTableHeader[0] && headerCells[1] === shellTableHeader[1];
+      // A shell table's label column stays narrow — matches
+      // build-doc-site.mjs's own .shell-label CSS width.
+      const colWidths = isShellTable
+        ? [Math.floor(PAGE_WIDTH_TWIPS * 0.26), Math.ceil(PAGE_WIDTH_TWIPS * 0.74)]
+        : new Array(colCount).fill(Math.floor(PAGE_WIDTH_TWIPS / colCount));
+      let tableRtf = '';
+      if (!isShellTable) {
+        const allCols = new Set(headerCells.map((_, idx) => idx));
+        tableRtf += tableRowRtf(headerCells, colWidths, resolveLink, allCols);
+      }
+      const firstColOnly = isShellTable ? new Set([0]) : null;
+      for (const row of rows) tableRtf += tableRowRtf(row, colWidths, resolveLink, firstColOnly);
       out.push(tableRtf);
       continue;
     }
