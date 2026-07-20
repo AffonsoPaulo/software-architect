@@ -84,7 +84,10 @@ shipped) — per `rules/diagram-conventions.md`.>
 
 **Success guarantees**
 <What's guaranteed specifically on successful completion — same content
-as "Postconditions" in Casual mode, named per Cockburn's convention.>
+as "Postconditions" in Casual mode, named per Cockburn's convention. A
+bullet list if there's more than one distinct guarantee, same as
+Postconditions above; a single sentence is fine when there's genuinely
+just one.>
 
 | Field | Value |
 |---|---|
