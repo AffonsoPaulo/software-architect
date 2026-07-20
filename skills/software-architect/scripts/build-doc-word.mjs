@@ -110,12 +110,14 @@ const STYLESHEET =
 
 export function buildDocWord(projectRoot, outputPath) {
   const projectName = basename(resolve(projectRoot));
-  const title = `${projectName} — Project Documentation`;
   const projectState = loadProjectState(projectRoot);
   const labels = (projectState && projectState.export_labels) || {};
   const tocLabel = labels.table_of_contents || 'Table of Contents';
   const crLabel = labels.change_requests || 'Change Requests';
   const mermaidFallback = labels.mermaid_fallback || 'Diagram source below — paste it into mermaid.live to view it rendered.';
+  const projectDocLabel = labels.project_documentation || 'Project Documentation';
+  const tocInstructions = labels.toc_instructions || 'Right-click here and choose "Update Field" (or press F9) to generate the table of contents.';
+  const title = `${projectName} — ${projectDocLabel}`;
 
   const parts = [];
   parts.push(`{\\pard\\qc\\sb1440\\sa240\\b\\f2\\fs48 ${escapeRtfText(title)}\\b0\\par}`);
@@ -141,7 +143,7 @@ export function buildDocWord(projectRoot, outputPath) {
     // every subheading inside an artifact — the same scope
     // build-doc-site.mjs's sidebar already limits itself to ("not
     // every subheading, to keep the nav usable at 100+ artifacts").
-    '{\\field{\\*\\fldinst TOC \\\\o "1-2" \\\\h \\\\z \\\\u }{\\fldrslt {\\i Right-click here and choose "Update Field" (or press F9) to generate the table of contents.\\i0}}}\\par\n' +
+    `{\\field{\\*\\fldinst TOC \\\\o "1-2" \\\\h \\\\z \\\\u }{\\fldrslt {\\i ${escapeRtfText(tocInstructions)}\\i0}}}\\par\n` +
     PAGE_BREAK
   );
 
