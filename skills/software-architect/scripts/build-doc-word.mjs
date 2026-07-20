@@ -131,7 +131,7 @@ export function buildDocWord(projectRoot, outputPath) {
   if (projectState && projectState.language) controlBits.push(projectState.language);
   if (lastUpdated) controlBits.push(lastUpdated);
   if (controlBits.length > 0) {
-    parts.push(`{\\pard\\qc\\sa1440\\i\\fs20 ${controlBits.map(escapeRtfText).join(' \\bullet ')}\\i0\\par}`);
+    parts.push(`{\\pard\\qc\\sa1440\\i\\fs20 ${controlBits.map(escapeRtfText).join(' \\bullet{} ')}\\i0\\par}`);
   }
 
   parts.push(
