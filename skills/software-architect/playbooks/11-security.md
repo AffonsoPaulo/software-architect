@@ -38,7 +38,7 @@ All high-impact — most are `[confirmation individual]`:
 - Compliance requirements (LGPD, GDPR, PCI-DSS, HIPAA, none) — `[confirmation individual]`
 - Secrets/credentials strategy (vault, env vars, KMS)
 
-**Fully Dressed only** (`rules/documentation-depth.md`), all `[confirmation individual]` given Security's always-strict status:
+*Fully Dressed only* (`rules/documentation-depth.md`), all `[confirmation individual]` given Security's always-strict status:
 - For each critical component: a full STRIDE pass — all six threat categories considered explicitly, not just an illustrative example.
 - Where does data cross a trust boundary (public internet, third party, internal network)? A data flow diagram marking those boundaries.
 - What's the incident response plan — who's notified, what happens, when a security incident is detected?

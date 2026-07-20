@@ -31,7 +31,7 @@ Skippable for a project so small that "everything ships as one milestone" is the
 - Dependencies between milestones (what blocks what)?
 - "Done" criterion per milestone?
 
-**Fully Dressed only** (`rules/documentation-depth.md`), per milestone:
+*Fully Dressed only* (`rules/documentation-depth.md`), per milestone:
 - Does this milestone depend on anything outside the team's own control (a partner's API, a legal review, a third-party credential)?
 - What business-level metric tells you this milestone actually worked once shipped?
 - Are there risks specific to delivering this milestone, beyond the project-wide risk register?

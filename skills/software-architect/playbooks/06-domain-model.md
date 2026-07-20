@@ -34,7 +34,7 @@ Skippable only for projects with no meaningful data model (e.g. a stateless util
 - What are the relationships between entities (cardinality)? For any entity whose real-world volume isn't obvious from its name alone (e.g. a term that could mean one record per class or one per individual attempt), confirm the expected order of magnitude too, not just the 1:N/N:N shape — this is what phase 07's indexing and phase 09's pagination decisions actually need, and a term left ambiguous here tends to surface as a surprise only once someone does the volume math several phases later.
 - For any metadata attribute proposed on one entity that plausibly applies to others of a similar kind (e.g. "recorded by," "created at") — is this a project-wide convention that belongs on every entity of that kind, or specific to this one? Confirm explicitly rather than letting it apply inconsistently across entities and only surfacing as a gap when someone reviews the whole model later.
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What terms should everyone (user, AI, later readers) use consistently for this domain's concepts — a short glossary?
 - Does this project have more than one bounded context? If so, where are the boundaries?
 - Are there meaningful domain events worth naming explicitly (e.g. "OrderRefunded")?

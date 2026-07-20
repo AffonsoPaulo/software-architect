@@ -30,7 +30,7 @@ Skippable only alongside Roadmap, for a project too small to benefit from either
 - Relative priority within the milestone?
 - "Ready for development" criterion (Definition of Ready) per item — `[confirmation individual]` the first time it's defined, then reused as the project's standing standard afterward.
 
-**Fully Dressed only** (`rules/documentation-depth.md`), per item:
+*Fully Dressed only* (`rules/documentation-depth.md`), per item:
 - What's the estimate (points or time), if one exists yet?
 - Does this item depend on any other backlog item for planning purposes?
 - What concrete scenario(s) confirm this item is actually done?

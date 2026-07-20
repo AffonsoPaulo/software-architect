@@ -40,7 +40,7 @@ Skippable only for projects with genuinely no interaction surface to design (e.g
 - Authentication/authorization strategy at this level (fine detail belongs to phase 11-Security; here, only the mechanism decision) — `[confirmation individual]`
 - Versioning strategy (if applicable to this style) and standard failure format?
 
-**Fully Dressed only** (`rules/documentation-depth.md`), per interaction unit:
+*Fully Dressed only* (`rules/documentation-depth.md`), per interaction unit:
 - What does one concrete, filled-in example request/invocation and its successful response look like?
 - Is this unit rate-limited? If so, how, and what's the failure behavior when the limit is hit?
 - For list-returning units: what pagination convention is used?

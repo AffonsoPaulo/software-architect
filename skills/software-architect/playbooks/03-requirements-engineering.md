@@ -32,7 +32,7 @@ Never. Even a small or incremental cycle still runs this phase, though the numbe
 - Edge cases and error scenarios for each functional requirement.
 - Priority of each requirement (must/should/could, MoSCoW, or an equivalent scheme confirmed with the user).
 
-**Fully Dressed only** (`rules/documentation-depth.md`), per requirement:
+*Fully Dressed only* (`rules/documentation-depth.md`), per requirement:
 - Why does this requirement exist — what's the rationale behind it, beyond the business rule it may trace to?
 - What's the source — a named stakeholder, a regulation, a prior incident, an existing system's behavior being preserved?
 - What concretely goes wrong if this requirement isn't met, and how severe is that?
