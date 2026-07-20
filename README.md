@@ -1,6 +1,6 @@
 # software-architect
 
-A Skill that acts as a Lead Software Architect for AI coding agents (Claude Code, Codex CLI, Cursor, Windsurf, and similar). It drives a project through a complete, question-by-question planning process — from a raw idea to a fully specified, cross-referenced set of engineering documents — before any production code is written.
+A Skill that acts as a Lead Software Architect for AI coding agents (Claude Code, Codex CLI, Cursor, Windsurf, and similar). It drives a project through a complete planning process — from a raw idea to a fully specified, cross-referenced set of engineering documents — before any production code is written.
 
 ```mermaid
 flowchart LR
@@ -41,20 +41,22 @@ flowchart LR
 | 16 | Implementation Plan | Optional |
 | 17 | Architecture Review | **Mandatory** |
 
-"Optional" doesn't mean arbitrary or silent, though. Calibration (00) is where the AI proposes which of these phases actually apply to this project — by project type, size, and (for brownfield work) a read-only research pass over the existing codebase — and the user confirms or edits that list before anything else happens. No phase is ever skipped without that explicit, recorded reason (`rules/document-locations.md`, `playbooks/00-project-calibration.md`).
+"Optional" doesn't mean arbitrary or silent, though. Calibration (00) is where the AI proposes which of these phases actually apply — by project type, size, and (for brownfield work) a read-only pass over the existing codebase — and you confirm or edit that list before anything else happens. No phase is ever skipped without an explicit, recorded reason.
 
 The Skill works for any system in any language — a REST API, a server-rendered MVC monolith, a CLI tool, an event-driven service, or a library with no network surface at all. Nothing in it is REST/JSON-specific.
 
 ## What keeps it honest
 
-A few cross-cutting rules apply in every phase, not just some:
+A few guarantees apply in every phase, not just some:
 
-- **It never assumes.** Every answer goes through ask → interpret → rewrite back → show exactly how it'll be documented → confirm, before anything is written down. If the AI doesn't have enough confirmed information to proceed, it says so explicitly instead of guessing — see `rules/ai-invariants.md` and `rules/confirmation-protocol.md`.
-- **Not every question gets the same weight.** Strict mode confirms everything one at a time; Agile mode batches — except architecture, security, core technology choices, and anything else with a high cost of reversal, which are always confirmed individually regardless of mode (`rules/confirmation-protocol.md`'s always-strict categories).
-- **Consequential decisions get a permanent record.** Any decision with real reversal cost — not just architectural style — produces its own ADR (`templates/adr.md`), referenced rather than restated everywhere it matters.
-- **Every artifact is cross-referenced and checked.** Requirements, stories, use cases, entities, tables, components, endpoints, controls, tests, and tasks all get a permanent ID and a traceability link, validated by script for orphans, broken references, and format — not just spot-checked (`rules/id-conventions.md`, `rules/traceability-rules.md`, `scripts/`).
-- **An unconfirmed decision from an earlier phase never gets silently edited.** Changing something already approved always goes through a formal Change Request that recomputes and reopens everything downstream that depends on it (`rules/change-management.md`).
-- **Generated documents never leak the Skill's own process.** No internal phase numbers, no internal file paths, no confirmation-loop bookkeeping markers, no restated policy language — a stakeholder reading a document has no way to tell a Skill-driven interview produced it (`rules/document-format.md`, `scripts/validate-tone.mjs`). Structural headings follow the project's confirmed language too, not just prose (`rules/language-policy.md`, `scripts/validate-heading-language.mjs`).
+- **It never assumes.** Every answer goes through ask → interpret → rewrite back → confirm, before anything is written down. If the AI doesn't have enough confirmed information to proceed, it says so instead of guessing.
+- **Not every question gets the same weight.** Strict mode confirms everything one at a time; Agile mode batches answers — except architecture, security, core technology choices, and anything else costly to reverse, which are always confirmed individually regardless of mode.
+- **Consequential decisions get a permanent record.** Any decision with real reversal cost produces its own ADR, referenced rather than restated everywhere it matters.
+- **Every artifact is cross-referenced and checked.** Requirements, stories, use cases, entities, tables, components, endpoints, controls, tests, and tasks all get a permanent ID and a traceability link, validated by script for orphans, broken references, and format.
+- **An approved decision never gets silently edited.** Changing it always goes through a formal Change Request that reopens everything downstream that depends on it.
+- **Generated documents never leak the Skill's own process.** No internal phase numbers, file paths, confirmation-loop markers, or restated policy language — a stakeholder reading a document has no way to tell an AI-driven interview produced it. Structural headings follow the project's own confirmed language too, not just prose.
+
+The reasoning and mechanics behind each of these live in `rules/`, one file per concern — see Directory structure below.
 
 ## How to install
 
@@ -62,23 +64,22 @@ A few cross-cutting rules apply in every phase, not just some:
 npx skills add AffonsoPaulo/software-architect
 ```
 
-Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, in any agent that supports the Agent Skills convention. It doesn't require a special command. Claude Code additionally registers every installed Skill as a direct slash command named after its own directory — `npx skills add` installs this one at `~/.claude/skills/software-architect/`, so `/software-architect` already works immediately, no extra setup. Claude Code users who also want the doc-export convenience command can add the optional one below.
+Once installed, invoke it by asking your AI agent to plan, specify, or architect a project — the Skill activates automatically based on intent, in any agent that supports the Agent Skills convention. It doesn't require a special command. Claude Code additionally registers every installed Skill as a direct slash command named after its own directory — `npx skills add` installs this one at `~/.claude/skills/software-architect/`, so `/software-architect` already works immediately, no extra setup.
 
 ## How to use
 
-Just start describing what you want to build. Calibration asks how you want to be asked questions going forward (Strict or Agile) and how much documentation depth you want (Casual — the baseline field set — or Fully Dressed — the deeper, industry-standard field set: rationale and verification method on requirements, a full STRIDE pass in Security, and similar depth throughout). From there it walks the phases confirmed in Calibration, in order, confirming every answer before documenting it and every document before moving on.
+Just start describing what you want to build:
 
-Every document it writes (except its own internal `project-state.md`) is plain markdown, meant to be opened and read as a real document — no YAML block holding "the real data" above a thin prose restatement. Open any generated file, select all, and paste it into Word; that's the bar it's held to. For categories that are really a list of artifacts (Requirements, Use Cases, Architecture components, and similar), that means a short index file plus one file per item, so a single requirement or endpoint is its own reviewable, linkable document — see `rules/document-locations.md`.
+- **Calibration comes first.** It asks how you want to be asked questions going forward — Strict (one at a time) or Agile (batched) — and how much documentation depth you want: Casual, the baseline field set, or Fully Dressed, the deeper industry-standard field set (a full STRIDE pass, rationale/verification fields, and similar depth throughout). From there it walks the phases confirmed in Calibration, in order.
+- **Every document is plain markdown**, meant to be opened and read like a real document — no YAML block holding "the real data" above a thin prose restatement. Categories that are really a list of artifacts (Requirements, Use Cases, Architecture components, and similar) split into a short index file plus one file per item.
+- **Review everything at once** with `scripts/build-doc-site.mjs` (a single, self-contained, offline HTML page) or `scripts/build-doc-word.mjs` (a `.rtf` that opens directly in Word, LibreOffice, Pages, or Google Docs' importer). Just ask for either in words — no need to track down the script's path yourself.
+- **It resumes exactly where it left off**, via `docs/project-state.md` in your own project (created by the Skill, not part of this package). Already fully planned and implemented, and want to add something new? Just ask — the Skill opens a new incremental cycle instead of starting over.
 
-To review the whole thing at once instead of file by file, `scripts/build-doc-site.mjs` (wherever `npx skills add` put it — typically `.claude/skills/software-architect/scripts/build-doc-site.mjs`) builds a single, self-contained HTML page from any project's `docs/` — a clickable table of contents plus every document in reading order, offline, no server required. `scripts/build-doc-word.mjs` builds the same thing as one `.rtf` instead, opening directly in Word, LibreOffice, Pages, or Google Docs' importer — no conversion step, no npm dependency either. Claude Code users with the optional `/architect-docs` command (below) don't need to find the HTML script's path themselves; just ask for the Word version in words and the Skill runs `build-doc-word.mjs` directly (`SKILL.md`'s "Exporting the documentation set").
+Read `docs/how-it-works.md` for the full mechanics, `docs/faq.md` for common questions, and `docs/troubleshooting.md` for failure scenarios.
 
-If you come back to a project later, it resumes exactly where it left off — see `docs/project-state.md` in your project (created by the Skill, not part of this package). If a project is already fully planned and implemented and you want to add something new, just ask — the Skill recognizes this and opens a new incremental cycle rather than starting over.
+## Optional: Claude Code slash command
 
-Read `docs/how-it-works.md` for the full mechanics: the orchestrator, the confirmation loop, the traceability graph, and the final gate. `docs/faq.md` and `docs/troubleshooting.md` cover common questions and failure scenarios.
-
-## Optional: Claude Code slash commands
-
-`/software-architect` (above) already starts or resumes a planning cycle with zero setup, so there's no separate command needed just to trigger the Skill. The one thing it doesn't do on its own is open the exported doc site — for that, Claude Code users can add an optional `/architect-docs` command. Unlike the Skill itself, `npx skills add` won't fetch it for you, since `commands/` sits outside the directory it installs. Get it by cloning this repo (or downloading just `commands/architect-docs.md`), then:
+`/software-architect` above already starts or resumes a planning cycle — no separate command needed for that. The one thing it doesn't do on its own is open the exported doc site, so there's one optional command for it: `/architect-docs`, which runs `scripts/build-doc-site.mjs` against the current project and opens the result. `npx skills add` won't install it for you (`commands/` sits outside the directory it installs), so grab it separately:
 
 ```
 git clone https://github.com/AffonsoPaulo/software-architect
@@ -86,28 +87,26 @@ mkdir -p ~/.claude/commands
 cp -r software-architect/commands/. ~/.claude/commands/
 ```
 
-(or a project-local `.claude/commands/` instead of `~/.claude/commands/`, if you'd rather scope it to one project). The trailing `/.` on the source matters: if `~/.claude/commands/` already exists, a plain `cp -r software-architect/commands ~/.claude/commands/` copies the `commands` directory itself one level too deep (`~/.claude/commands/commands/architect-docs.md`), and the command registers under the wrong name instead of `/architect-docs`. This adds:
-
-- `/architect-docs` — run `scripts/build-doc-site.mjs` against the current project and open the result, without having to remember the script's path.
+(swap `~/.claude/commands/` for a project-local `.claude/commands/` to scope it to one project instead). Keep the trailing `/.` on the source — drop it and an existing `~/.claude/commands/` ends up with the file nested one level too deep, under the wrong command name.
 
 ## Directory structure
 
 ```
-software-architect/            (repo root)
-  README.md                    # this file
+software-architect/          (repo root)
+  README.md                  # this file
   LICENSE
-  commands/                    # optional Claude Code slash commands — see above, not installed by npx skills add
-  examples/                    # this branch only — see "Worked examples" below
+  commands/                  # optional Claude Code slash command, not installed by npx skills add
+  examples/                  # with-examples branch only — see "Worked examples" below
   skills/
-    software-architect/        # everything npx skills add actually installs
-      SKILL.md                 # orchestrator (entrypoint, only file always loaded)
-      rules/                    # 16 cross-cutting rules referenced by every phase
-      playbooks/                 # one file per phase (00-project-calibration .. 17-review)
-      templates/                  # document templates produced by each phase
-      quality-gates/               # one gate per phase
-      checklists/                  # one checklist per phase
-      scripts/                     # Node.js: validation (IDs, traceability, tone, language, gates) + build-doc-site.mjs/build-doc-word.mjs — zero npm dependencies
-      docs/                       # this skill's own usage documentation
+    software-architect/      # everything npx skills add actually installs
+      SKILL.md               # orchestrator — the only file always loaded
+      rules/                 # cross-cutting rules referenced by every phase
+      playbooks/             # one file per phase (00-project-calibration .. 17-review)
+      templates/             # document templates produced by each phase
+      quality-gates/         # one gate per phase
+      checklists/            # one checklist per phase
+      scripts/               # validators + build-doc-site.mjs/build-doc-word.mjs, zero npm dependencies
+      docs/                  # this Skill's own usage documentation
 ```
 
 `SKILL.md` lives under `skills/software-architect/`, not at the repo root — `npx skills add` treats a root-level `SKILL.md` as a single-file skill and installs only that file, discarding everything it references. Nesting it under `skills/<name>/` is what makes the tool install the whole directory. See `docs/how-it-works.md` for how these pieces fit together.
