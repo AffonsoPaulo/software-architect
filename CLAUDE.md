@@ -48,6 +48,16 @@ There is no build step, lint config, or package.json — this is intentional (`s
 
 Whenever you change a `rules/`, `playbooks/`, `templates/`, or `quality-gates/` file in a way that could make a previously-approved document now incomplete, bump `SKILL.md`'s `version:` frontmatter per `rules/skill-drift.md`'s Patch/Minor/Major policy before running `self-test.mjs` and committing.
 
+## Things that silently drift if you don't update them together
+
+Several real bugs in this repo were exactly this: one file changed, a file that depends on it didn't.
+
+- **Add a new violation type to an existing `validate-*.mjs`, or a new phase-specific check to `validate-gate.mjs`** → wire it into `self-test.mjs` (import, call, print) *and* `audit-compatibility.mjs`. The latter reads `runGate()`'s return shape by hand in its own `scriptableClean` computation and console-output loop — it does not pick up new fields automatically. This exact gap once made `audit-compatibility.mjs` report "Scriptable: clean" on a project that actually had hundreds of real violations, because two of `runGate()`'s fields were never added to that file when the checks producing them were introduced. Also update the relevant `quality-gates/<phase>-gate.md` bullet's wording and `scripts/README.md`'s one-line description of the script — both describe what the check does in prose, and neither updates itself.
+- **Add or change a rule that affects what an already-approved document must contain** → bump `SKILL.md`'s `version:` per `rules/skill-drift.md` (see above).
+- **Add a new, stricter check** (a new `validate-tone.mjs` pattern, a new `validate-heading-language.mjs` table header or phase) → re-run `self-test.mjs` against both `examples/` projects afterward, in the same commit. A stricter check routinely surfaces real pre-existing issues there too, not just in some hypothetical future project — `self-test.mjs` won't pass until those are fixed.
+- **A count or fact restated in prose** (e.g. "16 cross-cutting rules") — the root `README.md` and `skills/software-architect/docs/how-it-works.md` both independently state some of the same facts about `rules/`/`scripts/`; a count that changes in one has gone stale in the other before.
+- **Change `docs/` export chrome** (a new translated label, a new fallback string) → `templates/project-state.md`'s `export_labels` block, `playbooks/00-project-calibration.md`'s bullet instructing the AI to translate it, and both `build-doc-site.mjs`/`build-doc-word.mjs` all need the same key added together, with the same English fallback for a project that predates the field.
+
 ## Architecture
 
 ### `SKILL.md` is the only always-loaded file
