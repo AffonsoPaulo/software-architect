@@ -60,7 +60,7 @@ function rewriteMdLink(href) {
 // what lets the sidebar reflect that translation instead of silently
 // falling back to English (see buildNav's fallback for when a phase
 // genuinely has no such heading yet, e.g. an empty draft).
-function renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel) {
+function renderPhase(projectRoot, phase, chapterNum, renderOpts) {
   const files = collectPhaseFiles(projectRoot, phase);
   if (!files) return null;
 
@@ -70,8 +70,8 @@ function renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel) {
 
   for (const f of files) {
     const content = f.isMain ? prefixChapterHeading(f.content, chapterNum) : f.content;
-    const { html, headings } = renderMarkdown(content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, f.content, copyMarkdownLabel));
+    const { html, headings } = renderMarkdown(content, { namespace: f.namespace, rewriteLink: rewriteMdLink, shellTableHeader: renderOpts.shellTableHeader });
+    sections.push(wrapArtifactBlock(html, f.content, renderOpts.copyMarkdownLabel));
     if (f.isMain) {
       const titleHeading = headings.find((h) => !h.isArtifact);
       if (titleHeading) mainTitle = titleHeading.text;
@@ -84,23 +84,23 @@ function renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel) {
   return { html: sections.join('\n'), navItems, mainTitle };
 }
 
-function renderChangelog(projectRoot, chapterNum, copyMarkdownLabel) {
+function renderChangelog(projectRoot, chapterNum, renderOpts) {
   const file = readChangelogFile(projectRoot);
   if (!file) return null;
   const content = prefixChapterHeading(file.content, chapterNum);
-  const { html, headings } = renderMarkdown(content, { namespace: file.namespace, rewriteLink: rewriteMdLink });
+  const { html, headings } = renderMarkdown(content, { namespace: file.namespace, rewriteLink: rewriteMdLink, shellTableHeader: renderOpts.shellTableHeader });
   const titleHeading = headings.find((h) => !h.isArtifact);
-  return { html: wrapArtifactBlock(html, file.content, copyMarkdownLabel), mainTitle: titleHeading ? titleHeading.text : null };
+  return { html: wrapArtifactBlock(html, file.content, renderOpts.copyMarkdownLabel), mainTitle: titleHeading ? titleHeading.text : null };
 }
 
-function renderChangeRequests(projectRoot, copyMarkdownLabel) {
+function renderChangeRequests(projectRoot, renderOpts) {
   const files = collectChangeRequestFiles(projectRoot);
   if (!files) return null;
   const sections = [];
   const navItems = [];
   for (const f of files) {
-    const { html, headings } = renderMarkdown(f.content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, f.content, copyMarkdownLabel));
+    const { html, headings } = renderMarkdown(f.content, { namespace: f.namespace, rewriteLink: rewriteMdLink, shellTableHeader: renderOpts.shellTableHeader });
+    sections.push(wrapArtifactBlock(html, f.content, renderOpts.copyMarkdownLabel));
     for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
   }
   return { html: sections.join('\n'), navItems };
@@ -265,6 +265,10 @@ main tr:first-child th, main tr:first-child td { border-top: none; }
 main tr:last-child td { border-bottom: none; }
 main th:first-child, main td:first-child { border-left: none; }
 main th:last-child, main td:last-child { border-right: none; }
+/* Field/Value shell table (rules/document-format.md's "Field/Value shell
+   tables render without their header row") — no <thead> at all, first
+   column styled as a row label instead of a repeated generic header. */
+main table.shell-table td.shell-label { background: var(--bg-sidebar); font-weight: 600; width: 26%; white-space: nowrap; }
 main code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
 main pre.code-block { background: var(--code-bg); padding: 14px; border-radius: 8px; overflow-x: auto; }
 main pre.code-block code { background: none; padding: 0; }
@@ -454,6 +458,8 @@ export function buildDocSite(projectRoot, outputPath) {
   const crLabel = labels.change_requests || 'Change Requests';
   const copyMarkdownLabel = labels.copy_markdown || 'Copy markdown';
   const projectDocLabel = labels.project_documentation || 'Project Documentation';
+  const shellTableHeader = [labels.shell_table_field || 'Field', labels.shell_table_value || 'Value'];
+  const renderOpts = { copyMarkdownLabel, shellTableHeader };
 
   const navParts = [];
   const contentParts = [];
@@ -461,21 +467,21 @@ export function buildDocSite(projectRoot, outputPath) {
 
   for (const phase of EXPORTABLE_PHASES) {
     chapterNum++;
-    const rendered = renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel);
+    const rendered = renderPhase(projectRoot, phase, chapterNum, renderOpts);
     if (!rendered) { chapterNum--; continue; }
     const phaseId = phase.dir;
     navParts.push(buildNav(phaseId, resolveNavTitle(phase, rendered.mainTitle), rendered.navItems));
     contentParts.push(`<section id="${phaseId}">${rendered.html}</section>`);
   }
 
-  const crRendered = renderChangeRequests(projectRoot, copyMarkdownLabel);
+  const crRendered = renderChangeRequests(projectRoot, renderOpts);
   if (crRendered) {
     chapterNum++;
     navParts.push(buildNav('change-requests', `${chapterNum} · ${crLabel}`, crRendered.navItems));
     contentParts.push(`<section id="change-requests"><h1>${chapterNum} — ${escapeHtml(crLabel)}</h1>${crRendered.html}</section>`);
   }
 
-  const changelogRendered = renderChangelog(projectRoot, chapterNum + 1, copyMarkdownLabel);
+  const changelogRendered = renderChangelog(projectRoot, chapterNum + 1, renderOpts);
   if (changelogRendered) {
     chapterNum++;
     // mainTitle already carries its chapter number (renderChangelog
