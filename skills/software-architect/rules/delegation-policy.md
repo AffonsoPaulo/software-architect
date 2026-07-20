@@ -1,8 +1,8 @@
 # Delegation Policy
 
-When and how the Skill may delegate work to a subagent (e.g. the `Task`/`Agent` tool). Scope is deliberately restricted to **two** uses — expanding this scope was discussed explicitly with the user and rejected beyond these two, because a subagent starts cold (no history of the project's confirmed decisions) and cannot run the confirmation loop, which is fundamentally in tension with "never assume anything."
+When and how the Skill may delegate work to a subagent (e.g. the `Task`/`Agent` tool). Scope is deliberately restricted to the **three** uses below — expanding it further was discussed explicitly with the user and rejected, because a subagent starts cold (no history of the project's confirmed decisions) and cannot run the confirmation loop, which is fundamentally in tension with "never assume anything." The third use (below) was added later, and only under the same constraint every use here already carries: a subagent reports findings, it never decides — the main thread independently verifies every finding before treating it as real, and only the main thread may act on one (open a CR, or anything else).
 
-## The two sanctioned uses
+## The three sanctioned uses
 
 1. **Read-only research** (phases 00, 08, 09 — Calibration, Architecture, API Design), against either of two targets:
    - **An existing codebase**, when the project is brownfield: a subagent explores the existing code/schema/API and reports **facts**, never decisions, back to the main thread.
@@ -10,13 +10,14 @@ When and how the Skill may delegate work to a subagent (e.g. the `Task`/`Agent` 
 
    Either way, the main thread uses those facts to ask better-informed questions — it does not skip asking, and a sibling project's decision is always offered as a starting suggestion to confirm, adapt, or reject, never presented as already settled the way an existing codebase's own reality is (see the phases' own "Special cases" for how each treats the two differently).
 2. **Mechanical audit for phase 17 (Review)**: a subagent runs `scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` and returns the raw report. The main thread synthesizes that report, performs the semantic conflict scan (not delegable — it requires the full history of confirmed decisions), and runs the final confirmation with the user.
+3. **Judgment-criteria review for the full compatibility audit** (`rules/skill-drift.md`), one already-`approved` phase at a time: a subagent reads that phase's own documents, the *current* `quality-gates/<phase>-gate.md`'s Judgment criteria, and the *current* playbook/template for that phase, then reports — per criterion — whether the actual content appears to satisfy it, unclear, or doesn't, with the specific reasoning either way. It is a read, not a ruling: the subagent never marks a criterion "failed" as a final answer, only "this is what I found, here's why it looks questionable." Unlike use 2 above, there's no live conversation history to fall back on here — the comparison is entirely against what's actually written in already-approved documents and the Skill's own current rule text, which is exactly why this stays inside "read-only research," not the semantic-conflict territory reserved for the main thread. The main thread still independently re-checks every reported gap against the actual document before treating it as real (a subagent can misread ambiguous prose the same way any reader can) — a finding that doesn't hold up is dropped, not passed through. Only a finding the main thread confirms is real ever becomes a candidate for a Change Request.
 
 ## Rules every use of a subagent must follow, without exception
 
 - A subagent **never** runs the confirmation loop (`confirmation-protocol.md`) with the user — that always belongs to the main thread, because only the main thread holds the history of already-confirmed decisions.
 - A subagent **never** decides, proposes a requirement or business rule, or writes text that goes directly into a document without passing through the main thread and the appropriate `[confirmation individual]` step.
-- A subagent is only ever used for **read-only research** or **mechanical/scriptable** work — never to draft Vision, Requirements, Architecture, or any document requiring business judgment.
-- Outside the two uses above, the Skill runs entirely in the main thread. No other phase introduces a subagent without this file being updated first.
+- A subagent is only ever used for **read-only research**, **mechanical/scriptable** work, or **judgment-criteria review reported back for the main thread to verify** — never to draft Vision, Requirements, Architecture, or any document requiring business judgment, and never to make the final call on whether a judgment criterion actually failed.
+- Outside the three uses above, the Skill runs entirely in the main thread. No other phase introduces a subagent without this file being updated first.
 
 ## Contradiction between subagent findings and the user's answer
 
