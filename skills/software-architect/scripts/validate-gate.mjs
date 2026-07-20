@@ -252,6 +252,18 @@ function checkVisionCompleteness(projectRoot) {
 // Non-functional requirements are exempt (rules/traceability-rules.md —
 // they trace directly to ARCH/SEC instead of needing this Requirements-
 // specific detail).
+//
+// `Type` itself is a metadata-line VALUE, not a heading or table header
+// — but rules/language-policy.md still treats "Functional"/
+// "Non-functional" as fixed vocabulary (like Testing's `Kind:
+// Automated`/`Manual`), never translated prose, precisely because this
+// check (and validate-traceability.mjs's functional/non-functional
+// coverage split) matches it literally. A `Type` value that isn't
+// either recognized word is flagged explicitly here rather than
+// silently treated as "not functional" and skipped — the same failure
+// mode a translated value would otherwise cause invisibly.
+const VALID_REQ_TYPES = new Set(['functional', 'non-functional']);
+
 function checkRequirementsCompleteness(projectRoot) {
   const index = buildProjectIndex(projectRoot);
   const reqs = index.artifacts.filter((a) => /^REQ-\d+$/.test(a.id));
@@ -261,7 +273,12 @@ function checkRequirementsCompleteness(projectRoot) {
   const docByPath = new Map(index.documents.map((d) => [d.path, d.content]));
   const gaps = [];
   for (const req of reqs) {
-    const type = String((req.raw && req.raw.type) || '').toLowerCase();
+    const rawType = (req.raw && req.raw.type) || '';
+    const type = String(rawType).toLowerCase();
+    if (!VALID_REQ_TYPES.has(type)) {
+      gaps.push(`${req.id}: Type is "${rawType || '(missing)'}", expected Functional or Non-functional`);
+      continue;
+    }
     if (type !== 'functional') continue;
     const content = docByPath.get(req.path) || '';
     if (!/^-\s*\[[ xX]\]/m.test(content)) gaps.push(`${req.id}: no acceptance criteria (checklist) found`);
