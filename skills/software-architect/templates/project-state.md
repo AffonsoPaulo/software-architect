@@ -36,13 +36,16 @@ language_history:
 export_labels:
   table_of_contents: "Table of Contents"
   change_requests: "Change Requests"
+  mermaid_fallback: "Diagram source below — paste it into mermaid.live to view it rendered."
 # scripts/build-doc-site.mjs and scripts/build-doc-word.mjs's own fixed
 # chrome text — unlike every phase's mainTitle (read from that phase's
-# own already-translated document heading), these two have no document
+# own already-translated document heading), these have no document
 # of their own to read a translation from, so they're translated once,
 # together with `language` above, during Calibration, and reused by
-# both exporters. Same as `language` if language is "en". A project
-# that predates this field falls back to this same English text.
+# both exporters (mermaid_fallback is build-doc-word.mjs only — RTF has
+# no script execution to render a diagram natively the way the HTML
+# build does). Same as `language` if language is "en". A project that
+# predates this field falls back to this same English text.
 
 confirmation_mode: "strict"
 # "strict" | "agile" — chosen during phase 00, explained to the user before asking.

@@ -56,11 +56,11 @@ function resolveLink(href) {
 // requirements produces 30 unrelated H1s alongside "Requirements"
 // itself — a flat, unindented wall in Word's Navigation Pane/TOC
 // instead of a hierarchy.
-function renderFiles(files) {
+function renderFiles(files, mermaidFallback) {
   let rtf = '';
   for (const f of files) {
     const headingLevelOffset = f.isMain ? 0 : 1;
-    rtf += renderMarkdownToRtf(f.content, { namespace: f.namespace, resolveLink, headingLevelOffset }).rtf + '\n';
+    rtf += renderMarkdownToRtf(f.content, { namespace: f.namespace, resolveLink, headingLevelOffset, mermaidFallback }).rtf + '\n';
   }
   return rtf;
 }
@@ -115,6 +115,7 @@ export function buildDocWord(projectRoot, outputPath) {
   const labels = (projectState && projectState.export_labels) || {};
   const tocLabel = labels.table_of_contents || 'Table of Contents';
   const crLabel = labels.change_requests || 'Change Requests';
+  const mermaidFallback = labels.mermaid_fallback || 'Diagram source below — paste it into mermaid.live to view it rendered.';
 
   const parts = [];
   parts.push(`{\\pard\\qc\\sb1440\\sa240\\b\\f2\\fs48 ${escapeRtfText(title)}\\b0\\par}`);
@@ -154,7 +155,7 @@ export function buildDocWord(projectRoot, outputPath) {
     firstPhase = false;
     chapterNum++;
     const numberedFiles = files.map((f) => (f.isMain ? { ...f, content: prefixChapterHeading(f.content, chapterNum) } : f));
-    parts.push(renderFiles(numberedFiles));
+    parts.push(renderFiles(numberedFiles, mermaidFallback));
     phasesRendered++;
   }
 
@@ -163,7 +164,7 @@ export function buildDocWord(projectRoot, outputPath) {
     parts.push(PAGE_BREAK);
     chapterNum++;
     parts.push(`{\\pard\\s1\\keepn\\outlinelevel0\\sb280\\sa120\\b\\f2\\fs32 {\\*\\bkmkstart change_requests}${chapterNum} \\emdash  ${escapeRtfText(crLabel)}{\\*\\bkmkend change_requests}\\b0\\par}`);
-    parts.push(renderFiles(crFiles));
+    parts.push(renderFiles(crFiles, mermaidFallback));
     phasesRendered++;
   }
 
@@ -171,7 +172,7 @@ export function buildDocWord(projectRoot, outputPath) {
   if (changelogFile) {
     parts.push(PAGE_BREAK);
     chapterNum++;
-    parts.push(renderFiles([{ ...changelogFile, isMain: true, content: prefixChapterHeading(changelogFile.content, chapterNum) }]));
+    parts.push(renderFiles([{ ...changelogFile, isMain: true, content: prefixChapterHeading(changelogFile.content, chapterNum) }], mermaidFallback));
     phasesRendered++;
   }
 

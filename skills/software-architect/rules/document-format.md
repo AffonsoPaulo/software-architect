@@ -94,6 +94,8 @@ Two shapes of table are used across templates, and the choice between them (and 
 
 Either way, a table row for an inapplicable field is written as `(none)` / `n/a`, the same convention as an empty metadata-line key (above) — never omitted. An omitted row reads as a malformed table; an explicit `(none)` reads as confirmed-and-empty.
 
+A table's own column headers (`Field`/`Value`, `Step`/`Condition`/`Result`, and so on) translate along with the rest of the document, the same as a section heading — see `rules/language-policy.md`. Only the fixed enum values a cell might contain (a `Status` column's `Open`/`Closed`) stay untranslated, not the header naming that column.
+
 ## A document still carrying a YAML front-matter block is out of date
 
 A YAML front-matter block (`---`/`---` delimiters) at the top of a phase document, with the markdown body underneath restating the same data in prose, belongs only in `project-state.md`. A phase document that still carries one needs to be rewritten into this heading-plus-metadata-line convention to work with current validation scripts — there is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
