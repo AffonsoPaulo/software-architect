@@ -71,20 +71,24 @@ export function validateAuthorPresence(projectRoot) {
 // changelog[] entries, for a direct content comparison. Table is newest-
 // first by convention (templates/changelog.md); returned in that same
 // (newest-first) order — callers reverse changelog[] to compare, not this.
+//
+// Finds data rows by the first cell's own SHAPE — a well-formed semver
+// string, via the same parseSemver() this file already uses to validate
+// docs_version — rather than by matching the header row's literal
+// English "Version" text. The header (`Version`/`Author`/`Date`/
+// `Description`) is a table column label like any other
+// (rules/language-policy.md), free to translate; a version number never
+// is, so anchoring on it is both language-independent and unambiguous —
+// no separator row, header row, or blank line before/after the table
+// can ever look like a real semver string.
 function parseChangelogMarkdown(content) {
   const lines = content.split('\n');
   const rows = [];
-  let inTable = false;
   for (const line of lines) {
-    if (/^\|\s*Version\s*\|/i.test(line)) { inTable = true; continue; }
-    if (inTable && /^\|\s*:?-+:?\s*\|/.test(line)) continue; // separator row
-    if (inTable && /^\|.*\|\s*$/.test(line)) {
-      const cells = line.split('|').slice(1, -1).map((c) => c.trim());
-      if (cells.length < 4) continue;
-      rows.push({ version: cells[0], author: cells[1], date: cells[2], description: cells[3] });
-      continue;
-    }
-    if (inTable) break; // table ended
+    if (!/^\|.*\|\s*$/.test(line)) continue;
+    const cells = line.split('|').slice(1, -1).map((c) => c.trim());
+    if (cells.length < 4 || !parseSemver(cells[0])) continue;
+    rows.push({ version: cells[0], author: cells[1], date: cells[2], description: cells[3] });
   }
   return rows;
 }
