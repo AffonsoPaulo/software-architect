@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Regression test for the Skill package itself: runs validate-ids,
-// validate-traceability, validate-versioning, validate-tone, and
-// validate-heading-language against the two worked examples in
-// examples/ and fails (non-zero exit) if any isn't clean. Lets an edit
-// to any playbook/template be checked quickly without re-running the
-// whole Skill by hand.
+// validate-traceability, validate-versioning, validate-tone,
+// validate-heading-language, and validate-export-labels against the
+// two worked examples in examples/ and fails (non-zero exit) if any
+// isn't clean. Lets an edit to any playbook/template be checked
+// quickly without re-running the whole Skill by hand.
 //
 // Usage: node self-test.mjs
 
@@ -16,6 +16,7 @@ import { validateTraceability } from './validate-traceability.mjs';
 import { validateAuthorPresence, validateVersioning } from './validate-versioning.mjs';
 import { validateTone } from './validate-tone.mjs';
 import { validateHeadingLanguage } from './validate-heading-language.mjs';
+import { validateExportLabels } from './validate-export-labels.mjs';
 import { buildProjectIndex } from './lib/docs.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
@@ -51,7 +52,8 @@ function testExample(name) {
   const versioningViolations = [...validateAuthorPresence(projectRoot), ...validateVersioning(projectRoot)];
   const toneViolations = validateTone(projectRoot);
   const headingLanguageViolations = validateHeadingLanguage(projectRoot);
-  return { name, skipped: false, idViolations, traceViolations, versioningViolations, toneViolations, headingLanguageViolations };
+  const exportLabelsViolations = validateExportLabels(projectRoot);
+  return { name, skipped: false, idViolations, traceViolations, versioningViolations, toneViolations, headingLanguageViolations, exportLabelsViolations };
 }
 
 function main() {
@@ -66,7 +68,7 @@ function main() {
       anySkipped = true;
       continue;
     }
-    if (result.idViolations.length === 0 && result.traceViolations.length === 0 && result.versioningViolations.length === 0 && result.toneViolations.length === 0 && result.headingLanguageViolations.length === 0) {
+    if (result.idViolations.length === 0 && result.traceViolations.length === 0 && result.versioningViolations.length === 0 && result.toneViolations.length === 0 && result.headingLanguageViolations.length === 0 && result.exportLabelsViolations.length === 0) {
       console.log('  OK — clean');
     } else {
       anyFailed = true;
@@ -75,6 +77,7 @@ function main() {
       for (const v of result.versioningViolations) console.log(`  [versioning] ${v.message}`);
       for (const v of result.toneViolations) console.log(`  [tone] ${v.path}: ${v.message}`);
       for (const v of result.headingLanguageViolations) console.log(`  [heading-language] ${v.path}: ${v.message}`);
+      for (const v of result.exportLabelsViolations) console.log(`  [export-labels] ${v.message}`);
     }
     console.log('');
   }
