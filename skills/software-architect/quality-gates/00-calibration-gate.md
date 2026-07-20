@@ -1,9 +1,9 @@
 # Project Calibration Gate
 
 ## Scriptable criteria
-- [ ] `docs/project-state.md` exists and is valid YAML — checked by `scripts/validate-gate.mjs`
-- [ ] Every phase `01` through `17` has an entry with a non-empty `status` field in the active cycle — checked by `scripts/validate-gate.mjs`
-- [ ] Phases `03`, `08`, `11`, and `17` do not have `status: skipped` in the active cycle — checked by `scripts/validate-gate.mjs`
+- [ ] `docs/project-state.md` exists, is valid YAML, and its `active_cycle_id` matches a real entry in `cycles[]` — checked by `scripts/validate-gate.mjs`
+- [ ] Every phase `01` through `17` has a row in `calibration.md`'s own "Phase inclusion" table with a decided status — checked by `scripts/validate-gate.mjs` (not `project-state.md`'s `cycles[].phases[]`, which only gains an entry once a phase is actually reached, per `templates/project-state.md` — normal to be incomplete there this early, not a gap)
+- [ ] Phases `03`, `08`, `11`, and `17` are not marked `skipped` in `calibration.md`'s table — checked by `scripts/validate-gate.mjs`
 - [ ] `confirmation_mode`, `documentation_depth`, and `language` are all set (non-null) in `project-state.md` — checked by `scripts/validate-gate.mjs`
 - [ ] The active cycle's `author` is set (non-blank) in `project-state.md` — checked by `scripts/validate-versioning.mjs`
 
