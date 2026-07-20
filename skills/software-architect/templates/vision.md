@@ -67,6 +67,10 @@ audience's end users) — e.g. "Finance," "Support," "Compliance." Each
 with: what they care about in this project, and what would make them
 consider it a success or a failure.>
 
+| Stakeholder group | Cares about | Success looks like |
+|---|---|---|
+| <group> | <what they care about in this project> | <what would make them consider it a success, or a failure> |
+
 ## Current state
 <What exists today: current system, competitors, manual process being
 replaced. "Nothing, this is greenfield" is a valid answer if confirmed as
@@ -95,6 +99,10 @@ target: metric name, current value (or "not currently measured," if
 true), target value, and how/when it's measured. This is what turns a
 qualitative success criterion into something that can actually be
 checked after launch.>
+
+| Metric | Baseline | Target | Measured |
+|---|---|---|---|
+| <metric name> | <current value, or "not currently measured"> | <target value> | <how/when it's measured> |
 
 ## Constraints
 <Known constraints: deadline, budget, mandated technology, regulatory
