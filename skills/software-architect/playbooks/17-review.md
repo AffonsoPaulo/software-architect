@@ -32,8 +32,15 @@ Never skippable, in any cycle.
 # Review Report — Cycle <N>
 
 ## Structural check (scriptable)
-<Raw output of scripts/validate-ids.mjs and scripts/validate-traceability.mjs,
-run via a delegated subagent per rules/delegation-policy.md.>
+<A plain-language summary of what the automated ID, traceability, tone,
+and heading-language checks found — run via a delegated subagent per
+rules/delegation-policy.md, but described here as findings ("every
+artifact ID is unique and correctly formatted; every requirement traces
+to at least one story or is a documented exception" — or the specific
+gaps found), not as raw tool output or the internal script names that
+produced it (rules/document-format.md's "Never let the Skill's own
+process show through" applies here too — this document still goes to
+the user like any other).>
 
 ## Semantic conflict scan (judgment)
 <Contradictions found between documents — or "none found" — performed by
@@ -58,7 +65,7 @@ None. If the audit surfaces something ambiguous enough to need a genuine questio
 
 ## Interview flow
 
-1. Delegate to a subagent (`rules/delegation-policy.md`) running `scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` against every document in the project's `/docs/`. The subagent only executes and reports the raw result — it does not interpret or decide anything.
+1. Delegate to a subagent (`rules/delegation-policy.md`) running `scripts/validate-ids.mjs`, `scripts/validate-traceability.mjs`, `scripts/validate-tone.mjs`, and `scripts/validate-heading-language.mjs` against every document in the project's `/docs/`. The subagent only executes and reports the raw result — it does not interpret or decide anything.
 2. The main thread synthesizes that report and performs the semantic conflict scan — contradictions between documents that no script can catch (two requirements that contradict each other, an Architecture decision that violates a Security requirement, an API contract diverging from the Database schema it references). This is never delegated: it requires the full history of confirmed decisions that only the main thread holds.
 3. Consolidate any orphan, conflict, or prior-gate item that was left open (an escape-valve override, an unresolved risk-register entry).
 4. Present an executive summary to the user: either "documentation complete, no traceability gaps or conflicts detected, ready for implementation," or the exact list of gaps/conflicts found.
