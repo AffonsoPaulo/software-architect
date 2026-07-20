@@ -33,6 +33,30 @@ export const PHASES = [
   { dir: '17-review', title: '17 · Architecture Review', kind: 'single', file: 'review-report.md' }
 ];
 
+// Calibration (00) is this Skill's own onboarding/setup interview —
+// project type, confirmation mode, the phase-inclusion table and its
+// reasons — operational process metadata, not something a stakeholder
+// reading "the project's documentation" expects to see. A real human
+// document goes straight to Vision (rules/document-format.md's "Never
+// let the Skill's own process show through"). Both build-doc-site.mjs
+// and build-doc-word.mjs iterate this instead of the full PHASES list.
+export const EXPORTABLE_PHASES = PHASES.filter((p) => p.dir !== '00-calibration');
+
+// Prefixes a chapter number onto a phase's own main-file heading
+// ("# Vision" -> "# 1 — Vision") when assembling several documents into
+// one continuous export — the number reflects this document's position
+// among what's *actually present* (mirrors mainTitle's own already-
+// translated text, never the internal phase-folder number, which is a
+// different, Skill-internal count that includes Calibration and any
+// skipped phase). No-op if the content's first line isn't a heading.
+export function prefixChapterHeading(content, num) {
+  // No /g flag — only the first heading match in the content is touched,
+  // which is the document's own title by convention (rules/document-
+  // format.md), never a later subheading that happens to come first in
+  // some malformed edge case.
+  return content.replace(/^(#+)\s+(.*)$/m, (_match, hashes, text) => `${hashes} ${num} — ${text}`);
+}
+
 export function readIfExists(path) {
   return existsSync(path) ? readFileSync(path, 'utf8') : null;
 }

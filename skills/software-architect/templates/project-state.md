@@ -33,6 +33,17 @@ language_history:
   # Append an entry every time the user explicitly changes language mid-project.
   # A language change never retroactively affects already-approved documents.
 
+export_labels:
+  table_of_contents: "Table of Contents"
+  change_requests: "Change Requests"
+# scripts/build-doc-site.mjs and scripts/build-doc-word.mjs's own fixed
+# chrome text — unlike every phase's mainTitle (read from that phase's
+# own already-translated document heading), these two have no document
+# of their own to read a translation from, so they're translated once,
+# together with `language` above, during Calibration, and reused by
+# both exporters. Same as `language` if language is "en". A project
+# that predates this field falls back to this same English text.
+
 confirmation_mode: "strict"
 # "strict" | "agile" — chosen during phase 00, explained to the user before asking.
 # Can change at any point via explicit user request only — never changed by the AI on its own.
