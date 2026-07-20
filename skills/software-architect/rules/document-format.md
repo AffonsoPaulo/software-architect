@@ -6,6 +6,17 @@ Every document this Skill writes into the target project's `docs/` (except `proj
 
 This means: **no YAML front-matter in any phase document.** The markdown body is not a summary of "the real data" sitting in a front-matter block above it — the markdown body *is* the document. `project-state.md` is the one exception: it is the Skill's own operational state, never meant to be read by a stakeholder, and stays pure YAML (see `templates/project-state.md`).
 
+## Never let the Skill's own process show through
+
+The "written for a human to read first" bar above applies just as much to *how the Skill talks about itself* as to formatting. A stakeholder reading a generated document has no reason to know — and should never be able to tell — that a Skill-driven interview produced it. Four concrete patterns to avoid, each one found in real generated output, not hypothetical:
+
+- **Never reference "Phase NN."** The numbered phase table is this Skill's own internal organization (`SKILL.md`), meaningless to a reader. Say what the content actually is instead — "defined in Architecture" or "see the Deployment document" — not "defined in Phase 08" / "definido na Fase 08."
+- **Never leave a `[confirmation individual]` (or its translated form) marker in written text.** That bracketed tag exists only to track, during the interview itself, whether an answer went through the individual or batched confirmation loop (`rules/confirmation-protocol.md`) — it is bookkeeping for the AI mid-conversation, never something a finished document should carry. If a real generated document has one, it leaked.
+- **Never cite `rules/`, `playbooks/`, `templates/`, or `scripts/` paths in a document written into the user's project.** Those are this Skill's own internal file structure — a reader has no access to them and no reason to care. If a rule's substance is genuinely worth restating for the reader, restate it in plain language; don't point at the file that defines it.
+- **Never echo the Skill's own policy language as if it were this project's own reasoning.** Calibration's phase-inclusion table (`playbooks/00-project-calibration.md`) is the clearest recurring case: "Always mandatory" / "Sempre obrigatória" restates the *Skill's* rule about that phase, not a reason specific to this project. Write the actual, project-specific reason a human would give — even a genuinely always-mandatory phase has a real one ("Security review is required for any product handling user accounts," not "always mandatory").
+
+`scripts/validate-tone.mjs` checks for these four patterns mechanically (`rules/quality-gate-structure.md`) — the check exists because the pattern is easy to fall into unnoticed while writing in the moment, not as a substitute for writing this way from the start.
+
 ## The convention
 
 Every artifact this Skill assigns an ID to (`rules/id-conventions.md`) is declared by a **heading**, immediately followed by one **italicized metadata line**. Both are ordinary, readable markdown — the metadata line reads like a subtitle or caption, not a code block.
@@ -83,11 +94,11 @@ Two shapes of table are used across templates, and the choice between them (and 
 
 Either way, a table row for an inapplicable field is written as `(none)` / `n/a`, the same convention as an empty metadata-line key (above) — never omitted. An omitted row reads as a malformed table; an explicit `(none)` reads as confirmed-and-empty.
 
-## What changed from v1.0.0
+## A document still carrying a YAML front-matter block is out of date
 
-Earlier versions of this Skill put a YAML front-matter block (`---`/`---` delimiters) at the top of every template, with the markdown body underneath restating the same data in prose. That block has been removed from every template except `project-state.md`. Phase documents in the old format need to be rewritten into this convention to work with current validation scripts — there is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
+A YAML front-matter block (`---`/`---` delimiters) at the top of a phase document, with the markdown body underneath restating the same data in prose, belongs only in `project-state.md`. A phase document that still carries one needs to be rewritten into this heading-plus-metadata-line convention to work with current validation scripts — there is no automatic migration; treat it like any other Skill-version drift (`SKILL.md`'s `skill_version` check).
 
-`project-state.md` itself never needed the `---`/`---` delimiters in the first place — it's pure YAML end to end (see below), and `scripts/lib/docs.mjs`'s parser reads it the same way with or without them. A real project's `project-state.md` written without delimiters (the form `templates/project-state.md` actually shows) and one still carrying them from an older habit are both fully valid; nothing needs migrating on this specific point.
+`project-state.md` itself never needs the `---`/`---` delimiters — it's pure YAML end to end (see below), and `scripts/lib/docs.mjs`'s parser reads it the same way with or without them. A real project's `project-state.md` written without delimiters (the form `templates/project-state.md` actually shows) and one still carrying them are both fully valid; nothing needs migrating on this specific point.
 
 ## `project-state.md` is exempt
 
