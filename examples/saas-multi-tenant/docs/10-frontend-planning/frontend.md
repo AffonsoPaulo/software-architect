@@ -1,10 +1,10 @@
 # Frontend Planning
 
 ## State management
-React Query for server state, component-local state for UI-only concerns — `[confirmation individual]`.
+React Query for server state, component-local state for UI-only concerns.
 
 ## Design system
-No existing design system — building a small internal component library starting with this project — `[confirmation individual]`.
+No existing design system — building a small internal component library starting with this project.
 
 ## Target platforms
 Web only for this release.

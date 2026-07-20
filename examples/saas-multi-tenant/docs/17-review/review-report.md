@@ -1,7 +1,7 @@
 # Review Report — Cycle 1
 
 ## Structural check (scriptable)
-`scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` run via delegated subagent against all of `docs/`: clean. Every BR/REQ/US/UC/ENT/TBL/ARCH/API/SEC/TEST/TASK ID unique and correctly formatted. All required traces present: REQ-001→BR-002, both functional REQs covered by US+TEST, both non-functional REQs (REQ-003, REQ-004) covered by ARCH+SEC, every ENT covered by a TBL, every UC covered by an API and/or screen, every US delivered by a milestone covered by a TASK.
+Automated ID and traceability check against all of `docs/`: clean. Every BR/REQ/US/UC/ENT/TBL/ARCH/API/SEC/TEST/TASK ID unique and correctly formatted. All required traces present: REQ-001→BR-002, both functional REQs covered by US+TEST, both non-functional REQs (REQ-003, REQ-004) covered by ARCH+SEC, every ENT covered by a TBL, every UC covered by an API and/or screen, every US delivered by a milestone covered by a TASK.
 
 ## Semantic conflict scan (judgment)
 None found. Specifically checked:

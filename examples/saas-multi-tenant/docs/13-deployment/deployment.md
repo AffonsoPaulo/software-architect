@@ -1,7 +1,7 @@
 # Deployment
 
 ## Environments
-dev, staging, production — `[confirmation individual]`. Staging mirrors production's topology at smaller scale specifically so REQ-004's load characteristics are testable before production.
+dev, staging, production. Staging mirrors production's topology at smaller scale specifically so REQ-004's load characteristics are testable before production.
 
 ### dev
 ARCH-001: single small container instance, no autoscaling. ARCH-003: single small RDS PostgreSQL instance, no read replica.
@@ -13,7 +13,7 @@ ARCH-001: 2 container instances behind a load balancer. ARCH-003: RDS PostgreSQL
 ARCH-001: containerized, autoscaling 3-10 instances based on CPU/request rate. ARCH-002: runs in-process within ARCH-001, no separate infrastructure. ARCH-003: RDS PostgreSQL with 2 read replicas, connection pooling via PgBouncer.
 
 ## Provider/infrastructure
-AWS — `[confirmation individual]`.
+AWS.
 
 ## CI/CD pipeline
 GitHub Actions: auto-deploy to staging on merge to main, manual approval gate before production, all tests including the load test (TEST-004) must pass first.

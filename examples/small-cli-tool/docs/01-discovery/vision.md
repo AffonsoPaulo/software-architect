@@ -1,7 +1,7 @@
 # Vision
 
 ## Problem
-Developers on this team regularly need to convert data files between CSV and JSON (and, as of cycle 2, YAML) when moving data between spreadsheet tools and scripts/config files. Today this means writing a one-off script every time, which is slow and error-prone (encoding issues, nested-object flattening handled inconsistently).
+Developers on this team regularly need to convert data files between CSV and JSON (and, as of cycle 2, YAML) when moving data between spreadsheet tools and other scripts or config files. Today this means writing a one-off script every time, which is slow and error-prone (encoding issues, nested-object flattening handled inconsistently).
 
 ## Target audience
 Developers on the team who work with data files day to day — technical users comfortable with a CLI, not a general audience.

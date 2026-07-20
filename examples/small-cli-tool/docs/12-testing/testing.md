@@ -1,7 +1,7 @@
 # Testing
 
 ## Test levels
-Unit tests for the parser/serializer functions in isolation, integration tests for the full CLI invocation — `[confirmation individual]`. Tooling: Node.js built-in test runner.
+Unit tests for the parser/serializer functions in isolation, integration tests for the full CLI invocation. Tooling: Node.js built-in test runner.
 
 ## Coverage target
 Not a percentage threshold for a project this size — judged by requirement coverage (every REQ has a TEST), which is 100% here.

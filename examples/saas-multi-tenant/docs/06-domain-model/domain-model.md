@@ -9,7 +9,7 @@
 
 ## Aggregates
 - **Tenant** (ENT-001): its own aggregate, root-level customer boundary.
-- **Project** (ENT-002): aggregate root; contains Task (ENT-003) as part of its consistency boundary — `[confirmation individual]`, confirmed because task status transitions need to be consistent with the project they belong to (e.g. bulk project archival needs to affect all its tasks atomically).
+- **Project** (ENT-002): aggregate root; contains Task (ENT-003) as part of its consistency boundary, confirmed because task status transitions need to be consistent with the project they belong to (e.g. bulk project archival needs to affect all its tasks atomically).
 - **User** (ENT-004): its own aggregate, referenced by Task but not owned by Project's aggregate.
 
 ## Relationships

@@ -1,10 +1,10 @@
 # Deployment
 
 ## Environments
-No traditional dev/staging/production split — `[confirmation individual]`, confirmed given there's no hosted service. The only "environment" is the npm registry the package is published to; ARCH-001 and ARCH-002 run entirely on the developer's own machine.
+No traditional dev/staging/production split, confirmed given there's no hosted service. The only "environment" is the npm registry the package is published to; ARCH-001 and ARCH-002 run entirely on the developer's own machine.
 
 ## Provider/infrastructure
-npm public registry — `[confirmation individual]`.
+npm public registry.
 
 ## CI/CD pipeline
 GitHub Actions, triggered on version tags (`v*`), running the test suite before publishing. Quality gates: all tests pass (TEST-001..003), lint clean.

@@ -1,10 +1,10 @@
 # Architecture
 
 ## Architectural style
-Modular monolith — `[confirmation individual]`. Confirmed given the team's size (small enough that microservices' operational overhead isn't justified yet) and the MVP timeline constraint from Vision. Modularity within the monolith keeps a later split to services possible without a full rewrite.
+Modular monolith, confirmed given the team's size (small enough that microservices' operational overhead isn't justified yet) and the MVP timeline constraint from Vision. Modularity within the monolith keeps a later split to services possible without a full rewrite.
 
 ## Architectural pattern
-Layered — `[confirmation individual]`. Every request passes through the API layer (ARCH-001), then the cross-cutting Tenant Context Middleware layer (ARCH-002), before reaching data access (ARCH-003); PostgreSQL row-level security sits beneath the application layer as a second, independent enforcement layer, not a bypass path. Already implied by ADR-001 (module boundaries within the monolith) and ADR-002 (middleware + RLS as two enforcement layers) — no separate ADR needed for the pattern itself.
+Layered. Every request passes through the API layer (ARCH-001), then the cross-cutting Tenant Context Middleware layer (ARCH-002), before reaching data access (ARCH-003); PostgreSQL row-level security sits beneath the application layer as a second, independent enforcement layer, not a bypass path. Already implied by ADR-001 (module boundaries within the monolith) and ADR-002 (middleware + RLS as two enforcement layers) — no separate ADR needed for the pattern itself.
 
 ## Components
 
@@ -15,7 +15,7 @@ Layered — `[confirmation individual]`. Every request passes through the API la
 | [ARCH-003](arch-003.md) | Connection Pool + Read Replica Layer | REQ-004 | — |
 
 ## Core technologies
-Node.js + PostgreSQL, deployed on AWS — `[confirmation individual]`. Confirmed based on the team's existing expertise (avoids a ramp-up cost the one-quarter MVP timeline can't absorb).
+Node.js + PostgreSQL, deployed on AWS, confirmed based on the team's existing expertise (avoids a ramp-up cost the one-quarter MVP timeline can't absorb).
 
 ## Non-functional requirement coverage
 | REQ-XXX (NFR) | Addressed by |
@@ -24,7 +24,7 @@ Node.js + PostgreSQL, deployed on AWS — `[confirmation individual]`. Confirmed
 | REQ-004 (concurrency/latency) | ARCH-003 |
 
 ## Interaction style guidance
-REST — a single API consumed by the web frontend (phase 10). No public third-party API in this release. Phase 09 details the actual endpoints.
+REST — a single API consumed by the web frontend. No public third-party API in this release. API Design details the actual endpoints.
 
 ## Context view
 The whole system as one box: the web frontend and, indirectly, each customer organization's users, talk only to the Application Server over HTTPS. The Application Server is the only component with a network-facing surface; the database and its replicas are never reachable directly from outside AWS's private network.

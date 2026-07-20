@@ -45,7 +45,7 @@ flowchart LR
 ```
 
 ## Authentication and authorization
-OAuth via SSO (Google Workspace, Microsoft) — `[confirmation individual]`. RBAC with Project Admin / Team Member roles — `[confirmation individual]`.
+OAuth via SSO (Google Workspace, Microsoft). RBAC with Project Admin / Team Member roles.
 
 ## Data classification
 | Data | Classification | Handling |
@@ -54,10 +54,10 @@ OAuth via SSO (Google Workspace, Microsoft) — `[confirmation individual]`. RBA
 | User email addresses | PII | Standard at-rest encryption; never included in logs; only accessible to users within the same tenant. |
 
 ## Compliance
-GDPR applies (EU-based team members at the design-partner customer) — `[confirmation individual]`. No other frameworks required at launch.
+GDPR applies (EU-based team members at the design-partner customer). No other frameworks required at launch.
 
 ## Secrets strategy
-AWS Secrets Manager for database credentials and OAuth client secrets — `[confirmation individual]`.
+AWS Secrets Manager for database credentials and OAuth client secrets.
 
 ## Incident response plan
 Engineering lead is the first responder for any suspected cross-tenant data exposure — treated as a Sev1 regardless of confirmed scope, per the "any cross-tenant-access test failure blocks deploy" policy in Deployment. Response: contain (revoke affected sessions/credentials), assess actual scope via the audit log, notify affected tenant(s) within 72 hours if any data was actually exposed (matching GDPR's own notification window), post-mortem written and reviewed before the incident is closed.

@@ -18,18 +18,18 @@ All 18 phases run — no phase is skipped for this project, given its size and t
 |---|---|---|
 | 01 — Discovery | included | |
 | 02 — Business Analysis | included | Real business processes (task lifecycle) and distinct actor roles (Project Admin vs. Team Member) exist and matter. |
-| 03 — Requirements | included | Always mandatory. |
+| 03 — Requirements | included | The core task-management behavior and multi-tenant isolation rules need to be stated explicitly and verifiably before any design work starts. |
 | 04 — User Stories | included | |
 | 05 — Use Cases | included | |
 | 06 — Domain Model | included | Real persistent entities (Tenant, Project, Task, User) with non-trivial invariants. |
 | 07 — Database Design | included | |
-| 08 — Architecture | included | Always mandatory. |
+| 08 — Architecture | included | A multi-tenant system needs its isolation model (tenant scoping, data separation) decided deliberately before any component or schema work proceeds. |
 | 09 — API Design | included | |
 | 10 — Frontend Planning | included | Real UI (task board, task detail). |
-| 11 — Security | included | Always mandatory — especially consequential here given multi-tenancy. |
+| 11 — Security | included | Especially consequential here — tenant data isolation is a security property, not just a data-modeling one. |
 | 12 — Testing | included | |
 | 13 — Deployment | included | |
 | 14 — Roadmap | included | |
 | 15 — Backlog | included | |
 | 16 — Implementation Plan | included | |
-| 17 — Review | included | Always mandatory. |
+| 17 — Review | included | The full cross-tenant traceability graph needs a final consistency pass before implementation, given the project's size and number of stakeholders. |

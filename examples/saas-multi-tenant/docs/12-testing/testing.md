@@ -1,10 +1,10 @@
 # Testing
 
 ## Test levels
-Unit, integration, e2e, and load — `[confirmation individual]`, given the real consequence of getting REQ-003/REQ-004 wrong. Tooling: Jest for unit/integration, Playwright for e2e, k6 for load testing.
+Unit, integration, e2e, and load, given the real consequence of getting REQ-003/REQ-004 wrong. Tooling: Jest for unit/integration, Playwright for e2e, k6 for load testing.
 
 ## Coverage target
-90% line coverage on the Application Server's business logic modules — `[confirmation individual]`.
+90% line coverage on the Application Server's business logic modules.
 
 ## Test data strategy
 Seeded multi-tenant fixtures (at least 2 distinct tenants in every integration test run) so cross-tenant bugs surface in normal test runs, not only in a dedicated security test.

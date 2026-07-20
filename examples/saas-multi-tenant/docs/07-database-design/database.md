@@ -1,7 +1,7 @@
 # Database Design
 
 ## Database type
-Relational (PostgreSQL) — `[confirmation individual]`, confirmed for strong relational integrity across tenants/projects/tasks and mature row-level security support, which Architecture's tenant-isolation approach relies on (see `docs/08-architecture/architecture.md`).
+Relational (PostgreSQL), confirmed for strong relational integrity across tenants/projects/tasks and mature row-level security support, which Architecture's tenant-isolation approach relies on (see `docs/08-architecture/architecture.md`).
 
 ## Tables / collections
 
@@ -13,7 +13,7 @@ Relational (PostgreSQL) — `[confirmation individual]`, confirmed for strong re
 | [TBL-004](tbl-004.md) | users | ENT-004 |
 
 ## Migration strategy
-Versioned SQL migrations, applied automatically in CI before deploy — `[confirmation individual]`.
+Versioned SQL migrations, applied automatically in CI before deploy.
 
 ## Data dictionary
 | Table.Column | Business meaning |

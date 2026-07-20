@@ -1,10 +1,10 @@
 # Architecture
 
 ## Architectural style
-Single-process CLI binary, no client-server split, no persistence layer — `[confirmation individual]`, confirmed given the project's small size and the constraint of "no runtime to install beyond what's already there."
+Single-process CLI binary, no client-server split, no persistence layer — chosen given the project's small size and the constraint of "no runtime to install beyond what's already there."
 
 ## Architectural pattern
-Pipe-and-filter — `[confirmation individual]`. Input is parsed into a shared internal representation (a stream of flat records), then serialized to the target format; format-specific adapters (CSV/JSON, and YAML in cycle 2) plug into that shared representation rather than converting directly between formats. Already implied by ADR-001's streaming decision and ARCH-002's description — no separate ADR needed for the pattern itself.
+Pipe-and-filter. Input is parsed into a shared internal representation (a stream of flat records), then serialized to the target format; format-specific adapters (CSV/JSON, and YAML in cycle 2) plug into that shared representation rather than converting directly between formats. Already implied by ADR-001's streaming decision and ARCH-002's description — no separate ADR needed for the pattern itself.
 
 ## Components
 
@@ -14,7 +14,7 @@ Pipe-and-filter — `[confirmation individual]`. Input is parsed into a shared i
 | [ARCH-002](arch-002.md) | YAML Parser Adapter (cycle 2) | (none) | — |
 
 ## Core technologies
-Node.js (matches the target developer machines, which already have it installed) — `[confirmation individual]`.
+Node.js (matches the target developer machines, which already have it installed).
 
 ## Non-functional requirement coverage
 | REQ-XXX (NFR) | Addressed by |
@@ -22,7 +22,7 @@ Node.js (matches the target developer machines, which already have it installed)
 | REQ-002 (memory bound) | ARCH-001 / ADR-001 |
 
 ## Interaction style guidance
-CLI command surface — a single executable with subcommands/flags, not an HTTP API. No client-server boundary at all. Phase 09 details the actual command/flags.
+CLI command surface — a single executable with subcommands/flags, not an HTTP API. No client-server boundary at all. API Design details the actual command/flags.
 
 ```mermaid
 graph TD

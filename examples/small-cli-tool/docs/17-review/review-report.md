@@ -1,7 +1,7 @@
 # Review Report — Cycle 1
 
 ## Structural check (scriptable)
-`scripts/validate-ids.mjs` and `scripts/validate-traceability.mjs` run via delegated subagent against all of `docs/`: clean. Every REQ/US/UC/ARCH/API/SEC/TEST/TASK ID unique and correctly formatted; every required `traces_to` present; REQ-001 covered by US-001/TEST-001; REQ-002 (NFR) covered by ARCH-001/SEC-001; UC-001 covered by API-001.
+Automated ID and traceability check against all of `docs/`: clean. Every REQ/US/UC/ARCH/API/SEC/TEST/TASK ID unique and correctly formatted; every required `traces_to` present; REQ-001 covered by US-001/TEST-001; REQ-002 (NFR) covered by ARCH-001/SEC-001; UC-001 covered by API-001.
 
 ## Semantic conflict scan (judgment)
 None found. Architecture's "no server component" decision (ADR-001) is consistent with Security's "no authentication surface" and Deployment's "no traditional environments" — all three agree this is a local-only tool.
