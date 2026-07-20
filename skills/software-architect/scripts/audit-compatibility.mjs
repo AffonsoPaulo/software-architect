@@ -63,7 +63,9 @@ export function auditCompatibility(projectRoot) {
       const scriptableClean =
         result.idViolations.length === 0 &&
         result.traceabilityViolations.length === 0 &&
-        result.versioningViolations.length === 0;
+        result.versioningViolations.length === 0 &&
+        result.toneViolations.length === 0 &&
+        result.headingLanguageViolations.length === 0;
       phases.push({
         phaseId,
         gatePath: result.gatePath,
@@ -71,6 +73,8 @@ export function auditCompatibility(projectRoot) {
         idViolations: result.idViolations,
         traceabilityViolations: result.traceabilityViolations,
         versioningViolations: result.versioningViolations,
+        toneViolations: result.toneViolations,
+        headingLanguageViolations: result.headingLanguageViolations,
         extra: result.extra,
         judgment: result.judgment,
       });
@@ -114,6 +118,8 @@ function main() {
       for (const v of p.idViolations) console.log(`    [id] ${v.message}`);
       for (const v of p.traceabilityViolations) console.log(`    [traceability] ${v.message}`);
       for (const v of p.versioningViolations) console.log(`    [versioning] ${v.message}`);
+      for (const v of p.toneViolations) console.log(`    [tone] ${v.path}: ${v.message}`);
+      for (const v of p.headingLanguageViolations) console.log(`    [heading-language] ${v.path}: ${v.message}`);
     }
     for (const e of p.extra) console.log(`    [phase-specific] ${e.label}: ${e.status}`);
     if (p.judgment.length > 0) {
