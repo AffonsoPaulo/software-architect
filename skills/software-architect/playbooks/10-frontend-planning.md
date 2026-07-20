@@ -34,7 +34,7 @@ Skippable for projects with no interface at all — a pure API, a CLI, a backgro
 - Responsiveness/target platforms (web, mobile, or both)?
 - Per screen or action: is visibility/access gated by role or permission ("only X can see/do this")? Note it explicitly the moment it comes up here — this phase records *that* the constraint exists and roughly what it is, as input for phase 11's authorization model, not the full rule itself (that's phase 11's job). Don't let a permission constraint surface only as an offhand remark that has to be tracked down and formalized retroactively later.
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What accessibility conformance level is the target (e.g. WCAG 2.1 AA), and are there specific requirements beyond the baseline?
 - Are there content/copy/tone guidelines screens should follow?
 - Per screen: what does the user see in the loading, empty, and error states?

@@ -31,7 +31,7 @@ Skippable for projects with no meaningful business-process dimension — e.g. an
 - What high-level business rules are already known (policies, legal/regulatory constraints)? — `[confirmation individual]`
 - What's the value/justification (ROI, cost reduction, new market)?
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - Does the to-be process differ from as-is? If so, how, step by step?
 - What metric/KPI measures each process, and what's its current value?
 - Per process step: who's Responsible, Accountable, Consulted, Informed (RACI)?

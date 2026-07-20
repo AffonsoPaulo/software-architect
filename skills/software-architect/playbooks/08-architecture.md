@@ -40,7 +40,7 @@ Never skippable.
 - Core technologies (language, framework, infrastructure) — `[confirmation individual]`
 - Interaction style this architecture uses — not limited to REST/GraphQL/RPC: could be server-rendered MVC, a CLI command surface, an event/message handler, a library/SDK interface, or something else entirely; name what the project actually is rather than defaulting to the most common answer — a high-level decision phase 09 will detail, not redecide
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What does the system boundary look like — every external actor/system it talks to, as a single "box" view?
 - For each critical scenario (checkout, authentication, anything consequential): how do the components actually collaborate at runtime?
 - What patterns apply consistently across every component — both infrastructure conventions (logging, error handling, configuration, caching) and recurring design patterns (e.g. Repository for data access, Strategy for pluggable behavior, Adapter for third-party integrations, Circuit Breaker for external calls) the project commits to as a convention, not a one-off choice inside a single component?

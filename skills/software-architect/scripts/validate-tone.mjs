@@ -52,6 +52,17 @@ const INTERNAL_PATH_RE = /\b(?:rules|playbooks|templates|scripts|checklists|qual
 // an arbitrary confirmed language.
 const POLICY_ECHO_RE = /\balways mandatory\b/gi;
 
+// "Fully Dressed"/"Casual" (rules/documentation-depth.md) are this
+// Skill's own name for a depth choice, not a real domain or engineering
+// term — meaningless to a stakeholder. Scoped to a bold-only line (the
+// shape a real generated document actually used it in, copying every
+// playbook's own `*Fully Dressed only*` instruction-to-self marker)
+// rather than banning the words anywhere in prose — "Casual" especially
+// is ordinary English a project could legitimately use for unrelated
+// reasons (a casual tone, casual Friday), so this only catches the
+// specific failure mode actually observed, not every possible mention.
+const DEPTH_LABEL_RE = /^\*\*(Fully Dressed|Casual)\b[^*]*\*\*\s*$/gm;
+
 function findMatches(content, re, type, describe) {
   const violations = [];
   let m;
@@ -118,6 +129,7 @@ export function validateTone(projectRoot) {
       [CONFIRMATION_MARKER_RE, 'confirmation-marker-leak', (m) => `"${m}" is a confirmation-protocol bookkeeping marker (rules/confirmation-protocol.md) — it tracks how an answer was confirmed during the interview and should never appear in the written document`],
       [INTERNAL_PATH_RE, 'internal-path-citation', (m) => `"${m}" cites this Skill's own internal file structure — a reader has no access to it; restate the substance in plain language instead`],
       [POLICY_ECHO_RE, 'policy-echo', (m) => `"${m}" echoes the Skill's own policy language rather than this project's own reasoning — state the actual, project-specific reason`],
+      [DEPTH_LABEL_RE, 'depth-label-leak', (m) => `"${m}" uses this Skill's own documentation-depth name ("Fully Dressed"/"Casual", rules/documentation-depth.md) as a document label — meaningless to a stakeholder; remove the label or replace it with what the content actually is`],
     ];
 
     for (const [re, type, describe] of checks) {

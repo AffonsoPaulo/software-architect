@@ -31,7 +31,7 @@ Skippable for trivial stories where the main flow has no realistic alternative/e
 - Main flow, step by step?
 - Alternative and exception flows — what can go wrong at each step? — `[confirmation individual]` when it involves critical error handling (payment, sensitive data)
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What's the actor's goal in context, stated in business terms — not the mechanics, the purpose?
 - What specific event triggers this use case?
 - What's guaranteed no matter how the use case ends (minimal guarantees), beyond what's guaranteed only on success?

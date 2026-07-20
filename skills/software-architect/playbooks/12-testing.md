@@ -32,7 +32,7 @@ Skippable only for genuinely disposable prototypes explicitly confirmed as such 
 - Test data strategy (fixtures, mocks, dedicated environment)?
 - Which requirements need manual/exploratory testing vs. which are automatable?
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What must be true before testing for a given level/milestone can start (entry criteria), and what makes it done (exit criteria)?
 - What environment(s) do tests actually run against, and how is it kept representative of production?
 - How is a found defect tracked, triaged, and prioritized?

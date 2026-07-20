@@ -32,7 +32,7 @@ Skippable when Calibration determined the project context is already clear enoug
 - Known constraints (deadline, budget, mandated technology, regulatory) — `[confirmation individual]`
 - How will success be measured?
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What's the broader business opportunity beyond just solving the problem (new revenue, market position, competitive parity)?
 - Who are the distinct stakeholder groups (not just end users), and what does each care about?
 - What assumptions is this Vision resting on, and what external dependencies does it have?

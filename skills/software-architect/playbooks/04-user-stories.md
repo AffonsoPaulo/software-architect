@@ -30,7 +30,7 @@ Skippable only in the degenerate case where every requirement in this cycle is p
 - What are the story's acceptance criteria (can inherit from the REQ, or be more granular)?
 - Is the story independent and testable on its own (INVEST)?
 
-**Fully Dressed only** (`rules/documentation-depth.md`), per story:
+*Fully Dressed only* (`rules/documentation-depth.md`), per story:
 - What's the business-value reasoning behind this story's priority?
 - Does this story have any non-functional consideration beyond the project's general NFRs?
 - Is anything a reader might assume this story covers explicitly out of scope for it?

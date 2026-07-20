@@ -31,7 +31,7 @@ Skippable only alongside Backlog, for a project too small to benefit from either
 - Definition of Done per task (tests passing, code review, documentation updated) — `[confirmation individual]` the first time it's defined.
 - Which tasks can be parallelized vs. must be sequential?
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - Who owns each task, and what's its estimate?
 - For tasks with a real execution risk: what could go wrong during implementation, and how is it mitigated?
 - Which sequence of tasks forms the critical path — the chain where any delay directly delays the whole plan?

@@ -33,7 +33,7 @@ Skippable for projects with no deployment target at all (a local CLI tool, a lib
 - Rollback strategy and observability (logs, metrics, alerts)?
 - Secrets management in production (must be consistent with phase 11)?
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - What's the expected load, and what are the concrete triggers for scaling?
 - What are the Recovery Time Objective and Recovery Point Objective for disaster recovery — and are they consistent with Database Design's backup/recovery expectations?
 - What's the rough expected infrastructure cost?

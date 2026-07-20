@@ -32,7 +32,7 @@ Skippable only alongside Domain Model, for projects with no persistence layer at
 - Primary/foreign keys, uniqueness constraints, expected indexes (grounded in known access patterns, not speculative)?
 - Migration and schema versioning strategy — `[confirmation individual]`
 
-**Fully Dressed only** (`rules/documentation-depth.md`):
+*Fully Dressed only* (`rules/documentation-depth.md`):
 - For columns whose meaning isn't obvious from name/type alone: what does this column actually mean to the business?
 - Is this table's shape normalized, or deliberately denormalized for a stated reason?
 - How long is this data retained, and what happens after (archived, deleted, anonymized)?
