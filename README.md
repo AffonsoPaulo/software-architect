@@ -54,6 +54,7 @@ A few cross-cutting rules apply in every phase, not just some:
 - **Consequential decisions get a permanent record.** Any decision with real reversal cost — not just architectural style — produces its own ADR (`templates/adr.md`), referenced rather than restated everywhere it matters.
 - **Every artifact is cross-referenced and checked.** Requirements, stories, use cases, entities, tables, components, endpoints, controls, tests, and tasks all get a permanent ID and a traceability link, validated by script for orphans, broken references, and format — not just spot-checked (`rules/id-conventions.md`, `rules/traceability-rules.md`, `scripts/`).
 - **An unconfirmed decision from an earlier phase never gets silently edited.** Changing something already approved always goes through a formal Change Request that recomputes and reopens everything downstream that depends on it (`rules/change-management.md`).
+- **Generated documents never leak the Skill's own process.** No internal phase numbers, no internal file paths, no confirmation-loop bookkeeping markers, no restated policy language — a stakeholder reading a document has no way to tell a Skill-driven interview produced it (`rules/document-format.md`, `scripts/validate-tone.mjs`). Structural headings follow the project's confirmed language too, not just prose (`rules/language-policy.md`, `scripts/validate-heading-language.mjs`).
 
 ## How to install
 
@@ -99,12 +100,12 @@ software-architect/            (repo root)
   skills/
     software-architect/        # everything npx skills add actually installs
       SKILL.md                 # orchestrator (entrypoint, only file always loaded)
-      rules/                    # 14 cross-cutting rules referenced by every phase
+      rules/                    # 16 cross-cutting rules referenced by every phase
       playbooks/                 # one file per phase (00-project-calibration .. 17-review)
       templates/                  # document templates produced by each phase
       quality-gates/               # one gate per phase
       checklists/                  # one checklist per phase
-      scripts/                     # Node.js: validation (IDs, traceability, gates) + build-doc-site.mjs/build-doc-word.mjs — zero npm dependencies
+      scripts/                     # Node.js: validation (IDs, traceability, tone, language, gates) + build-doc-site.mjs/build-doc-word.mjs — zero npm dependencies
       docs/                       # this skill's own usage documentation
 ```
 
