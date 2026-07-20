@@ -8,14 +8,15 @@ This means: **no YAML front-matter in any phase document.** The markdown body is
 
 ## Never let the Skill's own process show through
 
-The "written for a human to read first" bar above applies just as much to *how the Skill talks about itself* as to formatting. A stakeholder reading a generated document has no reason to know — and should never be able to tell — that a Skill-driven interview produced it. Four concrete patterns to avoid, each one found in real generated output, not hypothetical:
+The "written for a human to read first" bar above applies just as much to *how the Skill talks about itself* as to formatting. A stakeholder reading a generated document has no reason to know — and should never be able to tell — that a Skill-driven interview produced it. Five concrete patterns to avoid, each one found in real generated output, not hypothetical:
 
 - **Never reference "Phase NN."** The numbered phase table is this Skill's own internal organization (`SKILL.md`), meaningless to a reader. Say what the content actually is instead — "defined in Architecture" or "see the Deployment document" — not "defined in Phase 08" / "definido na Fase 08."
 - **Never leave a `[confirmation individual]` (or its translated form) marker in written text.** That bracketed tag exists only to track, during the interview itself, whether an answer went through the individual or batched confirmation loop (`rules/confirmation-protocol.md`) — it is bookkeeping for the AI mid-conversation, never something a finished document should carry. If a real generated document has one, it leaked.
 - **Never cite `rules/`, `playbooks/`, `templates/`, or `scripts/` paths in a document written into the user's project.** Those are this Skill's own internal file structure — a reader has no access to them and no reason to care. If a rule's substance is genuinely worth restating for the reader, restate it in plain language; don't point at the file that defines it.
 - **Never echo the Skill's own policy language as if it were this project's own reasoning.** Calibration's phase-inclusion table (`playbooks/00-project-calibration.md`) is the clearest recurring case: "Always mandatory" / "Sempre obrigatória" restates the *Skill's* rule about that phase, not a reason specific to this project. Write the actual, project-specific reason a human would give — even a genuinely always-mandatory phase has a real one ("Security review is required for any product handling user accounts," not "always mandatory").
+- **Never use "Fully Dressed" or "Casual" as a label inside a generated document.** These are this Skill's own name for a documentation-depth choice (`rules/documentation-depth.md`), not a real domain or engineering term — a stakeholder reading, say, an API document has no way to know what "**Fully Dressed**" as a bare bold label even refers to, in any language. This one is easy to fall into by mistake specifically because every playbook's own "## Mandatory questions" section marks its depth-conditional questions with `*Fully Dressed only*` (italic, an instruction to the AI about which questions to ask — never bold, and never meant to be echoed into the actual document produced from the answers).
 
-`scripts/validate-tone.mjs` checks for these four patterns mechanically (`rules/quality-gate-structure.md`) — the check exists because the pattern is easy to fall into unnoticed while writing in the moment, not as a substitute for writing this way from the start.
+`scripts/validate-tone.mjs` checks for these five patterns mechanically (`rules/quality-gate-structure.md`) — the check exists because the pattern is easy to fall into unnoticed while writing in the moment, not as a substitute for writing this way from the start.
 
 ## The convention
 
@@ -31,7 +32,7 @@ step-by-step instructions.
 
 - **Heading**: starts with the artifact's ID, then an em dash (`—`), then a short title. Heading level (`#`, `##`, `###`...) follows whatever nesting makes sense for that document — the ID-first rule is what matters, not the level.
 - **Metadata line**: the first non-blank line right after the heading, wrapped in a single pair of `*asterisks*`, with `Key: value` pairs separated by ` · `. This is what a script parses — a heading followed immediately by an italic `Key: value · Key: value` line is treated as one artifact's metadata, nothing more exotic.
-- Everything after the metadata line — prose, bullet lists, tables, sub-headings for "Acceptance criteria" / "Edge cases" / etc. — is free-form, human-authored content. Scripts never need to parse it.
+- Everything after the metadata line — prose, bullet lists, tables, and each `**Bold label**` sub-section ("Acceptance criteria," "Edge cases," and so on) — has no fixed schema a script parses; that's what "free-form" means here. It is not free of the language requirement: a `**Bold label**` is exactly as much a section label as a `#`/`##` heading (`rules/language-policy.md`), and follows the project's confirmed language the same way — `scripts/validate-heading-language.mjs` checks the known ones mechanically, for the same reason it checks `#`/`##` headings: this has been missed in practice, at scale, even when the underlying rule was already stated elsewhere.
 
 ### Standard keys
 

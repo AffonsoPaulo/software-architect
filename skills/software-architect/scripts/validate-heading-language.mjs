@@ -107,7 +107,37 @@ const TABLE_HEADER_ROWS = [
   ['Metric', 'Baseline', 'Target', 'Measured'],
 ];
 
+// Every bold-only sub-label a template defines within an artifact's own
+// body — rules/document-format.md's "**Bold label**" convention for
+// genuinely list-shaped content (Acceptance criteria, Main flow, and so
+// on) that doesn't fit a table. These are exactly as much a "section
+// label" as a `#`/`##` heading is (rules/language-policy.md) and are
+// translated the same way — the same document-format.md sentence that
+// calls this content "free-form" is about there being no fixed schema a
+// script parses there, not about language being optional, but that
+// wording has been misread in practice: every one of these stayed in
+// English across a whole real project despite every paragraph beneath
+// each one being correctly translated. Checked project-wide (not one
+// path per phase) since most of these live inside item files, not a
+// phase's own index file. Matched as an exact, case-sensitive line —
+// project-specific bold emphasis the AI adds on its own (a translated
+// sentence bolded for emphasis) never coincidentally equals one of
+// these multi-word template labels verbatim.
+const BOLD_LABELS = [
+  'Failure modes', 'Example', // templates/api.md
+  'Dependencies', 'Acceptance test scenarios', // templates/backlog.md
+  'Indexes', 'Normalization notes', 'Retention and archival', // templates/database.md
+  'Invariants', // templates/domain-model.md
+  'States', 'Responsive behavior', 'Analytics events', // templates/frontend.md
+  'Acceptance criteria', 'Edge cases', // templates/requirements.md
+  'External dependencies', 'Success metrics', 'Milestone risks', // templates/roadmap.md
+  'Non-functional test detail', // templates/testing.md
+  'Preconditions', 'Main flow', 'Alternative/exception flows', 'Postconditions', 'Stakeholders and interests', 'Success guarantees', // templates/use-cases.md
+  'INVEST notes', 'Business value', 'Non-functional considerations', 'Out of scope for this story', 'Open questions', // templates/user-stories.md
+];
+
 const HEADING_RE = /^#{1,6}\s+(.*)$/gm;
+const BOLD_LABEL_RE = /^\*\*([^*]+)\*\*\s*$/gm;
 // A table header row followed immediately by its separator row
 // (`|---|---|`) — the separator is what distinguishes a real header
 // from an ordinary line of prose that happens to contain pipes.
@@ -148,6 +178,21 @@ function checkTableHeaders(path, content, violations, language) {
   }
 }
 
+function checkBoldLabels(path, content, bannedSet, violations, language) {
+  let m;
+  BOLD_LABEL_RE.lastIndex = 0;
+  while ((m = BOLD_LABEL_RE.exec(content))) {
+    const text = m[1].trim();
+    if (bannedSet.has(text)) {
+      violations.push({
+        type: 'untranslated-bold-label',
+        path,
+        message: `bold label "**${text}**" is still the template's literal English text — project language is "${language}", so this section label should be translated (rules/language-policy.md, rules/document-format.md)`,
+      });
+    }
+  }
+}
+
 export function validateHeadingLanguage(projectRoot) {
   const projectState = loadProjectState(projectRoot);
   if (!projectState) return [];
@@ -177,6 +222,13 @@ export function validateHeadingLanguage(projectRoot) {
     const path = d.path.replace(/\\/g, '/');
     if (d.isProjectState) continue; // English regardless of language, rules/document-format.md
     checkTableHeaders(path, d.content, violations, language);
+  }
+
+  const boldLabelSet = new Set(BOLD_LABELS);
+  for (const d of docs) {
+    const path = d.path.replace(/\\/g, '/');
+    if (d.isProjectState) continue;
+    checkBoldLabels(path, d.content, boldLabelSet, violations, language);
   }
 
   return violations;
