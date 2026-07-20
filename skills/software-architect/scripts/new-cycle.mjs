@@ -7,8 +7,7 @@
 // touching id_sequences, initializing ready_for_implementation/
 // ready_for_implementation_at/phases consistently, and keeping
 // active_cycle_id in sync — all easy to get subtly wrong typing YAML
-// by hand, the same class of silent failure as the front-matter/
-// delimiter bug this package already hit once.
+// by hand, a silent-failure class this script exists to prevent.
 //
 // Deliberately a targeted text insertion, not a parse-mutate-serialize
 // round trip: project-state.md's inline comments (its main affordance

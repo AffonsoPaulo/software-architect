@@ -1,6 +1,6 @@
 # Playbook 08 — Architecture
 
-> Runs before API Design (phase 09) by design — architectural style informs API shape, not the other way around. This ordering was flipped from an earlier revision of the Skill, where API Design ran first, once it became clear the API's shape should follow from the architectural style rather than decide it.
+> Runs before API Design (phase 09) by design — architectural style informs API shape, not the other way around. The API's shape must follow from the architectural style decided here, never decide it.
 
 ## Objective
 

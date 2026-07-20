@@ -1,6 +1,6 @@
 # Playbook 09 — API Design
 
-> Runs after Architecture (phase 08) by design — interaction contracts detail the style orientation already decided there. This ordering was flipped from an earlier revision of the Skill for the same reason phase 08 explains: the API's shape should follow the architectural style, not decide it.
+> Runs after Architecture (phase 08) by design — interaction contracts detail the style orientation already decided there. The API's shape must follow the architectural style, never decide it.
 >
 > **"API Design" is this phase's name, not a constraint on what it covers.** This Skill targets any system in any language — a REST/GraphQL/RPC API is one possible shape, but so is a server-rendered MVC monolith (Laravel Blade, Rails views, Django templates), a CLI command surface, an event/message handler, or a library/SDK's public interface. Every question and template field below is written to be answered in whatever vocabulary actually fits the project — never force a server-rendered route into JSON request/response thinking just because that's the common case.
 
