@@ -159,7 +159,7 @@ export function renderMarkdownToRtf(markdown, options = {}) {
       i++;
       const escapedLines = codeLines.map((l) => escapeRtfText(l)).join('\\line\n');
       if (lang.toLowerCase() === 'mermaid') {
-        out.push(`{\\pard\\sb160\\i\\fs18 ${escapeRtfText('[Mermaid diagram — shown as source; see the HTML export (build-doc-site.mjs) for a rendered version]')}\\i0\\par}`);
+        out.push(`{\\pard\\sb160\\i\\fs18 ${escapeRtfText('Diagram source below — paste it into mermaid.live to view it rendered.')}\\i0\\par}`);
       }
       out.push(`{\\pard\\box\\brdrs\\brdrw10\\brsp80\\li120\\ri120\\sb${lang.toLowerCase() === 'mermaid' ? '0' : '160'}\\sa160\\f1\\fs18 ${escapedLines}\\par}`);
       continue;
