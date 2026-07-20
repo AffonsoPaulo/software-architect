@@ -368,8 +368,13 @@ function checkDomainModelCompleteness(projectRoot) {
         continue;
       }
       const refMatch = belongsCell.match(/ENT-\d+/);
-      // No ENT-XXX token in the cell means "itself is the root" — valid
-      // regardless of the exact wording/language used to say so.
+      // No ENT-XXX token in the cell parses as "itself is the root" no
+      // matter what the rest of the cell's text actually says — this
+      // check doesn't require the literal English phrase. That parsing
+      // tolerance is not the same as language-policy.md's own authoring
+      // rule, though: "itself is the root" is closed vocabulary a
+      // project should still write literally, same as `Kind: Entity`/
+      // `Value object` on this same table (rules/language-policy.md).
       if (refMatch && !knownIds.has(refMatch[0])) {
         gaps.push(`${entId}: "Belongs to aggregate" references ${refMatch[0]}, which doesn't exist`);
       }
