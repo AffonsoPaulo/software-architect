@@ -9,11 +9,12 @@ Saved at `docs/CHANGELOG.md` in the target project (see `rules/document-location
 
 | Version | Author | Date | Description |
 |---|---|---|---|
+| 2.0.0 | Bob | 2026-08-01 | Cycle 2 calibration confirmed — add payment refunds |
 | 1.1.0 | Alice | 2026-07-14 | Added REQ-001, REQ-002, REQ-003 |
 | 1.0.0 | Alice | 2026-07-13 | Initial calibration confirmed |
 ```
 
-Newest entry first. One row per entry, never edited or removed once written — a correction to an entry's own description is itself a new entry, not a rewrite of the old one.
+Newest entry first. One row per entry, never edited or removed once written — a correction to an entry's own description is itself a new entry, not a rewrite of the old one. `2.0.0` above is not a typo or a skip — it's cycle 2's own Calibration gate passing, which resets Major to that cycle's own id and Minor/Patch to 0 (`rules/versioning.md`), rather than continuing the Minor count from `1.1.0`.
 
 - `Version` — semantic version (`Major.Minor.Patch`), decided per `rules/versioning.md`. Matches `project-state.md`'s top-level `docs_version` exactly at all times; the two are never out of sync.
 - `Author` — whoever drove the triggering event (the active cycle's author, or the closing CR's author) — never left blank (`rules/versioning.md`).

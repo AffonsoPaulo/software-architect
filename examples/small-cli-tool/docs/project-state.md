@@ -1,6 +1,6 @@
 skill_version: "0.1.0"
 
-docs_version: "1.24.0"
+docs_version: "2.10.0"
 
 language: "en"
 language_history:
@@ -369,67 +369,67 @@ changelog:
     description: "Architecture review complete, ready for implementation"
     cycle_id: 1
     cr_id: null
-  - version: "1.14.0"
+  - version: "2.0.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Cycle 2 calibration confirmed — add YAML support"
     cycle_id: 2
     cr_id: null
-  - version: "1.15.0"
+  - version: "2.1.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added REQ-003 (YAML support)"
     cycle_id: 2
     cr_id: null
-  - version: "1.16.0"
+  - version: "2.2.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added US-002 (YAML support)"
     cycle_id: 2
     cr_id: null
-  - version: "1.17.0"
+  - version: "2.3.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added UC-002 (YAML support)"
     cycle_id: 2
     cr_id: null
-  - version: "1.18.0"
+  - version: "2.4.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added ARCH-002 (YAML parser adapter)"
     cycle_id: 2
     cr_id: null
-  - version: "1.19.0"
+  - version: "2.5.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added API-002 (YAML command option)"
     cycle_id: 2
     cr_id: null
-  - version: "1.20.0"
+  - version: "2.6.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added TEST-003 (YAML test plan)"
     cycle_id: 2
     cr_id: null
-  - version: "1.21.0"
+  - version: "2.7.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Roadmap updated with YAML milestone"
     cycle_id: 2
     cr_id: null
-  - version: "1.22.0"
+  - version: "2.8.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Added TASK-003 (YAML implementation task)"
     cycle_id: 2
     cr_id: null
-  - version: "1.23.0"
+  - version: "2.9.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Implementation plan updated for YAML rollout"
     cycle_id: 2
     cr_id: null
-  - version: "1.24.0"
+  - version: "2.10.0"
     author: "Jordan"
     date: "2026-06-10"
     description: "Cycle 2 review complete, ready for implementation"

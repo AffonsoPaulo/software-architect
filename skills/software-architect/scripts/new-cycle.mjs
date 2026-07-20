@@ -20,6 +20,14 @@
 // confirmed conversationally, per confirmation-protocol.md, before this
 // runs; this only applies what was already confirmed, mechanically.
 //
+// Deliberately does NOT touch docs_version or the changelog, even though
+// this new cycle's own id becomes docs_version's next Major component
+// (rules/versioning.md) — this script runs before that cycle's own
+// Calibration gate has passed, and docs_version must never move without
+// a matching docs/CHANGELOG.md entry (validate-versioning.mjs checks the
+// two stay in lockstep). The console output below reminds the caller
+// where that reset actually belongs.
+//
 // Usage:
 //   node new-cycle.mjs <project-root> --scope "<scope>" --author "<author>"
 // Can also be imported: `import { createNewCycle } from './new-cycle.mjs'`
@@ -131,6 +139,7 @@ function main() {
     console.log('Inserted block:');
     console.log(result.cycleBlock);
     console.log('\nRun scripts/validate-ids.mjs and scripts/validate-versioning.mjs against this project next, to confirm the file is still well-formed.');
+    console.log(`\nReminder (rules/versioning.md): docs_version/CHANGELOG.md are untouched by this script on purpose — this cycle's own Calibration gate hasn't passed yet. Once it does, log that entry as "${result.newId}.0.0" (Major = ${result.newId}, this cycle's own id; Minor and Patch both reset to 0), not a continuation of the previous cycle's Minor count.`);
   } catch (err) {
     console.error(`new-cycle: ${err.message}`);
     process.exit(1);
