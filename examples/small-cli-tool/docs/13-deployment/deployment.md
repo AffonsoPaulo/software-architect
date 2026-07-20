@@ -26,4 +26,4 @@ flowchart TD
 **Alerts**: None — no hosted service to alert on.
 
 ## Secrets management
-The npm publish token is a GitHub Actions repository secret — consistent with `docs/11-security/security.md`'s secrets strategy (the tool itself has no secrets; this is a CI-only concern, checked and found non-contradictory).
+The npm publish token is a GitHub Actions repository secret — consistent with [Security](../11-security/security.md)'s secrets strategy (the tool itself has no secrets; this is a CI-only concern, checked and found non-contradictory).

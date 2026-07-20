@@ -14,7 +14,7 @@ Seeded multi-tenant fixtures (at least 2 distinct tenants in every integration t
 **Exit**: 100% of Must-have REQs have a passing automated test in CI; TEST-004 (load test) has run against staging at least once before any production deploy of a change touching ARCH-001 or ARCH-003.
 
 ## Test environment
-Staging, provisioned to mirror production's topology at smaller scale (`docs/13-deployment/deployment.md`) — chosen specifically so REQ-004's load characteristics are representative before hitting production.
+Staging, provisioned to mirror production's topology at smaller scale ([Deployment](../13-deployment/deployment.md)) — chosen specifically so REQ-004's load characteristics are representative before hitting production.
 
 ## Defect management
 Tracked in the team's existing GitHub Issues workflow; severity levels Sev1 (data leak/cross-tenant issue, blocks release) through Sev3 (cosmetic). Triaged by the engineering lead within one business day.

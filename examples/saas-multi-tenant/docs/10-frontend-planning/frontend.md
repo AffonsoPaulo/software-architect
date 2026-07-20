@@ -13,7 +13,7 @@ Web only for this release.
 Target: WCAG 2.1 AA. Specific focus areas given the product's core interactions: the task board's filter controls and the task-create form must be fully keyboard-navigable, since status updates are a frequent, repetitive action.
 
 ## Content and tone guidelines
-Plain, direct language matching the product's utilitarian purpose — no marketing tone in-app. Error messages name the specific problem (matches `docs/09-api-design/api.md`'s failure format philosophy) rather than generic "something went wrong" text.
+Plain, direct language matching the product's utilitarian purpose — no marketing tone in-app. Error messages name the specific problem (matches [API Design](../09-api-design/api.md)'s failure format philosophy) rather than generic "something went wrong" text.
 
 ## Screens
 

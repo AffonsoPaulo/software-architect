@@ -1,7 +1,7 @@
 # Implementation Plan
 
 ## Definition of Done
-Tests pass (unit+integration, and e2e/load where applicable per `docs/12-testing/testing.md`), code reviewed by at least one other engineer, deployed successfully to staging, docs updated.
+Tests pass (unit+integration, and e2e/load where applicable per [Testing](../12-testing/testing.md)), code reviewed by at least one other engineer, deployed successfully to staging, docs updated.
 
 ## Sequence
 

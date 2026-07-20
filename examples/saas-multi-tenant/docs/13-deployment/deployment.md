@@ -36,7 +36,7 @@ Blue-green deployment — the previous container version stays running until the
 **Alerts**: p95 latency exceeding 300ms for 5 minutes (REQ-004 threshold), error rate exceeding 1%, any cross-tenant-access test failure in CI blocks deploy entirely rather than alerting post-deploy.
 
 ## Secrets management
-AWS Secrets Manager — matches `docs/11-security/security.md`'s secrets strategy exactly, checked explicitly and consistent.
+AWS Secrets Manager — matches [Security](../11-security/security.md)'s secrets strategy exactly, checked explicitly and consistent.
 
 ## Capacity planning
 Autoscaling trigger for ARCH-001: CPU > 70% for 5 minutes, or request queue depth > 50, sustained for 2 minutes. Sized against REQ-004's 500-concurrent-user target with headroom for the "10 customers" growth target in Vision before the next capacity review is needed.

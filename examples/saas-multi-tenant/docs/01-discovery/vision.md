@@ -37,7 +37,7 @@ Must launch a usable MVP within one quarter. Must support the design-partner cus
 
 ## Assumptions and dependencies
 - Assumes the design-partner customer's ~30 users are willing to fully switch off their spreadsheet during the pilot, not run both in parallel indefinitely.
-- Assumes Google Workspace and Microsoft SSO cover the identity providers of the first 10 target customers — unverified beyond the design partner (see RISK-001 in `docs/11-security/risk-register.md`).
+- Assumes Google Workspace and Microsoft SSO cover the identity providers of the first 10 target customers — unverified beyond the design partner (see [RISK-001](../11-security/risk-001.md)).
 - Depends on the design-partner customer providing timely feedback during the MVP build — a delay on their side directly threatens the one-quarter deadline.
 
 ## Business-level risks

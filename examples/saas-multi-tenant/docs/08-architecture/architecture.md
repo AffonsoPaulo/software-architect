@@ -54,9 +54,9 @@ sequenceDiagram
 ```
 
 ## Crosscutting concepts
-- **Logging**: structured JSON, every log line tagged with `tenant_id`, never with PII fields (per `docs/11-security/security.md`'s data classification) — enforced by a shared logging wrapper, not left to each module to remember.
-- **Error handling**: every module throws a small set of typed application errors (NotFound, Forbidden, Validation); a single top-level handler in ARCH-001 maps them to the API's standard failure format (`docs/09-api-design/api.md`) — no module formats its own HTTP error response.
-- **Configuration**: environment variables for non-secret config, AWS Secrets Manager for everything else (`docs/11-security/security.md`'s secrets strategy) — no config file checked into the repository.
+- **Logging**: structured JSON, every log line tagged with `tenant_id`, never with PII fields (per [Security](../11-security/security.md)'s data classification) — enforced by a shared logging wrapper, not left to each module to remember.
+- **Error handling**: every module throws a small set of typed application errors (NotFound, Forbidden, Validation); a single top-level handler in ARCH-001 maps them to the API's standard failure format ([API Design](../09-api-design/api.md)) — no module formats its own HTTP error response.
+- **Configuration**: environment variables for non-secret config, AWS Secrets Manager for everything else ([Security](../11-security/security.md)'s secrets strategy) — no config file checked into the repository.
 - **Data access**: Repository-style modules per domain (no module runs raw queries directly), routing reads to the read replica and writes to primary via ARCH-003 — the same single enforcement point ADR-002 relies on for RLS, rather than isolation being one guarantee among many scattered ad hoc queries.
 
 ## Quality tree

@@ -1,7 +1,7 @@
 # Implementation Plan
 
 ## Definition of Done
-Tests pass (per `docs/12-testing/testing.md`), code reviewed, README updated if user-facing behavior changed.
+Tests pass (per [Testing](../12-testing/testing.md)), code reviewed, README updated if user-facing behavior changed.
 
 ## Sequence
 

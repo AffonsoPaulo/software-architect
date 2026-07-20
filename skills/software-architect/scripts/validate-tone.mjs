@@ -62,6 +62,45 @@ function findMatches(content, re, type, describe) {
   return violations;
 }
 
+// rules/document-format.md's "Cross-referencing another document in
+// prose": a bare `docs/...` path sitting in running text, with no
+// markdown link around it, sends the reader to browse a whole document
+// hunting for the relevant part instead of clicking straight to it.
+// Table rows (`| docs/... | ... |`) are the one established exception —
+// a Change Request's own Impact list `Document` column names the bare
+// path deliberately, a mechanical tracking record rather than
+// reader-directed prose — so this only scans non-table lines.
+const DOCS_PATH_RE = /\bdocs\/[\w./-]+\.md\b/g;
+const MARKDOWN_LINK_URL_RE = /\]\(([^)]+)\)/g;
+
+function findBareDocsPathCitations(content) {
+  const violations = [];
+  for (const line of content.split('\n')) {
+    if (line.trim().startsWith('|')) continue; // table row — established exception, above
+    const linkRanges = [];
+    let lm;
+    MARKDOWN_LINK_URL_RE.lastIndex = 0;
+    while ((lm = MARKDOWN_LINK_URL_RE.exec(line))) {
+      const urlStart = lm.index + 2; // past the "]("
+      linkRanges.push([urlStart, urlStart + lm[1].length]);
+    }
+    let m;
+    DOCS_PATH_RE.lastIndex = 0;
+    while ((m = DOCS_PATH_RE.exec(line))) {
+      const start = m.index;
+      const end = start + m[0].length;
+      if (linkRanges.some(([s, e]) => start >= s && end <= e)) continue; // inside a real link's URL — fine
+      violations.push({
+        type: 'bare-docs-path-citation',
+        match: m[0],
+        index: 0,
+        message: `"${m[0]}" cites another document's raw path in running prose instead of a real markdown link (rules/document-format.md's "Cross-referencing another document in prose") — link the specific artifact by ID, or the document itself if it has no ID, not a bare path`,
+      });
+    }
+  }
+  return violations;
+}
+
 export function validateTone(projectRoot) {
   const violations = [];
   const documents = loadAllDocuments(projectRoot);
@@ -85,6 +124,10 @@ export function validateTone(projectRoot) {
       for (const v of findMatches(doc.content, re, type, describe)) {
         violations.push({ ...v, path: doc.path });
       }
+    }
+
+    for (const v of findBareDocsPathCitations(doc.content)) {
+      violations.push({ ...v, path: doc.path });
     }
   }
 
