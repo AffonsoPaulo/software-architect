@@ -33,9 +33,10 @@ const CHECK_ICON = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" 
 // "copy" button — one button per source .md file, since every file in
 // this Skill's docs/ (index or item) is already a complete, standalone
 // document per rules/document-format.md.
-function wrapArtifactBlock(html, rawContent) {
+function wrapArtifactBlock(html, rawContent, copyMarkdownLabel) {
   const b64 = Buffer.from(rawContent, 'utf8').toString('base64');
-  return `<div class="artifact-block">${html}<button type="button" class="copy-btn" data-md="${b64}" title="Copy markdown" aria-label="Copy markdown">${COPY_ICON}</button></div>`;
+  const label = escapeHtml(copyMarkdownLabel);
+  return `<div class="artifact-block">${html}<button type="button" class="copy-btn" data-md="${b64}" title="${label}" aria-label="${label}">${COPY_ICON}</button></div>`;
 }
 
 function rewriteMdLink(href) {
@@ -59,7 +60,7 @@ function rewriteMdLink(href) {
 // what lets the sidebar reflect that translation instead of silently
 // falling back to English (see buildNav's fallback for when a phase
 // genuinely has no such heading yet, e.g. an empty draft).
-function renderPhase(projectRoot, phase, chapterNum) {
+function renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel) {
   const files = collectPhaseFiles(projectRoot, phase);
   if (!files) return null;
 
@@ -70,7 +71,7 @@ function renderPhase(projectRoot, phase, chapterNum) {
   for (const f of files) {
     const content = f.isMain ? prefixChapterHeading(f.content, chapterNum) : f.content;
     const { html, headings } = renderMarkdown(content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, f.content));
+    sections.push(wrapArtifactBlock(html, f.content, copyMarkdownLabel));
     if (f.isMain) {
       const titleHeading = headings.find((h) => !h.isArtifact);
       if (titleHeading) mainTitle = titleHeading.text;
@@ -83,23 +84,23 @@ function renderPhase(projectRoot, phase, chapterNum) {
   return { html: sections.join('\n'), navItems, mainTitle };
 }
 
-function renderChangelog(projectRoot, chapterNum) {
+function renderChangelog(projectRoot, chapterNum, copyMarkdownLabel) {
   const file = readChangelogFile(projectRoot);
   if (!file) return null;
   const content = prefixChapterHeading(file.content, chapterNum);
   const { html, headings } = renderMarkdown(content, { namespace: file.namespace, rewriteLink: rewriteMdLink });
   const titleHeading = headings.find((h) => !h.isArtifact);
-  return { html: wrapArtifactBlock(html, file.content), mainTitle: titleHeading ? titleHeading.text : null };
+  return { html: wrapArtifactBlock(html, file.content, copyMarkdownLabel), mainTitle: titleHeading ? titleHeading.text : null };
 }
 
-function renderChangeRequests(projectRoot) {
+function renderChangeRequests(projectRoot, copyMarkdownLabel) {
   const files = collectChangeRequestFiles(projectRoot);
   if (!files) return null;
   const sections = [];
   const navItems = [];
   for (const f of files) {
     const { html, headings } = renderMarkdown(f.content, { namespace: f.namespace, rewriteLink: rewriteMdLink });
-    sections.push(wrapArtifactBlock(html, f.content));
+    sections.push(wrapArtifactBlock(html, f.content, copyMarkdownLabel));
     for (const h of headings) if (h.isArtifact) navItems.push({ id: h.id, text: h.text, idLabel: h.idLabel, title: h.title });
   }
   return { html: sections.join('\n'), navItems };
@@ -451,6 +452,8 @@ export function buildDocSite(projectRoot, outputPath) {
   const projectState = loadProjectState(projectRoot);
   const labels = (projectState && projectState.export_labels) || {};
   const crLabel = labels.change_requests || 'Change Requests';
+  const copyMarkdownLabel = labels.copy_markdown || 'Copy markdown';
+  const projectDocLabel = labels.project_documentation || 'Project Documentation';
 
   const navParts = [];
   const contentParts = [];
@@ -458,21 +461,21 @@ export function buildDocSite(projectRoot, outputPath) {
 
   for (const phase of EXPORTABLE_PHASES) {
     chapterNum++;
-    const rendered = renderPhase(projectRoot, phase, chapterNum);
+    const rendered = renderPhase(projectRoot, phase, chapterNum, copyMarkdownLabel);
     if (!rendered) { chapterNum--; continue; }
     const phaseId = phase.dir;
     navParts.push(buildNav(phaseId, resolveNavTitle(phase, rendered.mainTitle), rendered.navItems));
     contentParts.push(`<section id="${phaseId}">${rendered.html}</section>`);
   }
 
-  const crRendered = renderChangeRequests(projectRoot);
+  const crRendered = renderChangeRequests(projectRoot, copyMarkdownLabel);
   if (crRendered) {
     chapterNum++;
     navParts.push(buildNav('change-requests', `${chapterNum} · ${crLabel}`, crRendered.navItems));
     contentParts.push(`<section id="change-requests"><h1>${chapterNum} — ${escapeHtml(crLabel)}</h1>${crRendered.html}</section>`);
   }
 
-  const changelogRendered = renderChangelog(projectRoot, chapterNum + 1);
+  const changelogRendered = renderChangelog(projectRoot, chapterNum + 1, copyMarkdownLabel);
   if (changelogRendered) {
     chapterNum++;
     // mainTitle already carries its chapter number (renderChangelog
@@ -483,7 +486,7 @@ export function buildDocSite(projectRoot, outputPath) {
   }
 
   const projectName = basename(resolve(projectRoot));
-  const title = `${projectName} — Project Documentation`;
+  const title = `${projectName} — ${projectDocLabel}`;
 
   // Per rules/document-format.md's "Never let the Skill's own process
   // show through": version and freshness are what a real document's own
