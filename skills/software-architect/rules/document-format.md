@@ -73,6 +73,21 @@ Some categories split into an index file plus one file per item instead of one f
 - **An item file's heading is `#` (H1)**, not nested under a category grouping — the file *is* the artifact now, not a subsection of a bigger document. `# REQ-001 — Post a recipe` at the top of `req-001.md`, metadata line immediately after, exactly as in any other artifact declaration.
 - **The index file's summary table links to each item file** with a relative markdown link (`[REQ-001](req-001.md)`), plus enough inline context (title, and whatever dimension the category is naturally organized by — type, priority, milestone) to browse the whole category without opening every file. The index file carries no `Traces to` metadata line of its own — it's not an artifact, just a table of contents plus whatever category-wide narrative genuinely spans every item (an intro paragraph, a diagram, a coverage table).
 
+### Cross-referencing another document in prose
+
+When one document's prose needs to point a reader at related content living in a *different* document, it's a real, clickable relative markdown link — never a bare file path sitting in the text on its own. The same convention an index file's summary table already uses (above) applies to any prose reference, not just that one table. When the target has its own artifact ID, the link points at that specific artifact, not the whole category it lives in — a path with no artifact anchor sends the reader to browse a document with dozens of entries hunting for the one relevant part. When the target is a category with no reserved ID (Vision, Roadmap, Deployment, and the rest of `rules/document-locations.md`'s single-file list), link the document itself by name instead.
+
+- **Wrong**: "Professor, Coordenador, and School Administrator are modeled as roles assignable to one login identity — see `docs/06-domain-model/domain-model.md`." *(No link, and it points at the whole 26-entity index rather than the one entity this sentence is actually about.)*
+- **Right**: "Professor, Coordenador, and School Administrator are modeled as roles assignable to one login identity — see [ENT-022 — OperationalUser](../06-domain-model/ent-022.md)." *(A real, clickable link to the specific entity, the same way any other artifact reference in this document already works.)*
+- **Wrong**: "`docs/01-discovery/vision.md` receives two additions:" *(Vision has no artifact ID to anchor to, but that's not license to drop the link entirely.)*
+- **Right**: "[Vision](../01-discovery/vision.md) receives two additions:"
+
+The link *text* for a no-ID document follows the project's confirmed language exactly like any other prose (`rules/language-policy.md`) — "Vision" only for an English project; `[Visão](../01-discovery/vision.md)` for a `language: "pt"` one. It's a phase/category name a stakeholder reads, not a fixed key or an ID, so nothing exempts it.
+
+The one established exception is a Change Request's own Impact list table (`templates/change-request.md`) — its `Document` column is a mechanical tracking record of which files need reapproval, not prose directing a reader anywhere, so it names the bare path deliberately, the same way it doesn't need a `Traces to` line of its own.
+
+This applies even when the referenced artifact didn't exist yet when this document was first written — a Business Analysis document amended after Domain Model (phase 06) ran still links the real `ENT-XXX` it now knows about, not a placeholder or a generic path, once that entity exists to link to.
+
 ### Tables for structured, non-traceability data
 
 Data that's inherently tabular and never participates in the traceability graph — database columns, a coverage matrix — is a plain markdown table, not a metadata line. Nothing parses these; they exist purely for the reader.

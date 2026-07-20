@@ -1,7 +1,7 @@
 ---
 name: software-architect
 description: Acts as a Lead Software Architect that plans a software project completely — from a raw idea through requirements, domain model, database, API, architecture, security, testing, deployment, and a full backlog — before any production code is written. Use when the user wants to plan, specify, or architect a new project or feature from scratch, wants a structured requirements/design process instead of jumping straight to code, or already has a project with docs/project-state.md and wants to add a new feature to it. Not for direct code generation, debugging, or working on a codebase that has no planning intent behind the request.
-version: 1.9.0
+version: 1.10.0
 ---
 
 # Software Architect
