@@ -71,6 +71,22 @@ consider it a success or a failure.>
 |---|---|---|
 | <group> | <what they care about in this project> | <what would make them consider it a success, or a failure> |
 
+## User journey
+<A short, plain-language narrative of how a primary user might
+experience this product end to end — a "day in the life" sketch, not a
+functional spec. Written this early in the project, before Use Cases
+(phase 05) exist, this is intentionally a rough, non-binding sketch: it
+gives anyone opening this document a readable mental model of the
+product, not a source of truth. Use Cases, once confirmed, are the
+authoritative, detailed version of how the product actually behaves —
+this narrative may reasonably diverge from what they eventually
+formalize as the project gets specified in detail, and that's not a
+defect to reconcile. Naming a feature or screen in passing, in service
+of the story, is fine ("she opens the app and sees her orders") — this
+section crosses into functional-requirement territory only if it starts
+specifying inputs, validation, or exact behavior, which belongs to
+phase 03 instead (see "What this document must never contain" below).>
+
 ## Current state
 <What exists today: current system, competitors, manual process being
 replaced. "Nothing, this is greenfield" is a valid answer if confirmed as
@@ -87,6 +103,19 @@ months.>
 new revenue, market position, competitive parity. Distinct from
 "Business objective": objective is the falsifiable target, opportunity is
 the broader upside case behind pursuing it at all.>
+
+## Guiding principles
+<A short, explicit list of the product/design principles meant to shape
+decisions throughout the project — the kind of thing that otherwise
+stays implicit and scattered (a phrase in Business objective here, a
+note buried in a User Story there), forcing every future session or
+teammate to reconstruct it from context instead of reading it in one
+place. 2-5 principles is typical; each one concrete enough to actually
+guide a decision later — "prefer a human-reviewed step over full
+automation for anything irreversible" is a principle, "be user-friendly"
+is not.>
+
+- <principle> — <why it matters for this project specifically>
 
 ## Success criteria
 <At least one measurable criterion. "Users like it" is not measurable;
@@ -130,4 +159,4 @@ explicitly rather than leaving the section empty by omission.>
 
 ## What this document must never contain
 
-Functional requirements, acceptance criteria, or anything with a `REQ-XXX` ID — those belong to `docs/03-requirements/requirements.md` (phase 03). Vision describes the problem and what success looks like, not the solution's behavior. If a draft answer starts describing specific features or flows, that content belongs in phase 03's interview, not here — note it for later rather than documenting it now.
+Functional requirements, acceptance criteria, or anything with a `REQ-XXX` ID — those belong to `docs/03-requirements/requirements.md` (phase 03). Vision describes the problem and what success looks like, not the solution's behavior. If a draft answer starts describing specific features or flows, that content belongs in phase 03's interview, not here — note it for later rather than documenting it now. This applies to "User journey" too, even though it's narrative: a story that happens to name a screen or action in passing is fine, one that starts specifying inputs, validation rules, or exact system behavior has crossed into phase 03's territory wearing Vision's voice.

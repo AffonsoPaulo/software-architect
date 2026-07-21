@@ -35,6 +35,8 @@ Skippable when Calibration determined the project context is already clear enoug
 *Fully Dressed only* (`rules/documentation-depth.md`):
 - What's the broader business opportunity beyond just solving the problem (new revenue, market position, competitive parity)?
 - Who are the distinct stakeholder groups (not just end users), and what does each care about?
+- In a few sentences, how might a primary user experience this product end to end — a rough "day in the life," not a functional spec?
+- What product/design principles should shape decisions throughout the project — the kind of thing that otherwise stays implicit and has to be reconstructed from context later?
 - What assumptions is this Vision resting on, and what external dependencies does it have?
 - What business-level risks threaten this project's success (not technical risk — that's phase 11)?
 - For each success criterion: what's the current baseline, and how/when will it actually be measured?
@@ -49,10 +51,13 @@ Skippable when Calibration determined the project context is already clear enoug
 
 1. Problem, and who has it — first, because everything else is easier to ask once this is grounded.
 2. Target audience / stakeholders.
-3. Current state (what exists today) — if brownfield research already ran in Calibration, propose what it found and confirm rather than asking from scratch.
-4. Business objective and success criteria together — a vague objective is usually fixed by asking for the success criterion first ("how would you know in six months this worked?"), then restating the objective in those terms.
-5. Constraints — `[confirmation individual]`.
-6. Out of scope — explicitly asked, never left implicit.
+3. *Fully Dressed*: User journey — once the audience is concrete, sketch how they'd experience the product; too abstract to ask meaningfully before this point.
+4. Current state (what exists today) — if brownfield research already ran in Calibration, propose what it found and confirm rather than asking from scratch.
+5. Business objective and business opportunity together.
+6. *Fully Dressed*: Guiding principles — once the objective/opportunity are grounded, ask what principles should shape decisions in pursuit of them.
+7. Success criteria — a vague objective is usually fixed by asking for the success criterion first ("how would you know in six months this worked?"), then restating the objective in those terms.
+8. Constraints — `[confirmation individual]`.
+9. Out of scope — explicitly asked, never left implicit.
 
 ## How to confirm answers
 
@@ -68,6 +73,8 @@ Each confirmed answer maps directly to its `templates/vision.md` section. If an 
 - The business objective is specific enough to be falsifiable, not just aspirational.
 - At least one success criterion is genuinely measurable.
 - "Out of scope" is not empty by omission — it was explicitly asked about, even if the answer is "nothing specific."
+- *Fully Dressed*: "User journey" reads as a narrative, not a numbered functional flow, and doesn't specify inputs, validation, or exact behavior.
+- *Fully Dressed*: "Guiding principles" are concrete enough to actually inform a future decision, not restatements of "be user-friendly"-style platitudes.
 
 ## Special cases
 
@@ -84,6 +91,8 @@ Each confirmed answer maps directly to its `templates/vision.md` section. If an 
 - Accepting a success criterion that isn't actually measurable ("users will be happier").
 - Letting requirements-level detail (specific features, flows, screens) creep into the Vision document instead of parking it for phase 03.
 - Treating "out of scope" as optional to ask about.
+- Letting "User journey" drift into a numbered, functional-flow-shaped description — it's a narrative sketch, not an early draft of a Use Case's Main flow.
+- Treating "Guiding principles" as a summary of what was already said elsewhere instead of asking for it directly — the whole point is surfacing what stays implicit otherwise, not restating Business objective in bullet form.
 
 ## Examples
 
