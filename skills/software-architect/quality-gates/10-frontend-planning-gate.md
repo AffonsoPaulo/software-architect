@@ -14,6 +14,7 @@
 - [ ] Screen-to-Use-Case mapping reflects what was actually confirmed (including many-to-many cases), not a forced 1:1 assumption
 - [ ] Every screen has a `Description` that states its own role, not a restatement of its Use Case's title, and a `Composition` naming components without specifying props, variants, or internal state
 - [ ] The component inventory's entries actually reflect names used across more than one screen's Composition — not invented, not missing a genuine repeat (the existence of each referenced `SCR-XXX` is scriptable, above; whether the reuse itself is real is still a reading-comprehension call)
+- [ ] Every screen states its States/Responsive behavior/Analytics events fields explicitly — "Same as General conventions" or the actual divergence — never silently omitted
 - [ ] Every screen was explicitly confirmed by the user, per `rules/confirmation-protocol.md`
 
 ## Pass rule

@@ -11,4 +11,5 @@
 - [ ] Screen-to-Use-Case mapping reflects what was actually confirmed
 - [ ] Every screen has a genuine Description and a Composition without props/variants/internal state
 - [ ] Component inventory entries match components actually reused across screens
+- [ ] Every screen states States/Responsive behavior/Analytics events explicitly, never omitted
 - [ ] Every screen was explicitly confirmed by the user

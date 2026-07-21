@@ -95,17 +95,14 @@ requirements beyond the baseline — screen reader support, keyboard
 navigation, color contrast. "Baseline WCAG 2.1 AA, nothing beyond" is
 valid if that's genuinely the target.>
 
-## Content and tone guidelines
-<How copy should read across screens — voice, terminology consistency
-(tie back to the Domain Model's ubiquitous language if Fully Dressed
-there too), error-message tone. "(none) — follow existing brand
-guidelines at <link>" is valid if one already exists.>
-
 ## General conventions
-<Default loading/empty/error states, responsive behavior, and
-analytics-tracking stance that apply to every screen unless that
-screen's own file explicitly says otherwise — written once here instead
-of repeated verbatim on every item file.>
+<Default loading/empty/error states, responsive behavior, analytics-
+tracking stance, and content/tone guidance that apply to every screen
+unless that screen's own file explicitly says otherwise — written once
+here instead of repeated verbatim on every item file. Content and tone
+belongs here, not a separate section of its own: it's the same kind of
+project-wide default as the other three, not a different category of
+thing.>
 
 **States**
 | State | What the user sees |
@@ -122,6 +119,12 @@ of repeated verbatim on every item file.>
 convention if so — or "(none) — not instrumented" if analytics isn't
 part of this project.>
 
+**Content and tone**
+<How copy should read across screens — voice, terminology consistency
+(tie back to the Domain Model's ubiquitous language if Fully Dressed
+there too), error-message tone. "(none) — follow existing brand
+guidelines at <link>" is valid if one already exists.>
+
 ## Responsive breakpoints
 <The actual breakpoint values used project-wide (e.g. mobile <768px,
 tablet 768–1024px, desktop >1024px), so every screen's responsive
@@ -137,17 +140,17 @@ behavior refers to the same scale.>
 **Calls**: API-001
 **Permission**: ...
 
-**States** (only if this screen diverges from the index's General
-conventions — omit entirely otherwise)
+**States**: always stated, never omitted — each row is either "Same as
+General conventions" or this screen's actual diverging content.
 | State | What the user sees |
 |---|---|
+| Loading | Same as General conventions |
 | Empty | "You haven't created any recipes yet." |
+| Error | Same as General conventions |
 
-**Responsive behavior** (only if diverging from General conventions)
-<...>
+**Responsive behavior**: Same as General conventions.
 
-**Analytics events** (only if diverging from General conventions)
-<...>
+**Analytics events**: Same as General conventions.
 ```
 
 ## Notes for whoever fills this in
@@ -158,5 +161,5 @@ conventions — omit entirely otherwise)
 - **Composition names components, it doesn't specify them** — no props, no variants, no internal state; those are implementation detail, decided when the component is actually built.
 - This phase does not design visual style, exact layout, or pixel-level detail — it plans structure and navigation, not the interface itself.
 - **`SCR-XXX` IDs** come from `project-state.md`'s `id_sequences.SCR`, global to the project, same mechanism as every other category.
-- **A screen's States/Responsive behavior/Analytics events sections are additive, not repetitive** — omit them entirely on a screen that follows the index's General conventions; include only what diverges.
+- **A screen's States/Responsive behavior/Analytics events fields are never omitted, even when they fully match General conventions** — state "Same as General conventions" explicitly rather than leaving the field out, the same principle as an empty `Traces to` still being written as `(none)` rather than left blank (`rules/document-format.md`): a reader should never have to wonder whether a missing field means "matches the default" or "nobody considered it."
 - **Server-rendered / MVC projects**: don't treat this document and `docs/09-api-design/api.md` as fully independent — a screen here is very often the same thing as an interaction unit there. This document adds navigation/structure framing on top of what's already defined in `api.md`; it doesn't redefine the route.

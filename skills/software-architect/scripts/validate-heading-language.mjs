@@ -40,7 +40,7 @@ const TEMPLATE_HEADINGS = [
   { path: 'docs/07-database-design/database.md', headings: ['Database Design', 'Database type', 'Migration strategy'] },
   { path: 'docs/08-architecture/architecture.md', headings: ['Architecture', 'Architectural style', 'Architectural pattern', 'Core technologies', 'Non-functional requirement coverage', 'Interaction style guidance'] },
   { path: 'docs/09-api-design/api.md', headings: ['API Design', 'Interaction style', 'Versioning strategy', 'Failure format'] },
-  { path: 'docs/10-frontend-planning/frontend.md', headings: ['Frontend Planning', 'State management', 'Design system', 'Target platforms', 'Frontend topology', 'Component organization', 'Component inventory', 'Screens', 'Navigation', 'Accessibility', 'Content and tone guidelines', 'General conventions', 'Responsive breakpoints'] },
+  { path: 'docs/10-frontend-planning/frontend.md', headings: ['Frontend Planning', 'State management', 'Design system', 'Target platforms', 'Frontend topology', 'Component organization', 'Component inventory', 'Screens', 'Navigation', 'Accessibility', 'General conventions', 'Responsive breakpoints'] },
   { path: 'docs/11-security/security.md', headings: ['Security', 'Threat model', 'Authentication and authorization', 'Data classification', 'Compliance', 'Secrets strategy', 'Controls'] },
   { path: 'docs/12-testing/testing.md', headings: ['Testing', 'Test levels', 'Coverage target', 'Test data strategy'] },
   { path: 'docs/13-deployment/deployment.md', headings: ['Deployment', 'Environments', 'Provider/infrastructure', 'CI/CD pipeline'] },
@@ -128,7 +128,7 @@ const BOLD_LABELS = [
   'Dependencies', 'Acceptance test scenarios', // templates/backlog.md
   'Indexes', 'Normalization notes', 'Retention and archival', // templates/database.md
   'Invariants', // templates/domain-model.md
-  'States', 'Responsive behavior', 'Analytics events', // templates/frontend.md
+  'States', 'Responsive behavior', 'Analytics events', 'Content and tone', // templates/frontend.md
   'Acceptance criteria', 'Edge cases', // templates/requirements.md
   'External dependencies', 'Success metrics', 'Milestone risks', // templates/roadmap.md
   'Non-functional test detail', // templates/testing.md
