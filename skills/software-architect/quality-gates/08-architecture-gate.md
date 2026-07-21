@@ -9,6 +9,7 @@
 - [ ] Every consequential decision (style, architectural pattern, core technology, any high-reversal-cost choice) has an associated ADR
 - [ ] Every component has a single, clear responsibility — not overlapping or vague
 - [ ] Architectural style, architectural pattern, and core technologies were individually confirmed, regardless of confirmation mode, and pattern was not silently inferred from style
+- [ ] If phase 10 (Frontend Planning) is included, frontend topology was individually confirmed as its own decision — never assumed to be "a single application" by default
 - [ ] In brownfield mode, the architecture described reflects the actual existing system, not an assumed one
 - [ ] `interaction_style_guidance` is specific enough for phase 09 to consume without re-asking the high-level question, and names what the project actually is rather than defaulting to REST
 

@@ -52,16 +52,16 @@ An empty relationship is written explicitly, never omitted: `Traces to: (none)` 
 
 ### Items without a formal ID
 
-Some artifacts intentionally have no reserved ID prefix (`rules/id-conventions.md`) — Frontend Planning's screens, Roadmap's milestones. These still use a heading + metadata line, just without an ID token in the heading:
+Some artifacts intentionally have no reserved ID prefix (`rules/id-conventions.md`) — Roadmap's milestones, Deployment's environments. These still use a heading + metadata line, just without an ID token in the heading:
 
 ```markdown
-### Recipe List / Home
-*Traces to: UC-001, UC-002*
+### Milestone 1 — MVP
+*Delivers: US-001, US-002*
 
-The entry point, listing every recipe with its average rating.
+What "done" means for this milestone, concretely.
 ```
 
-A heading followed by a metadata line with a `Traces to` (or `Delivers`) key is registered as a **reference** even with no ID of its own — this is what lets a screen or milestone participate in coverage checks (e.g. "every Use Case has something covering it") the same way a formally-ID'd artifact does.
+A heading followed by a metadata line with a `Traces to` (or `Delivers`) key is registered as a **reference** even with no ID of its own — this is what lets a milestone or environment participate in coverage checks (e.g. "every Use Story is delivered by some milestone") the same way a formally-ID'd artifact does.
 
 ### An artifact is declared once, referenced elsewhere without a heading
 

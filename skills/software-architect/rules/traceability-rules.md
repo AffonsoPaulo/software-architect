@@ -24,6 +24,7 @@ Every `traces_to` in the table below is written as the `Traces to` key of an art
 | `TBL` (Database table) | `ENT-XXX` | Always | Or an explicit documented exception (e.g. a value object embedded in a parent table, never its own row). |
 | `ARCH` (Architecture decision/component) | `REQ-XXX` (NFR) | Always for NFR-driven decisions | A component may also exist to satisfy multiple NFRs — list all. |
 | `API` (Endpoint) | `UC-XXX` **and** `ARCH-XXX` | Always both | The Use Case it implements, and the Architecture component that hosts it. |
+| `SCR` (Screen) | `UC-XXX` | Always | Frontend Planning only. |
 | `SEC` (Security control) | `ARCH-XXX` **and/or** `API-XXX` | Always at least one | A control protects a component, an endpoint, or both. |
 | `TEST` (Test plan item) | `REQ-XXX` | Always | Every functional `REQ` must have at least one `TEST`. |
 | `TASK` (Backlog/implementation item) | `US-XXX` **or** `UC-XXX` | Always | |

@@ -15,6 +15,13 @@ This category splits into an **index file** (`architecture.md`) and one **item f
 and whether this cycle's work conforms to it or consciously diverges
 (the latter needs its own ADR).>
 
+<If the project includes phase 10 (Frontend Planning): frontend
+topology — single application, or split into independently deployable
+micro-frontends, and why — `[confirmation individual]`, same reasoning
+and reversal-cost weight as the system's own style above. Referenced,
+not re-decided, by `templates/frontend.md`'s own "Frontend topology"
+field.>
+
 ## Architectural pattern
 <Layered, hexagonal/ports-and-adapters, event-driven, CQRS,
 microkernel/plugin, pipe-and-filter, MVC/MVVM for the internal

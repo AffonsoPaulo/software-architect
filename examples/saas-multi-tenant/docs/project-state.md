@@ -27,6 +27,7 @@ id_sequences:
   TBL: 4
   ARCH: 3
   API: 2
+  SCR: 2
   SEC: 2
   TEST: 4
   TASK: 5
