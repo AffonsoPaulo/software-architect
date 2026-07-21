@@ -28,17 +28,17 @@ Single application, matching Architecture's confirmed frontend topology ([Archit
 ## Accessibility
 Target: WCAG 2.1 AA. Specific focus areas given the product's core interactions: the task board's filter controls and the task-create form must be fully keyboard-navigable, since status updates are a frequent, repetitive action.
 
-## Content and tone guidelines
-Plain, direct language matching the product's utilitarian purpose — no marketing tone in-app. Error messages name the specific problem (matches [API Design](../09-api-design/api.md)'s failure format philosophy) rather than generic "something went wrong" text.
-
 ## General conventions
-Shared baseline across both screens below — each screen's own file only states what genuinely diverges from this (its Empty state, responsive specifics, and analytics events, which differ meaningfully between a list view and a form).
+Shared baseline across both screens below — each screen's own file still states every field explicitly, either "Same as General conventions" or its actual divergence (Empty state, responsive specifics, and analytics events differ meaningfully between a list view and a form; Loading/Error and content/tone don't).
 
 **States**
 | State | What the user sees |
 |---|---|
 | Loading | A skeleton matching the expected layout |
 | Error | A clear message naming the problem, with a retry action when applicable; underlying error not shown raw to the user |
+
+**Content and tone**
+Plain, direct language matching the product's utilitarian purpose — no marketing tone in-app. Error messages name the specific problem (matches [API Design](../09-api-design/api.md)'s failure format philosophy) rather than generic "something went wrong" text.
 
 ## Responsive breakpoints
 Mobile: <768px. Tablet: 768–1024px. Desktop: >1024px.
