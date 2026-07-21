@@ -31,7 +31,7 @@ import { loadAllDocuments, loadProjectState } from './lib/docs.mjs';
 // every one of these, per rules/language-policy.md.
 const TEMPLATE_HEADINGS = [
   { path: 'docs/00-calibration/calibration.md', headings: ['Project Calibration', 'Phase inclusion'] },
-  { path: 'docs/01-discovery/vision.md', headings: ['Vision', 'Problem', 'Target audience', 'Current state', 'Business objective', 'Success criteria', 'Constraints', 'Out of scope', 'Stakeholder profiles', 'Business opportunity', 'Success metrics', 'Assumptions and dependencies', 'Business-level risks'] },
+  { path: 'docs/01-discovery/vision.md', headings: ['Vision', 'Problem', 'Target audience', 'Current state', 'Business objective', 'Success criteria', 'Constraints', 'Out of scope', 'Stakeholder profiles', 'User journey', 'Business opportunity', 'Guiding principles', 'Success metrics', 'Assumptions and dependencies', 'Business-level risks'] },
   { path: 'docs/02-business-analysis/business-analysis.md', headings: ['Business Analysis', 'Business processes'] },
   { path: 'docs/03-requirements/requirements.md', headings: ['Requirements'] },
   { path: 'docs/04-user-stories/user-stories.md', headings: ['User Stories'] },

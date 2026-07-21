@@ -9,7 +9,8 @@
 - [ ] The target audience/stakeholders are identified specifically, not generically
 - [ ] At least one success criterion is genuinely measurable, not aspirational
 - [ ] "Out of scope" was explicitly addressed with the user, not left empty by omission
-- [ ] No functional-requirement-level content (specific features, flows, screens) leaked into the Vision document
+- [ ] No functional-requirement-level content (specific features, flows, screens) leaked into the Vision document, including inside "User journey" (Fully Dressed)
+- [ ] "Guiding principles" (Fully Dressed), if present, are concrete enough to actually inform a future decision, not generic platitudes
 - [ ] Every section was explicitly confirmed by the user, per `rules/confirmation-protocol.md`
 
 ## Pass rule

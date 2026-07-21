@@ -214,7 +214,7 @@ function checkVisionCompleteness(projectRoot) {
 
   const headings = [...doc.content.matchAll(/^##\s+.*$/gm)];
   const CASUAL_SECTION_COUNT = 7; // Problem, Target audience, Current state, Business objective, Success criteria, Constraints, Out of scope
-  const FULLY_DRESSED_SECTION_COUNT = 12; // Casual's 7 + Stakeholder profiles, Business opportunity, Success metrics, Assumptions and dependencies, Business-level risks
+  const FULLY_DRESSED_SECTION_COUNT = 14; // Casual's 7 + Stakeholder profiles, User journey, Business opportunity, Guiding principles, Success metrics, Assumptions and dependencies, Business-level risks
   const expected = fullyDressed ? FULLY_DRESSED_SECTION_COUNT : CASUAL_SECTION_COUNT;
 
   const gaps = [];
@@ -228,18 +228,19 @@ function checkVisionCompleteness(projectRoot) {
     // the relevant blocks, flag either one with no table row under it.
     // Position-based per templates/vision.md's own fixed Fully Dressed
     // order (0-indexed after slice(1)): 0 Problem, 1 Target audience,
-    // 2 Stakeholder profiles, 3 Current state, 4 Business objective,
-    // 5 Business opportunity, 6 Success criteria, 7 Success metrics,
-    // 8 Constraints, 9 Assumptions and dependencies, 10 Business-level
-    // risks, 11 Out of scope — not by matching either heading's own
-    // (translatable) text.
+    // 2 Stakeholder profiles, 3 User journey, 4 Current state,
+    // 5 Business objective, 6 Business opportunity, 7 Guiding
+    // principles, 8 Success criteria, 9 Success metrics, 10 Constraints,
+    // 11 Assumptions and dependencies, 12 Business-level risks, 13 Out
+    // of scope — not by matching either heading's own (translatable)
+    // text.
     const blocks = doc.content.split(/^##\s+/m).slice(1);
     let stakeholderBlockHasTable = null;
     let metricsBlockHasTable = null;
     if (blocks[2]) stakeholderBlockHasTable = /^\|.*\|\s*$/m.test(blocks[2]);
-    if (blocks[7]) metricsBlockHasTable = /^\|.*\|\s*$/m.test(blocks[7]);
+    if (blocks[9]) metricsBlockHasTable = /^\|.*\|\s*$/m.test(blocks[9]);
     if (stakeholderBlockHasTable === false) gaps.push('"Stakeholder profiles" section (3rd) has no table — expected a consistent multi-field table per rules/document-format.md');
-    if (metricsBlockHasTable === false) gaps.push('"Success metrics" section (8th) has no table — expected a consistent multi-field table per rules/document-format.md');
+    if (metricsBlockHasTable === false) gaps.push('"Success metrics" section (10th) has no table — expected a consistent multi-field table per rules/document-format.md');
   }
 
   return {
