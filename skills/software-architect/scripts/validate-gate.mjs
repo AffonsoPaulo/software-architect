@@ -71,6 +71,9 @@ function phaseSpecificChecks(phase, projectRoot) {
   if (phase === '06') {
     results.push(checkDomainModelCompleteness(projectRoot));
   }
+  if (phase === '10') {
+    results.push(checkFrontendComponentInventory(projectRoot));
+  }
   if (phase === '12') {
     results.push(checkTestingKindExplicit(projectRoot));
   }
@@ -545,6 +548,43 @@ function checkImplementationPlanDefinitionOfDone(projectRoot) {
   return {
     label: 'Implementation Plan Definition of Done check',
     status: hasContent ? 'PASS — Definition of Done content found before the Sequence table' : 'FAIL — no substantial Definition of Done content found before the Sequence table',
+  };
+}
+
+// Frontend Planning (10)'s Component inventory table lists which
+// screens use each shared component ("Used by: SCR-001, SCR-004"). This
+// checks every SCR-XXX token found in any table row of frontend.md
+// (the inventory's "Used by" column, and incidentally the Screens
+// table's own self-referencing ID column, which can never fail this
+// check) against the project's real SCR-XXX artifacts — a plain
+// existence check, not an attempt to verify the inventory reflects what
+// each screen's own free-text Composition actually says, which isn't
+// reliably parseable (rules/document-format.md's Composition field is
+// deliberately loose prose, not a fixed grammar). Matched by SCR-XXX
+// shape rather than a translated column header, same reason
+// checkRoadmapCoverage below matches deferred-list bullets by ID shape
+// instead of the "## Deferred" heading text.
+function checkFrontendComponentInventory(projectRoot) {
+  const index = buildProjectIndex(projectRoot);
+  const doc = findDoc(index, '10-frontend-planning/frontend.md');
+  if (!doc) {
+    return { label: 'Frontend component inventory reference check', status: 'skipped (no frontend.md found)' };
+  }
+  const knownScreens = new Set(index.artifacts.filter((a) => /^SCR-[A-Za-z0-9]+$/.test(a.id)).map((a) => a.id));
+  const referenced = new Set();
+  for (const line of doc.content.split('\n')) {
+    if (!line.trim().startsWith('|')) continue;
+    for (const m of line.matchAll(/SCR-[A-Za-z0-9]+/g)) referenced.add(m[0]);
+  }
+  if (referenced.size === 0) {
+    return { label: 'Frontend component inventory reference check', status: 'skipped (no SCR-XXX references found in frontend.md)' };
+  }
+  const unknown = [...referenced].filter((id) => !knownScreens.has(id));
+  return {
+    label: 'Frontend component inventory reference check',
+    status: unknown.length === 0
+      ? 'PASS — every SCR-XXX referenced in frontend.md (including the component inventory\'s "Used by" column) exists'
+      : `FAIL — references screens that don't exist: ${unknown.join(', ')}`,
   };
 }
 

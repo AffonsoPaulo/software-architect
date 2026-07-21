@@ -16,7 +16,7 @@ Never skippable.
 
 - `docs/08-architecture/architecture.md` — approved.
 - `docs/09-api-design/api.md` — approved, specifically every `API-XXX` interaction unit.
-- `docs/10-frontend-planning/frontend.md` — approved, if this phase ran, specifically any role/permission gating noted per screen or action. These are explicit input to the authorization model below, collected up front rather than improvised per screen if one happens to come up in conversation.
+- `docs/10-frontend-planning/frontend.md` and its `scr-XXX.md` items — approved, if this phase ran, specifically every screen's `Permission` field. These are explicit input to the authorization model below, collected up front rather than improvised per screen if one happens to come up in conversation.
 
 ## Outputs
 
@@ -33,7 +33,7 @@ Never skippable.
 All high-impact — most are `[confirmation individual]`:
 
 - Threat modeling per critical component (STRIDE or an equivalent simplified approach) — `[confirmation individual]`
-- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model, in detail — `[confirmation individual]`. RBAC/ABAC are examples, not the only valid answers: "every authenticated user has the same permissions, no formal roles" is a complete, valid answer when that's actually true for the project — don't lead with RBAC/ABAC vocabulary in a way that pressures a permission model into existence where none is real. Start from every role/permission constraint already noted in phase 10's screens, if that phase ran and any exist, and fold each one into this model explicitly rather than designing from scratch as if those constraints hadn't already come up.
+- Authentication mechanism (password, OAuth, SSO, magic link) and authorization model, in detail — `[confirmation individual]`. RBAC/ABAC are examples, not the only valid answers: "every authenticated user has the same permissions, no formal roles" is a complete, valid answer when that's actually true for the project — don't lead with RBAC/ABAC vocabulary in a way that pressures a permission model into existence where none is real. Start from every `Permission` field already recorded on phase 10's `scr-XXX.md` screens, if that phase ran and any exist, and fold each one into this model explicitly rather than designing from scratch as if those constraints hadn't already come up.
 - Data classification (PII, financial, health) and required treatment — `[confirmation individual]`
 - Compliance requirements (LGPD, GDPR, PCI-DSS, HIPAA, none) — `[confirmation individual]`
 - Secrets/credentials strategy (vault, env vars, KMS)

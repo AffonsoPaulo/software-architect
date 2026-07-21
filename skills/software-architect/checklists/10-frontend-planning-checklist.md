@@ -3,6 +3,7 @@
 - [ ] Every `SCR-XXX` ID is unique and correctly formatted
 - [ ] Every screen has a non-empty `traces_to` pointing to an existing `UC-XXX`
 - [ ] Every `UC-XXX` with a user-facing interaction is covered by at least one screen, or documented as backend-only
+- [ ] Every `SCR-XXX` referenced in `frontend.md` (including the component inventory) actually exists
 - [ ] State management approach was individually confirmed
 - [ ] Design system/UI kit was individually confirmed
 - [ ] Frontend topology matches Architecture's confirmed decision, or a divergence was individually confirmed
