@@ -14,6 +14,7 @@ Every artifact the Skill produces gets a unique, permanent ID. This file is the 
 | `TBL` | Database table / collection | 07 — Database Design |
 | `ARCH` | Architecture decision / component | 08 — Architecture |
 | `API` | API endpoint | 09 — API Design |
+| `SCR` | Screen | 10 — Frontend Planning |
 | `SEC` | Security control / decision | 11 — Security |
 | `TEST` | Test plan item | 12 — Testing |
 | `TASK` | Backlog / implementation item | 15 — Backlog, 16 — Implementation Plan |

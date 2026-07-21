@@ -95,6 +95,7 @@ id_sequences:
   TBL: 0
   ARCH: 0
   API: 0
+  SCR: 0
   SEC: 0
   TEST: 0
   TASK: 0

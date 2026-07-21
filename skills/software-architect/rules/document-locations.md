@@ -16,16 +16,17 @@ This mirrors the ADR/Change Request pattern already in place before this convent
 |---|---|
 | Requirements (`req-XXX.md`) | Calibration — no items |
 | User Stories (`us-XXX.md`) | Vision — no items |
-| Use Cases (`uc-XXX.md`) | Business Analysis — `BR-XXX` *is* ID-bearing (it's not exempt the way screens/milestones/environments are), but it stays inline: a business rule is read together with the process it constrains, not consulted standalone the way a REQ/US/UC is. Projects tend to have few of them too, but that's supporting evidence for this being the right call, not the reason itself — it isn't a "split once you have enough" threshold. |
-| Domain Model (`ent-XXX.md`) | Frontend Planning — screens have no reserved ID prefix |
-| Database Design (`tbl-XXX.md`) | Deployment — environments aren't ID-bearing |
-| Architecture (`arch-XXX.md`), plus its existing `adr/` | Roadmap — milestones have no reserved ID prefix |
-| API Design (`api-XXX.md`) | Implementation Plan — sequences existing Backlog tasks, never declares new artifacts |
-| Security (`sec-XXX.md`), plus its Risk Register (`risk-XXX.md`) | Review — a report, not an artifact list |
+| Use Cases (`uc-XXX.md`) | Business Analysis — `BR-XXX` *is* ID-bearing (it's not exempt the way milestones/environments are), but it stays inline: a business rule is read together with the process it constrains, not consulted standalone the way a REQ/US/UC is. Projects tend to have few of them too, but that's supporting evidence for this being the right call, not the reason itself — it isn't a "split once you have enough" threshold. |
+| Domain Model (`ent-XXX.md`) | Deployment — environments aren't ID-bearing |
+| Database Design (`tbl-XXX.md`) | Roadmap — milestones have no reserved ID prefix |
+| Architecture (`arch-XXX.md`), plus its existing `adr/` | Implementation Plan — sequences existing Backlog tasks, never declares new artifacts |
+| API Design (`api-XXX.md`) | Review — a report, not an artifact list |
+| Frontend Planning (`scr-XXX.md`) | |
+| Security (`sec-XXX.md`), plus its Risk Register (`risk-XXX.md`) | |
 | Testing (`test-XXX.md`) | |
 | Backlog (`task-XXX.md`) | |
 
-The rule of thumb: split when the category's items are the whole point and the category-level content is thin (a couple of intro sentences, maybe a diagram); stay single-file when there's real connective narrative binding the items together, or when the "items" don't have a reserved ID prefix at all (`rules/id-conventions.md`).
+The rule of thumb: split when the category's items are numerous, individually substantial, and the category-level content is thin (a couple of intro sentences, maybe a diagram); stay single-file when there's real connective narrative binding the items together, or when the "items" don't have a reserved ID prefix at all (`rules/id-conventions.md`). Frontend Planning moved into the splitting column once its screens started carrying enough of their own content (composition, description, per-screen state/behavior) to justify the same per-item Change Request granularity every other split category already has — a milestone or an environment stays single-file because there are typically few of them and each is still short, not because splitting would be wrong in principle.
 
 ## In the target project (the repository the Skill is helping to plan)
 
@@ -63,7 +64,8 @@ The rule of thumb: split when the category's items are the whole point and the c
       api.md                       # index: interaction style, versioning, failure format
       api-001.md, ...
     10-frontend-planning/
-      frontend.md                  # single file — screens aren't ID-bearing
+      frontend.md                  # index: state mgmt, design system, topology, component inventory, nav
+      scr-001.md, ...              # one file per SCR-XXX
     11-security/
       security.md                  # index: threat model summary, auth/authz, compliance
       sec-001.md, ...

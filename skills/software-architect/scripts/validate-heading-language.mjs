@@ -40,7 +40,7 @@ const TEMPLATE_HEADINGS = [
   { path: 'docs/07-database-design/database.md', headings: ['Database Design', 'Database type', 'Migration strategy'] },
   { path: 'docs/08-architecture/architecture.md', headings: ['Architecture', 'Architectural style', 'Architectural pattern', 'Core technologies', 'Non-functional requirement coverage', 'Interaction style guidance'] },
   { path: 'docs/09-api-design/api.md', headings: ['API Design', 'Interaction style', 'Versioning strategy', 'Failure format'] },
-  { path: 'docs/10-frontend-planning/frontend.md', headings: ['Frontend Planning', 'State management', 'Design system', 'Target platforms', 'Screens', 'Navigation'] },
+  { path: 'docs/10-frontend-planning/frontend.md', headings: ['Frontend Planning', 'State management', 'Design system', 'Target platforms', 'Frontend topology', 'Component organization', 'Component inventory', 'Screens', 'Navigation', 'Accessibility', 'Content and tone guidelines', 'General conventions', 'Responsive breakpoints'] },
   { path: 'docs/11-security/security.md', headings: ['Security', 'Threat model', 'Authentication and authorization', 'Data classification', 'Compliance', 'Secrets strategy', 'Controls'] },
   { path: 'docs/12-testing/testing.md', headings: ['Testing', 'Test levels', 'Coverage target', 'Test data strategy'] },
   { path: 'docs/13-deployment/deployment.md', headings: ['Deployment', 'Environments', 'Provider/infrastructure', 'CI/CD pipeline'] },
@@ -136,8 +136,26 @@ const BOLD_LABELS = [
   'INVEST notes', 'Business value', 'Non-functional considerations', 'Out of scope for this story', 'Open questions', // templates/user-stories.md
 ];
 
+// A different bold-label shape: the label and its value share one line
+// ("**Description**: a screen where...") instead of the label sitting
+// alone on its own line with content below. Same underlying principle
+// as BOLD_LABELS above — this is a section label, not free content —
+// just structurally distinct enough (BOLD_LABEL_RE requires nothing
+// after the closing `**`) to need its own regex and registry rather
+// than stretching one pattern to match both shapes.
+const INLINE_BOLD_LABELS = [
+  'Description', 'Composition', 'Calls', 'Permission', // templates/frontend.md
+  'Logs', 'Metrics', 'Alerts', // templates/deployment.md
+  'Has real dates', // templates/roadmap.md
+  'Estimate', // templates/backlog.md
+  'Belongs to aggregate', // templates/domain-model.md
+  'Mechanism', 'Model', // templates/security.md
+  'Mitigation', 'Owner', 'Opened', 'Review cadence', // templates/risk-register.md
+];
+
 const HEADING_RE = /^#{1,6}\s+(.*)$/gm;
 const BOLD_LABEL_RE = /^\*\*([^*]+)\*\*\s*$/gm;
+const INLINE_BOLD_LABEL_RE = /^\*\*([^*]+)\*\*:/gm;
 // A table header row followed immediately by its separator row
 // (`|---|---|`) — the separator is what distinguishes a real header
 // from an ordinary line of prose that happens to contain pipes.
@@ -193,6 +211,21 @@ function checkBoldLabels(path, content, bannedSet, violations, language) {
   }
 }
 
+function checkInlineBoldLabels(path, content, bannedSet, violations, language) {
+  let m;
+  INLINE_BOLD_LABEL_RE.lastIndex = 0;
+  while ((m = INLINE_BOLD_LABEL_RE.exec(content))) {
+    const text = m[1].trim();
+    if (bannedSet.has(text)) {
+      violations.push({
+        type: 'untranslated-inline-bold-label',
+        path,
+        message: `inline bold label "**${text}**:" is still the template's literal English text — project language is "${language}", so this section label should be translated (rules/language-policy.md, rules/document-format.md)`,
+      });
+    }
+  }
+}
+
 export function validateHeadingLanguage(projectRoot) {
   const projectState = loadProjectState(projectRoot);
   if (!projectState) return [];
@@ -229,6 +262,13 @@ export function validateHeadingLanguage(projectRoot) {
     const path = d.path.replace(/\\/g, '/');
     if (d.isProjectState) continue;
     checkBoldLabels(path, d.content, boldLabelSet, violations, language);
+  }
+
+  const inlineBoldLabelSet = new Set(INLINE_BOLD_LABELS);
+  for (const d of docs) {
+    const path = d.path.replace(/\\/g, '/');
+    if (d.isProjectState) continue;
+    checkInlineBoldLabels(path, d.content, inlineBoldLabelSet, violations, language);
   }
 
   return violations;

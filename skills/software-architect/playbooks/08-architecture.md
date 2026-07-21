@@ -33,6 +33,7 @@ Never skippable.
 ## Mandatory questions
 
 - Architectural style (monolith, modular monolith, microservices, serverless) and why — `[confirmation individual]`; if brownfield, confirm that new work respects the existing style (or record a conscious ADR if the user chooses to diverge)
+- If phase 10 (Frontend Planning) is included: frontend topology — a single application, or split into independently deployable micro-frontends, and why — `[confirmation individual]`, same reasoning and reversal-cost weight as the system's own style above (a project without a frontend skips this entirely, not just leaves it implicit)
 - Architectural pattern (layered, hexagonal/ports-and-adapters, event-driven, CQRS, microkernel/plugin, pipe-and-filter, MVC/MVVM for the system's internal structure, etc.) and why — `[confirmation individual]`, distinct from style: style is the deployment/topology shape, pattern is how the system (or each component) is organized internally. If brownfield, confirm the existing pattern the same way as style — conform by default, diverge only via a conscious ADR.
 - Main components and their responsibilities?
 - External integration points (third-party services, queues, cache)?
@@ -56,11 +57,12 @@ Never skippable.
 1. Check project type in `project-state.md` and Calibration's subagent findings first. If brownfield, this phase's first question changes shape — see "Special cases."
 2. Architectural style — `[confirmation individual]`.
 3. Architectural pattern — `[confirmation individual]`, right after style since the two are easy to conflate; confirm it as its own decision even when the style answer made it feel implied.
-4. Components and responsibilities, one at a time.
-5. Integration points.
-6. Core technologies — `[confirmation individual]`.
-7. NFR coverage — walk every non-functional `REQ-XXX` from phase 03 and confirm which component/decision addresses it; any NFR with no answer here is a gap to resolve before this phase closes, not something to leave implicit.
-8. Interaction style guidance — last, since it depends on everything above. Ask openly ("how is this system actually invoked/used?") before offering REST/GraphQL/RPC as examples — offering those first biases the answer toward them even when the project is something else entirely (a CLI tool, a server-rendered monolith, an event consumer).
+4. If phase 10 is included: frontend topology — `[confirmation individual]`, right after pattern since it's the same kind of decision extended to the frontend, not a separate topic to revisit later once Frontend Planning is reached.
+5. Components and responsibilities, one at a time.
+6. Integration points.
+7. Core technologies — `[confirmation individual]`.
+8. NFR coverage — walk every non-functional `REQ-XXX` from phase 03 and confirm which component/decision addresses it; any NFR with no answer here is a gap to resolve before this phase closes, not something to leave implicit.
+9. Interaction style guidance — last, since it depends on everything above. Ask openly ("how is this system actually invoked/used?") before offering REST/GraphQL/RPC as examples — offering those first biases the answer toward them even when the project is something else entirely (a CLI tool, a server-rendered monolith, an event consumer).
 
 ## How to confirm answers
 
@@ -68,11 +70,12 @@ Standard loop (`rules/confirmation-protocol.md`). Architectural style, architect
 
 ## How to document answers
 
-Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item file, `Traces to` set to the NFRs it addresses, with a matching row added to `architecture.md`'s index table. Every consequential decision (style, architectural pattern, core technology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 7 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt).
+Each confirmed component becomes its own `docs/08-architecture/arch-XXX.md` item file, `Traces to` set to the NFRs it addresses, with a matching row added to `architecture.md`'s index table. Every consequential decision (style, architectural pattern, core technology, frontend topology, any decision with high reversal cost) gets its own ADR via `templates/adr.md`, referenced from `architecture.md` rather than restated inline. The NFR coverage table is built directly from step 8 of the interview — never inferred after the fact. At Fully Dressed depth, the additional answers map to `templates/architecture.md`'s "Fully Dressed additions" section (context view, runtime view, crosscutting concepts, quality tree, risks/debt). Frontend topology, when applicable, is recorded in `architecture.md`'s own "Architectural style" section (`templates/architecture.md`) — `playbooks/10-frontend-planning.md`'s own "Frontend topology" field just references it, it never re-decides it.
 
 ## How to validate answers
 
 - Architectural style and architectural pattern are recorded as two distinct, individually confirmed decisions — never inferred from one another.
+- If phase 10 is included, frontend topology is recorded as its own individually confirmed decision — never silently assumed to be "a single application" by default, and never left for Frontend Planning to decide on its own.
 - Every consequential architectural decision has an associated ADR.
 - Every non-functional requirement has a component/decision that addresses it — 100%, not "the obvious ones."
 - No component has an unclear or overlapping responsibility.
@@ -119,4 +122,4 @@ See `rules/ai-invariants.md`. In particular: never assume an architectural style
 
 ## Approval criteria
 
-This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style, architectural pattern, and core technologies have been individually confirmed, and the user has explicitly confirmed the full architecture including interaction style guidance.
+This phase is done when every non-functional requirement traces to an architectural decision, every consequential decision has an ADR, architectural style, architectural pattern, core technologies, and (when phase 10 is included) frontend topology have been individually confirmed, and the user has explicitly confirmed the full architecture including interaction style guidance.

@@ -11,7 +11,7 @@ import { isMainModule } from './lib/cli.mjs';
 
 // Must stay in sync with rules/id-conventions.md's prefix table.
 const VALID_PREFIXES = new Set([
-  'BR', 'REQ', 'US', 'UC', 'ENT', 'TBL', 'ARCH', 'API',
+  'BR', 'REQ', 'US', 'UC', 'ENT', 'TBL', 'ARCH', 'API', 'SCR',
   'SEC', 'TEST', 'TASK', 'ADR', 'RISK', 'CR',
 ]);
 

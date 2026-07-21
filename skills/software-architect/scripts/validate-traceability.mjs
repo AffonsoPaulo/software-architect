@@ -22,6 +22,7 @@ const REQUIRED_TRACES = [
   { prefix: 'ENT', targets: ['UC'], mode: 'all' },
   { prefix: 'TBL', targets: ['ENT'], mode: 'all' },
   { prefix: 'API', targets: ['UC', 'ARCH'], mode: 'all' },
+  { prefix: 'SCR', targets: ['UC'], mode: 'all' },
   { prefix: 'SEC', targets: ['ARCH', 'API'], mode: 'any' },
   { prefix: 'TEST', targets: ['REQ'], mode: 'all' },
   { prefix: 'TASK', targets: ['US', 'UC'], mode: 'any' },
@@ -31,7 +32,7 @@ const REQUIRED_TRACES = [
 // missing link can be forgiven when that phase was explicitly skipped.
 const PRODUCING_PHASE = {
   US: '04', UC: '05', ENT: '06', TBL: '07', ARCH: '08',
-  API: '09', SEC: '11', TEST: '12', TASK: '15',
+  API: '09', SCR: '10', SEC: '11', TEST: '12', TASK: '15',
 };
 
 function skippedPhases(projectState) {
@@ -112,10 +113,11 @@ export function validateTraceability(projectRoot) {
     );
   }
 
-  // Referenced by ANYTHING with a traces_to, including entries with no
-  // formal id of their own (e.g. frontend.md screens, which have no
-  // reserved ID prefix per rules/id-conventions.md but still count as
-  // covering a Use Case).
+  // Referenced by ANYTHING with a traces_to — covers both an SCR-XXX
+  // screen (formally ID'd, already caught by the forward SCR->UC rule
+  // above) and a still-ID-less entry from another category (e.g. a
+  // Roadmap milestone's Delivers list), so this stays generic rather
+  // than hardcoding which categories currently lack a reserved prefix.
   function referencedByAnything(targetId) {
     return index.references.some((r) => r.traces_to.includes(targetId));
   }
@@ -164,10 +166,9 @@ export function validateTraceability(projectRoot) {
   }
 
   // 4. Reverse-coverage checks explicitly promised in specific gates:
-  //    - every UC needs at least one thing covering it (an API-XXX, per
-  //      client-server style, or a frontend screen, per server-rendered
-  //      style — either counts, since screens carry traces_to too even
-  //      without a formal id)
+  //    - every UC needs at least one thing covering it: an API-XXX, an
+  //      SCR-XXX, or both — either counts, and the forward SCR->UC rule
+  //      above already re-confirms it from the screen's own side too
   //    - every ENT needs at least one TBL, unless the phase was skipped
   // Skip this check only if BOTH phases that could cover a Use Case
   // (API Design and Frontend Planning) were skipped — if either ran,
@@ -179,7 +180,7 @@ export function validateTraceability(projectRoot) {
         violations.push({
           type: 'coverage-gap',
           path: uc.path,
-          message: `${uc.id} has no API-XXX or screen covering it`,
+          message: `${uc.id} has no API-XXX or SCR-XXX covering it`,
         });
       }
     }

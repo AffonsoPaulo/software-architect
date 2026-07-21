@@ -23,7 +23,7 @@ export const PHASES = [
   { dir: '07-database-design', title: '07 · Database Design', kind: 'split', groups: [{ index: 'database.md', prefix: 'tbl' }] },
   { dir: '08-architecture', title: '08 · Architecture', kind: 'split', groups: [{ index: 'architecture.md', prefix: 'arch' }], extraDir: 'adr' },
   { dir: '09-api-design', title: '09 · API Design', kind: 'split', groups: [{ index: 'api.md', prefix: 'api' }] },
-  { dir: '10-frontend-planning', title: '10 · Frontend Planning', kind: 'single', file: 'frontend.md' },
+  { dir: '10-frontend-planning', title: '10 · Frontend Planning', kind: 'split', groups: [{ index: 'frontend.md', prefix: 'scr' }] },
   { dir: '11-security', title: '11 · Security', kind: 'split', groups: [{ index: 'security.md', prefix: 'sec' }, { index: 'risk-register.md', prefix: 'risk' }] },
   { dir: '12-testing', title: '12 · Testing', kind: 'split', groups: [{ index: 'testing.md', prefix: 'test' }] },
   { dir: '13-deployment', title: '13 · Deployment', kind: 'single', file: 'deployment.md' },

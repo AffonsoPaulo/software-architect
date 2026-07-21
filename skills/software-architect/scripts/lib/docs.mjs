@@ -75,10 +75,11 @@ export function loadProjectState(projectRoot) {
 
 // The PREFIX must be uppercase — that's what distinguishes a real
 // artifact ID (REQ-001, US-002) from an intentional non-ID heading (a
-// frontend.md screen, a roadmap.md milestone — both documented in their
-// templates as deliberately not using the ID system). The digit part is
-// deliberately permissive (not "at least 3 digits") — this only decides
-// what COUNTS as an artifact candidate, not whether it's well-formed.
+// roadmap.md milestone, a deployment.md environment — both documented
+// in their templates as deliberately not using the ID system). The
+// digit part is deliberately permissive (not "at least 3 digits") —
+// this only decides what COUNTS as an artifact candidate, not whether
+// it's well-formed.
 // Format correctness is validate-ids.mjs's job alone.
 const HEADING_RE = /^(#{1,6})\s+(.*)$/;
 const HEADING_ID_RE = /^([A-Z]+-[A-Za-z0-9]+)(?:\s+—\s+.*)?\s*$/;
